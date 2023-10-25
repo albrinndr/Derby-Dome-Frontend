@@ -1,7 +1,8 @@
 // import Login from "./components/user/Login";
 // import SignUp from "./components/user/SignUp";
 
-import ClubProfile from "./pages/club/ClubProfile";
+import AdminUsers from "./pages/admin/AdminUsers";
+// import ClubProfile from "./pages/club/ClubProfile";
 
 // import AdminLogin from "./pages/admin/AdminLogin";
 // import ClubLogin from "./pages/club/ClubLogin";
@@ -24,7 +25,8 @@ export default function App() {
       {/* <AdminLogin/> */}
       {/* <UserSignUp /> */}
       {/* <ClubSignUp /> */}
-      <ClubProfile />
+      {/* <ClubProfile /> */}
+      <AdminUsers />
     </>
   );
 }
