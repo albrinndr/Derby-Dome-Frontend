@@ -1,6 +1,10 @@
+import SignUp from "../../components/user/SignUp";
+
 const UserSignUp = () => {
     return (
-        <div>UserSignUp</div>
+        <>
+            <SignUp />
+        </>
     );
 };
 
