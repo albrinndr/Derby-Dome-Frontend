@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import Logo from '../../assets/logo.svg';
+import LogoWhite from '../../assets/logo-white.svg';
+
 import MenuIcon from '../../assets/menu.svg';
 import MenuWhite from '../../assets/menu-white.svg';
 
@@ -18,13 +20,15 @@ const NavBar: React.FC<NavBarProps> = ({ color, fixed }) => {
     const navPosition = fixed ? 'fixed' : 'sticky';
     const MenuIconType = !color ? MenuIcon : MenuWhite;
     const underLineStyle = !color ? 'group-hover:bg-gray-800' : 'group-hover:bg-white';
+    const MainLogo = color ? LogoWhite :Logo ;
+
     return (
         <div className={` right-0 left-0 top-0 z-50 px-4 md:px-14 ${navBarStyle} ${navPosition}`}>
             <div className="">
                 <div className="flex items-center justify-between py-4">
                     <div>
 
-                        <img src={Logo} alt="" width="100rem" />
+                        <img src={MainLogo} alt="" width="100rem" />
                     </div>
 
                     <div className="hidden md:flex md:items-center">
