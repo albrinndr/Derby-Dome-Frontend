@@ -5,7 +5,12 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        'stadium-background': "url('./src/assets/stadium-background.webp')",
+        'form-image':"url('./src/assets/form-image.webp')"
+      },
+    },
   },
   plugins: [],
-}
+};
