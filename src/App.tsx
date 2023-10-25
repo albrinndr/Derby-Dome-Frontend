@@ -1,7 +1,17 @@
+// import Login from "./components/common/Login";
+// import SignUp from "./components/user/SignUp";
+
+import UserProfile from "./pages/user/UserProfile";
+
+// import NavBar from "./components/user/NavBar";
+// import UserHome from "./pages/user/UserHome";
+
 export default function App() {
   return (
-    <h1 className="text-3xl font-bold underline text-red-600">
-      Hello world!
-    </h1>
-  )
+    // <Login/>
+    // <SignUp/>
+    // <NavBar />
+    // <UserHome />
+    <UserProfile />
+  );
 }
