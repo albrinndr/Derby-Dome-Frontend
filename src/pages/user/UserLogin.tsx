@@ -1,4 +1,4 @@
-import Login from "../../components/common/Login";
+import Login from "../../components/user/Login";
 
 const UserLogin = () => {
   return (

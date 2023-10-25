@@ -13,10 +13,19 @@ const Login = () => {
                         alt="image"
                     />
                 </div>
+
                 <div className="w-full xl:w-1/2 p-8  ">
+                    <div className='flex justify-center mb-6'>
+                        <button className="bg-gray-400  text-gray-800 font-bold py-2 px-4 rounded-l">
+                            User
+                        </button>
+                        <button className="bg-gray-300 hover:bg-gray-200 text-gray-800 font-bold py-2 px-4 rounded-r">
+                            Club
+                        </button>
+                    </div>
                     <form method="post" action="#" >
                         <h1 className=" text-2xl font-bold">Sign in to your account</h1>
-                        
+
                         <div className="mb-4 mt-6">
                             <label
                                 className="block text-gray-700 text-sm font-semibold mb-2"
@@ -59,6 +68,7 @@ const Login = () => {
                                 Sign in
                             </button>
                         </div>
+
                         <div className='text-center m-2'>
                             <span className="text-gray-600 text-sm">
                                 Not a member?

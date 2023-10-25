@@ -1,5 +1,9 @@
+import Login from "../../components/admin/Login";
+
 const AdminLogin = () => {
-  return <div>AdminLogin</div>;
+  return (
+    <Login />
+  );
 };
 
 export default AdminLogin;
