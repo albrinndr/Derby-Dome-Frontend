@@ -2,11 +2,13 @@ import { Link } from 'react-router-dom';
 import formImage from '../../assets/form-image.webp';
 import backgroundImage from '../../assets/stadium-background.webp';
 
+
 const Login = () => {
     const divStyle = {
         backgroundImage: `url(${backgroundImage})`,
         height: '100%',
     };
+    
     return (
         <div style={divStyle} className="min-h-screen flex items-center justify-center bg-stadium-background bg-cover bg-center backdrop-filter  backdrop-blur-md">
 

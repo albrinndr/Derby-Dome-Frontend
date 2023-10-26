@@ -13,7 +13,7 @@ const Login: React.FC<UserType> = ({ type }) => {
     const changeUserType = (val: string) => {
         setUser(val);
     };
-
+    
     
     const userBtn = user == 'user' ? 'bg-gray-300 hover:bg-gray-200' : 'bg-gray-400';
     const clubBtn = user == 'club' ? 'bg-gray-300 hover:bg-gray-200' : 'bg-gray-400';

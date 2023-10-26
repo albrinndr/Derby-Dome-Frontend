@@ -1,6 +1,6 @@
-// import Login from "../components/common/Login";
-import UserLogin from "../components/user/Login";
-import ClubLogin from "../components/club/Login";
+import Login from "../components/common/Login";
+// import UserLogin from "../components/user/Login";
+// import ClubLogin from "../components/club/Login";
 import NavBar from "../components/user/NavBar";
 import React, { useState } from "react";
 
@@ -17,8 +17,8 @@ const LoginPage: React.FC<User> = ({ user }) => {
     return (
         <>
             <NavBar color={!isScrolled} fixed />
-            {/* <Login type={user}/> */}
-            {user === 'club' ? <ClubLogin /> : <UserLogin />}
+            <Login type={user}/>
+            {/* {user === 'club' ? <ClubLogin /> : <UserLogin />} */}
         </>
     );
 };

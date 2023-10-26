@@ -11,6 +11,7 @@ import ClubSignUp from './pages/club/ClubSignUp';
 import ClubProfile from './pages/club/ClubProfile';
 import NotFound from './pages/NotFound';
 import LoginPage from './pages/LoginPage';
+// import ImageTest from './ImageUpload';
 export default function App() {
   return (
     <>
@@ -36,7 +37,7 @@ export default function App() {
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
-
+      {/* <ImageTest /> */}
     </>
 
   );

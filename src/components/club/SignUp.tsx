@@ -7,6 +7,8 @@ const SignUp = () => {
         backgroundImage: `url(${backgroundImage})`,
         height: '100%',
     };
+
+    
     return (
         <div style={divStyle} className="min-h-screen flex  items-center justify-center bg-stadium-background bg-cover bg-center backdrop-filter  backdrop-blur-md">
             <div
