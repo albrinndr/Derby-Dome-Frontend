@@ -1,7 +1,13 @@
 import formImage from '../../assets/form-image.webp';
+import backgroundImage from '../../assets/stadium-background.webp';
+
 const SignUp = () => {
+    const divStyle = {
+        backgroundImage: `url(${backgroundImage})`,
+        height: '100%',
+    };
     return (
-        <div className="min-h-screen flex  items-center justify-center bg-stadium-background bg-cover bg-center backdrop-filter  backdrop-blur-md">
+        <div style={divStyle} className="min-h-screen flex  items-center justify-center bg-stadium-background bg-cover bg-center backdrop-filter  backdrop-blur-md">
             <div
                 className="container max-w-md mx-auto  xl:max-w-3xl mt-24 flex bg-white rounded-lg shadow overflow-hidden bg-opacity-50"
             >

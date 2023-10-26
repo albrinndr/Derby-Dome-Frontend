@@ -1,7 +1,12 @@
 import formImage from '../../assets/form-image.webp';
+import backgroundImage from '../../assets/stadium-background.webp'
 const Login = () => {
+    const divStyle = {
+        backgroundImage: `url(${backgroundImage})`,
+        height: '100%',
+    };
     return (
-        <div className="min-h-screen flex items-center justify-center bg-stadium-background bg-cover bg-center backdrop-filter  backdrop-blur-md">
+        <div style={divStyle} className="min-h-screen flex items-center justify-center bg-stadium-background bg-cover bg-center backdrop-filter  backdrop-blur-md">
 
             <div
                 className="container max-w-md mx-auto xl:max-w-3xl h-full flex bg-white rounded-lg shadow overflow-hidden bg-opacity-50"
@@ -15,7 +20,7 @@ const Login = () => {
                 </div>
 
                 <div className="w-full xl:w-1/2 p-8  ">
-                    
+
                     <form method="post" action="#" >
                         <h1 className=" text-2xl font-bold">Sign in to your account</h1>
 
@@ -46,7 +51,7 @@ const Login = () => {
                                 type="password"
                                 placeholder="Your password"
                             />
-                            
+
                         </div>
                         <div className="flex w-full mt-8">
                             <button
@@ -57,7 +62,7 @@ const Login = () => {
                             </button>
                         </div>
 
-                        
+
                     </form>
                 </div>
             </div>
