@@ -1,7 +1,14 @@
 import React, { useState, useRef, ChangeEvent, KeyboardEvent } from 'react';
 import backgroundImage from '../../assets/stadium-background.webp';
+// import { AiFillSwitcher } from 'react-icons/ai';
+import { otpVerify } from '../../api/user';
+import { useNavigate } from 'react-router-dom';
 
-const OTPPage: React.FC = () => {
+
+interface UserType {
+  userType: string;
+}
+const OTPPage: React.FC<UserType> = ({ userType }) => {
   const [otp, setOTP] = useState<string[]>(['', '', '', '']);
   const inputRefs = useRef<HTMLInputElement[]>([]);
 
@@ -30,6 +37,16 @@ const OTPPage: React.FC = () => {
     height: '100vh',
     backgroundSize: 'cover',
   };
+
+  const navigate = useNavigate();
+
+  const submitHandler = async (otpValue: number) => {
+    if (userType === 'user') {
+      const response = await otpVerify(otpValue);
+      console.log(response?.data.message);
+      navigate('/login')
+    }
+  };
   return (
     <div style={divStyle} className="flex flex-col px-4 items-center justify-center min-h-screen bg-gray-200">
       <div className="relative w-full max-w-md">
@@ -57,7 +74,7 @@ const OTPPage: React.FC = () => {
             onClick={() => {
               if (isFilled) {
                 const otpValue = otp.join('');
-                console.log(otpValue);
+                submitHandler(parseInt(otpValue));
               }
             }}
           >

@@ -12,7 +12,7 @@ const UserSignUp = () => {
     return (
         <>
             <NavBar color={true} fixed />
-            {showOtp ? <OtpInput /> : <SignUp otpSubmit={otpHandler} />}
+            {showOtp ? <OtpInput userType="user"/> : <SignUp otpSubmit={otpHandler} />}
 
         </>
     );

@@ -16,3 +16,13 @@ export const signUp = async (userData: FormData) => {
         console.log(error);
     }
 };
+
+export const otpVerify = async (otp: number) => {
+    try {
+        const response = await Api.post(userRoutes.verify, {otp});
+        return response;
+    } catch (error) {
+        console.log(error);
+
+    }
+};
