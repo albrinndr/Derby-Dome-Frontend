@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import formImage from '../../assets/form-image.webp';
 import backgroundImage from '../../assets/stadium-background.webp';
 import { useState } from 'react';
@@ -13,10 +14,10 @@ const Login: React.FC<UserType> = ({ type }) => {
     const changeUserType = (val: string) => {
         setUser(val);
     };
-    
-    
-    const userBtn = user == 'user' ? 'bg-gray-300 hover:bg-gray-200' : 'bg-gray-400';
-    const clubBtn = user == 'club' ? 'bg-gray-300 hover:bg-gray-200' : 'bg-gray-400';
+
+    const userBtn = user == 'club' ? 'bg-gray-300 hover:bg-gray-200' : 'bg-gray-400';
+    const clubBtn = user == 'user' ? 'bg-gray-300 hover:bg-gray-200' : 'bg-gray-400';
+    const signUpBtn = user == 'club' ? '/club/signup' : '/signup';
     return (
         <div style={divStyle} className="min-h-screen flex items-center justify-center bg-stadium-background bg-cover bg-center backdrop-filter  backdrop-blur-md">
 
@@ -90,9 +91,9 @@ const Login: React.FC<UserType> = ({ type }) => {
                             <span className="text-gray-600 text-sm">
                                 Not a member?
                             </span>
-                            <span className="text-gray-700 text-sm font-semibold">
+                            <Link to={signUpBtn} className="text-gray-700 text-sm font-semibold">
                                 Join now!
-                            </span>
+                            </Link>
                         </div>
                     </form>
                 </div>
