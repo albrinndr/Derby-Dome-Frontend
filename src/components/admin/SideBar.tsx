@@ -11,13 +11,13 @@ import { Link } from "react-router-dom";
 
 const SideBar = () => {
     const menus = [
-        { name: "Dashboard", link: "/", icon: MdOutlineDashboard },
-        { name: "Users", link: "/", icon: AiOutlineUser },
-        { name: "Clubs", link: "/", icon: GiSoccerBall },
-        { name: "Coupons", link: "/", icon: RiCoupon3Line, margin: true },
-        { name: "Tickets", link: "/", icon: BsTicketPerforated },
-        { name: "Stadium", link: "/", icon: MdOutlineStadium },
-        { name: "Logout", link: "/", icon: BiLogOutCircle, margin: true },
+        { name: "Dashboard", link: "#", icon: MdOutlineDashboard },
+        { name: "Users", link: "/admin/users", icon: AiOutlineUser },
+        { name: "Clubs", link: "/admin/clubs", icon: GiSoccerBall },
+        { name: "Coupons", link: "#", icon: RiCoupon3Line, margin: true },
+        { name: "Tickets", link: "#", icon: BsTicketPerforated },
+        { name: "Stadium", link: "/admin/stadium", icon: MdOutlineStadium },
+        { name: "Logout", link: "#", icon: BiLogOutCircle, margin: true },
     ];
     const [open, setOpen] = useState(true);
     return (

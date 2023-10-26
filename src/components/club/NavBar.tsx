@@ -3,6 +3,7 @@ import Logo from '../../assets/logo-white.svg';
 import LogoBlack from '../../assets/logo.svg';
 import MenuIcon from '../../assets/menu.svg';
 import MenuWhite from '../../assets/menu-white.svg';
+import { Link } from 'react-router-dom';
 interface NavBarProps {
     color?: boolean;
     fixed?: boolean;
@@ -39,10 +40,10 @@ const NavBar: React.FC<NavBarProps> = ({ color, fixed }) => {
                                 Fixtures
                                 <span className={`absolute left-0 right-0 bottom-0 h-px top-7 ${underLineStyle} transition-all`}></span>
                             </a>
-                            <a href="#" className={`${itemStyle} text-md font-semibold relative mr-9 group`}>
+                            <Link to='/club/profile' className={`${itemStyle} text-md font-semibold relative mr-9 group`}>
                                 My Club
                                 <span className={`absolute left-0 right-0 bottom-0 h-px top-7 ${underLineStyle} transition-all`}></span>
-                            </a>
+                            </Link>
                         </div>
 
 

@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import formImage from '../../assets/form-image.webp';
 import backgroundImage from '../../assets/stadium-background.webp';
 
@@ -104,9 +105,9 @@ const SignUp = () => {
                             <span className="text-gray-700 text-sm">
                                 Already a member?
                             </span>
-                            <span className="text-gray-700 text-sm font-semibold">
+                            <Link to='/club/login' className="text-gray-700 text-sm font-semibold">
                                 Log in!
-                            </span>
+                            </Link>
                         </div>
                     </form>
                 </div>

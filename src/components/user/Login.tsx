@@ -1,7 +1,15 @@
+import { Link } from 'react-router-dom';
 import formImage from '../../assets/form-image.webp';
+import backgroundImage from '../../assets/stadium-background.webp';
+
 const Login = () => {
+    const divStyle = {
+        backgroundImage: `url(${backgroundImage})`,
+        height: '100%',
+    };
     return (
-        <div className="min-h-screen flex items-center justify-center bg-stadium-background bg-cover bg-center backdrop-filter  backdrop-blur-md">
+
+        <div style={divStyle} className="min-h-screen flex items-center justify-center bg-stadium-background bg-cover bg-center backdrop-filter  backdrop-blur-md">
 
             <div
                 className="container max-w-md mx-auto xl:max-w-3xl h-full flex bg-white rounded-lg shadow overflow-hidden bg-opacity-50"
@@ -19,9 +27,9 @@ const Login = () => {
                         <button className="bg-gray-400  text-gray-800 font-bold py-2 px-4 rounded-l">
                             User
                         </button>
-                        <button className="bg-gray-300 hover:bg-gray-200 text-gray-800 font-bold py-2 px-4 rounded-r">
+                        <Link to='/club/login' className="bg-gray-300 hover:bg-gray-200 text-gray-800 font-bold py-2 px-4 rounded-r">
                             Club
-                        </button>
+                        </Link>
                     </div>
                     <form method="post" action="#" >
                         <h1 className=" text-2xl font-bold">Sign in to your account</h1>
@@ -73,9 +81,9 @@ const Login = () => {
                             <span className="text-gray-600 text-sm">
                                 Not a member?
                             </span>
-                            <span className="text-gray-700 text-sm font-semibold">
+                            <Link to='/signup' className="text-gray-700 text-sm font-semibold">
                                 Join now!
-                            </span>
+                            </Link>
                         </div>
                     </form>
                 </div>

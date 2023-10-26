@@ -1,7 +1,14 @@
+import { Link } from 'react-router-dom';
 import formImage from '../../assets/form-image.webp';
+import backgroundImage from '../../assets/stadium-background.webp';
+
 const SignUp = () => {
+    const divStyle = {
+        backgroundImage: `url(${backgroundImage})`,
+        height: '100%',
+    };
     return (
-        <div className="min-h-screen flex items-center justify-center bg-stadium-background bg-cover bg-center backdrop-filter  backdrop-blur-md">
+        <div style={divStyle} className="min-h-screen flex items-center justify-center bg-stadium-background bg-cover bg-center backdrop-filter  backdrop-blur-md">
             <div
                 className="container max-w-md mx-auto xl:max-w-3xl mt-24 flex bg-white rounded-lg shadow overflow-hidden bg-opacity-50"
             >
@@ -40,7 +47,7 @@ const SignUp = () => {
                             />
                         </div>
                         <div className="mb-4 mt-6">
-                           
+
                             <input
                                 className="text-sm appearance-none rounded w-full py-2 px-3 text-gray-700 bg-gray-200 leading-tight focus:outline-none focus:shadow-outline h-10"
                                 id="password"
@@ -49,14 +56,14 @@ const SignUp = () => {
                             />
                         </div>
                         <div className="mb-6 mt-6">
-                           
+
                             <input
                                 className="text-sm bg-gray-200 appearance-none rounded w-full py-2 px-3 text-gray-700 mb-1 leading-tight focus:outline-none focus:shadow-outline h-10"
                                 id="password"
                                 type="password"
                                 placeholder="Confirm password"
                             />
-                           
+
                         </div>
                         <div className="flex w-full mt-8">
                             <button
@@ -70,9 +77,9 @@ const SignUp = () => {
                             <span className="text-gray-700 text-sm">
                                 Already a member?
                             </span>
-                            <span className="text-gray-700 text-sm font-semibold">
-                                Log in! 
-                            </span>
+                            <Link to='/login' className="text-gray-700 text-sm font-semibold">
+                                Log in!
+                            </Link>
                         </div>
                     </form>
                 </div>

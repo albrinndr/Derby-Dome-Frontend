@@ -1,12 +1,22 @@
-import { Link } from 'react-router-dom';
 import formImage from '../../assets/form-image.webp';
 import backgroundImage from '../../assets/stadium-background.webp';
-
-const Login = () => {
+import { useState } from 'react';
+interface UserType {
+    type?: string;
+}
+const Login: React.FC<UserType> = ({ type }) => {
     const divStyle = {
         backgroundImage: `url(${backgroundImage})`,
         height: '100%',
     };
+    const [user, setUser] = useState(type);
+    const changeUserType = (val: string) => {
+        setUser(val);
+    };
+
+    
+    const userBtn = user == 'user' ? 'bg-gray-300 hover:bg-gray-200' : 'bg-gray-400';
+    const clubBtn = user == 'club' ? 'bg-gray-300 hover:bg-gray-200' : 'bg-gray-400';
     return (
         <div style={divStyle} className="min-h-screen flex items-center justify-center bg-stadium-background bg-cover bg-center backdrop-filter  backdrop-blur-md">
 
@@ -23,10 +33,10 @@ const Login = () => {
 
                 <div className="w-full xl:w-1/2 p-8  ">
                     <div className='flex justify-center mb-6'>
-                        <Link to='/login' className=" bg-gray-300 hover:bg-gray-200  text-gray-800 font-bold py-2 px-4 rounded-l">
+                        <button onClick={() => changeUserType('user')} className={`text-gray-800 font-bold py-2 px-4 rounded-l ${userBtn}`}>
                             User
-                        </Link>
-                        <button className="bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
+                        </button>
+                        <button onClick={() => changeUserType('club')} className={`text-gray-800 font-bold py-2 px-4 rounded-r ${clubBtn}`}>
                             Club
                         </button>
                     </div>
@@ -80,9 +90,9 @@ const Login = () => {
                             <span className="text-gray-600 text-sm">
                                 Not a member?
                             </span>
-                            <Link to='/club/signup' className="text-gray-700 text-sm font-semibold">
+                            <span className="text-gray-700 text-sm font-semibold">
                                 Join now!
-                            </Link>
+                            </span>
                         </div>
                     </form>
                 </div>

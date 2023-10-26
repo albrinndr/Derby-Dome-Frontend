@@ -1,5 +1,5 @@
 import Login from "../../components/club/Login";
-import NavBar from "../../components/club/NavBar";
+import NavBar from "../../components/user/NavBar";
 import React, { useState } from "react";
 
 
