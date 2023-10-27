@@ -3,6 +3,7 @@ import formImage from '../../assets/form-image.webp';
 import backgroundImage from '../../assets/stadium-background.webp';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { signUp } from '../../api/user';
+import toast from 'react-hot-toast';
 
 interface OTP {
     otpSubmit: () => void;
@@ -31,8 +32,9 @@ const SignUp: React.FC<OTP> = ({ otpSubmit }) => {
         console.log(res?.data);
         if (res?.data.status) {
             otpSubmit();
-        } else {
-            console.log('not possible');
+            toast.success(res?.data.message);
+        }else{
+            toast.error(res?.data.message)
         }
     };
 
@@ -43,6 +45,7 @@ const SignUp: React.FC<OTP> = ({ otpSubmit }) => {
 
     return (
         <div style={divStyle} className="min-h-screen flex items-center justify-center bg-stadium-background bg-cover bg-center backdrop-filter  backdrop-blur-md">
+
             <div
                 className="container max-w-md mx-auto xl:max-w-3xl mt-24 flex bg-white rounded-lg shadow overflow-hidden bg-opacity-50"
             >

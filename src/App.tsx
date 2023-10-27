@@ -11,14 +11,17 @@ import ClubSignUp from './pages/club/ClubSignUp';
 import ClubProfile from './pages/club/ClubProfile';
 import NotFound from './pages/NotFound';
 import LoginPage from './pages/LoginPage';
+import { Toaster } from 'react-hot-toast';
 // import ImageTest from './ImageUpload';
 export default function App() {
   return (
     <>
+      <Toaster position="top-right"
+        reverseOrder={false} />
       <Routes>
         <Route path="/">
           <Route index={true} element={<UserHome />} />
-          <Route path="login" element={<LoginPage user='user'/>} />
+          <Route path="login" element={<LoginPage user='user' />} />
           <Route path="signup" element={<UserSignUp />} />
           <Route path="profile" element={<UserProfile />} />
         </Route>
@@ -31,7 +34,7 @@ export default function App() {
         </Route>
 
         <Route path='/club'>
-          <Route path='login' element={<LoginPage user='club'/>} />
+          <Route path='login' element={<LoginPage user='club' />} />
           <Route path='signup' element={<ClubSignUp />} />
           <Route path='profile' element={<ClubProfile />} />
         </Route>
