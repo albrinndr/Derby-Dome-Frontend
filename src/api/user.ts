@@ -28,3 +28,13 @@ export const otpVerify = async (otp: number) => {
         return errorHandle(err);
     }
 };
+
+export const resendOtp = async () => {
+    try {
+        const response = await Api.post(userRoutes.resendOtp);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};
