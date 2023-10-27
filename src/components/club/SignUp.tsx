@@ -24,9 +24,15 @@ const SignUp = () => {
 
     const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(formData);
-        console.log(image);
-        const res = await clubSignUp({ name, email, phone, password });
+        const clubData = new FormData();
+        clubData.append("name", name);
+        clubData.append("email", email);
+        clubData.append("phone", phone);
+        clubData.append("password", password);
+        if (image) clubData.append("image", image);
+
+        
+        const res = await clubSignUp(clubData);
         if (res) {
             // otpSubmit();
             toast.success(res?.data.message);
@@ -52,7 +58,7 @@ const SignUp = () => {
                     />
                 </div>
                 <div className="w-full  xl:w-1/2 p-8  ">
-                    <form onSubmit={submitHandler}>
+                    <form onSubmit={submitHandler} encType="multipart/form-data">
                         <h1 className=" text-2xl font-bold">Create a new account</h1>
                         <div className="mb-4 mt-6">
                             <input
@@ -112,6 +118,7 @@ const SignUp = () => {
                                 className="hidden"
                                 id="image"
                                 type="file"
+                                name='file'
                                 accept="image/*"
                                 onChange={(e) => setImage(e.target.files?.[0] || null)}
                             />
