@@ -12,7 +12,6 @@ import ClubProfile from './pages/club/ClubProfile';
 import NotFound from './pages/NotFound';
 import LoginPage from './pages/LoginPage';
 import { Toaster } from 'react-hot-toast';
-// import ImageTest from './ImageUpload';
 export default function App() {
   return (
     <>

@@ -1,21 +1,47 @@
-import { useState } from "react";
-import OtpInput from "../../components/common/OtpInput";
-import NavBar from "../../components/user/NavBar";
-import SignUp from "../../components/user/SignUp";
+import { useState } from 'react';
+import OtpInput from '../../components/common/OtpInput';
+import NavBar from '../../components/user/NavBar';
+import SignUp from '../../components/user/SignUp';
+import ReactDOM from 'react-dom';
 
-const UserSignUp = () => {
-    const [showOtp, setShowOtp] = useState(false);
+const Backdrop: React.FC = () => {
+  return <div className="fixed top-0 left-0 w-full h-screen z-10 bg-black bg-opacity-75" />;
+};
 
-    const otpHandler = () => {
-        setShowOtp(true);
-    };
-    return (
+const UserSignUp: React.FC = () => {
+  const [showOtp, setShowOtp] = useState(false);
+
+  const otpHandler = () => {
+    setShowOtp(!showOtp);
+  };
+
+  return (
+    <>
+      <NavBar color={true} fixed />
+      <div className="relative z-0">
+        <SignUp otpSubmit={otpHandler} />
+      </div>
+      {showOtp && (
         <>
-            <NavBar color={true} fixed />
-            {showOtp ? <OtpInput userType="user"/> : <SignUp otpSubmit={otpHandler} />}
-
+          {ReactDOM.createPortal(
+            <Backdrop />,
+            document.getElementById('backdrop-root') as HTMLElement
+          )}
+          {ReactDOM.createPortal(
+            <div className="fixed top-0 left-0 w-full h-screen flex items-center justify-center z-20">
+              <div className="modal p-4">
+                <button className="modal-close" onClick={() => setShowOtp(false)}>
+                  Close OTP
+                </button>
+                <OtpInput userType="user" closeOtp={otpHandler}/>
+              </div>
+            </div>,
+            document.getElementById('modal-root') as HTMLElement
+          )}
         </>
-    );
+      )}
+    </>
+  );
 };
 
 export default UserSignUp;

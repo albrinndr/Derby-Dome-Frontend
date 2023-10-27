@@ -1,15 +1,18 @@
 import React, { useState, useRef, ChangeEvent, KeyboardEvent, useEffect, FormEvent } from 'react';
-import backgroundImage from '../../assets/stadium-background.webp';
-// import { AiFillSwitcher } from 'react-icons/ai';
 import { otpVerify, resendOtp } from '../../api/user';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
 
 interface UserType {
-  userType: string;
+  userType?: string;
+  closeOtp: () => void;
 }
-const OTPPage: React.FC<UserType> = ({ userType }) => {
+
+const OTPPage: React.FC<UserType> = ({ userType, closeOtp }) => {
+
+  const navigate = useNavigate();
+ 
   const [otp, setOTP] = useState<string[]>(['', '', '', '']);
   const [timer, setTimer] = useState<number>(180); // 3 minutes in seconds
   const inputRefs = useRef<HTMLInputElement[]>([]);
@@ -41,20 +44,11 @@ const OTPPage: React.FC<UserType> = ({ userType }) => {
   };
 
   const isFilled = otp.every((value) => value !== '');
-  const divStyle = {
-    backgroundImage: `url(${backgroundImage})`,
-    height: '100vh',
-    backgroundSize: 'cover',
-  };
-
-  const navigate = useNavigate();
-
+  
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const otpValue = otp.join('');
-    // if (isFilled) {
-    //   submitHandler(parseInt(otpValue));
-    // }
+    
 
     if (userType === 'user') {
       console.log(otpValue);
@@ -73,13 +67,34 @@ const OTPPage: React.FC<UserType> = ({ userType }) => {
     }
   };
 
+  const otpPageClose=()=>{
+    closeOtp()
+  }
   const minutes = Math.floor(timer / 60);
   const seconds = timer % 60;
   return (
-    <div style={divStyle} className="flex flex-col px-4 items-center justify-center min-h-screen bg-gray-200">
-      <div className="relative w-full max-w-md">
+    <div className="flex flex-col px-4 items-center justify-center min-h-screen ">
+      <div className="relative w-full rounded-lg shadow-lg bg-white max-w-md">
+        <div className="flex justify-end pr-1 pt-1">
+          <button className="text-gray-600 hover:text-gray-800" onClick={otpPageClose}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
 
-        <div className="bg-white rounded-lg shadow-lg p-8">
+        <div className="  p-8">
           <h1 className="text-3xl font-bold mb-4 text-center">Enter OTP</h1>
           <form onSubmit={submitHandler}>
             <div className="flex justify-center space-x-4">
