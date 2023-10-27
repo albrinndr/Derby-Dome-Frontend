@@ -29,12 +29,9 @@ const SignUp: React.FC<OTP> = ({ otpSubmit }) => {
         e.preventDefault();
         console.log(formData);
         const res = await signUp({ name, email, phone, password });
-        console.log(res?.data);
-        if (res?.data.status) {
+        if (res) {
             otpSubmit();
             toast.success(res?.data.message);
-        }else{
-            toast.error(res?.data.message)
         }
     };
 

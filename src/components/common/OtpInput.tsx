@@ -43,8 +43,10 @@ const OTPPage: React.FC<UserType> = ({ userType }) => {
   const submitHandler = async (otpValue: number) => {
     if (userType === 'user') {
       const response = await otpVerify(otpValue);
-      console.log(response?.data.message);
-      navigate('/login')
+      if (response) {
+        console.log(response?.data.message);
+        navigate('/login');
+      }
     }
   };
   return (
