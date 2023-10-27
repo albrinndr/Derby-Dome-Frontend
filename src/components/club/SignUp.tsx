@@ -5,7 +5,11 @@ import { useState, ChangeEvent, FormEvent } from 'react';
 import { clubSignUp } from '../../api/club';
 import toast from 'react-hot-toast';
 
-const SignUp = () => {
+interface OTP {
+    otpSubmit: () => void;
+}
+
+const SignUp : React.FC<OTP> = ({ otpSubmit }) =>{
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -34,7 +38,7 @@ const SignUp = () => {
         
         const res = await clubSignUp(clubData);
         if (res) {
-            // otpSubmit();
+            otpSubmit();
             toast.success(res?.data.message);
         }
     };

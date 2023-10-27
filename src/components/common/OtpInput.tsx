@@ -2,6 +2,7 @@ import React, { useState, useRef, ChangeEvent, KeyboardEvent, useEffect, FormEve
 import { otpVerify, resendOtp } from '../../api/user';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { clubOtpVerify, clubResendOtp } from '../../api/club';
 
 
 interface UserType {
@@ -12,7 +13,7 @@ interface UserType {
 const OTPPage: React.FC<UserType> = ({ userType, closeOtp }) => {
 
   const navigate = useNavigate();
- 
+
   const [otp, setOTP] = useState<string[]>(['', '', '', '']);
   const [timer, setTimer] = useState<number>(180); // 3 minutes in seconds
   const inputRefs = useRef<HTMLInputElement[]>([]);
@@ -44,11 +45,11 @@ const OTPPage: React.FC<UserType> = ({ userType, closeOtp }) => {
   };
 
   const isFilled = otp.every((value) => value !== '');
-  
+
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const otpValue = otp.join('');
-    
+
 
     if (userType === 'user') {
       console.log(otpValue);
@@ -57,19 +58,34 @@ const OTPPage: React.FC<UserType> = ({ userType, closeOtp }) => {
         toast.success(response?.data.message);
         navigate('/login');
       }
+    } else if (userType === 'club') {
+      console.log(otpValue);
+      const response = await clubOtpVerify(parseInt(otpValue));
+      if (response) {
+        toast.success(response?.data.message);
+        navigate('/club/login');
+      }
     }
   };
   const handleResendOTP = async () => {
-    const response = await resendOtp();
-    if (response) {
-      toast.success(response?.data.message);
-      setTimer(180); // Reset the timer to 3 minutes
+    if (userType === 'user') {
+      const response = await resendOtp();
+      if (response) {
+        toast.success(response?.data.message);
+        setTimer(180); // Reset the timer to 3 minutes
+      }
+    } else if (userType === 'club') {
+      const response = await clubResendOtp();
+      if (response) {
+        toast.success(response?.data.message);
+        setTimer(180); // Reset the timer to 3 minutes
+      }
     }
   };
 
-  const otpPageClose=()=>{
-    closeOtp()
-  }
+  const otpPageClose = () => {
+    closeOtp();
+  };
   const minutes = Math.floor(timer / 60);
   const seconds = timer % 60;
   return (
