@@ -1,4 +1,6 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useState, FormEvent } from "react";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { updateUserProfile } from "../../api/user";
 
 interface UserDetails {
     name?: string;
@@ -13,9 +15,9 @@ interface ProfileEditProps {
 const ProfileEditSection: React.FC<ProfileEditProps> = ({ userDetails }) => {
 
     const [formData, setFormData] = useState({
-        name: userDetails.name,
-        email: userDetails.email,
-        phone: userDetails.phone,
+        name: userDetails.name || '',
+        email: userDetails.email || '',
+        phone: userDetails.phone || '',
         password: '',
         newPassword: '',
     });
@@ -24,9 +26,26 @@ const ProfileEditSection: React.FC<ProfileEditProps> = ({ userDetails }) => {
     const inputHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.id]: e.target.value });
     };
+
+    const queryClient = useQueryClient();
+
+    const { status, mutate } = useMutation({
+        mutationFn: updateUserProfile,
+        onSuccess: (data) => {
+            queryClient.setQueryData(['userData'], data);
+        },
+    });
+
+    const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
+        console.log('here')
+        e.preventDefault();
+        mutate(formData);
+    };
+    const isDisabled = (status as string) === 'loading' || (status as string) === 'pending';
+
     return (
         <div className="px-4 md:px-14 mt-20">
-            <form action="" className=" p-6  text-center ">
+            <form className=" p-6  text-center " onSubmit={submitHandler}>
                 <div className="">
                     <input
                         className="border w-full sm:w-64 lg:w-96 pr-3 sm:mr-6 mb-6 border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-100"
@@ -74,7 +93,7 @@ const ProfileEditSection: React.FC<ProfileEditProps> = ({ userDetails }) => {
                 </div>
 
                 <div className="">
-                    <button className="mt-4 w-48 bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-100">
+                    <button disabled={isDisabled} className="mt-4 w-48 bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-100" type="submit">
                         SAVE
                     </button>
                 </div>

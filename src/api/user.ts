@@ -6,7 +6,8 @@ interface FormData {
     name?: string,
     email: string,
     phone?: string,
-    password: string;
+    password?: string;
+    newPassword?: string;
 }
 
 export const signUp = async (userData: FormData) => {
@@ -62,6 +63,16 @@ export const logout = async () => {
 export const getUserProfile = async () => {
     try {
         const response = await Api.get(userRoutes.getProfile);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};
+
+export const updateUserProfile = async (userData: FormData) => {
+    try {
+        const response = await Api.put(userRoutes.updateProfile, userData);
         return response;
     } catch (error) {
         const err: Error = error as Error;
