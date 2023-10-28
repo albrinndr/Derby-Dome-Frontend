@@ -30,7 +30,7 @@ const NavBarFull: React.FC<ImageData> = ({ dashboard, color, fixed }) => {
     const [clubImage, setClubImage] = useState('');
 
     const { cLoggedIn } = useSelector((state: RootState) => state.auth);
-    console.log(cLoggedIn);
+    // console.log(cLoggedIn);
     useEffect(() => {
         setClubName(cLoggedIn.name);
         setClubImage(cLoggedIn.image);

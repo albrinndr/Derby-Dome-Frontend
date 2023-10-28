@@ -76,7 +76,7 @@ const ProfileEditSection: React.FC<ProfileEditProps> = ({ userDetails }) => {
                         className="border w-full sm:w-64 lg:w-96 pr-3 sm:mr-6 mb-6 border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-100"
                         type="password"
                         id="newPassword"
-                        placeholder="Confirm password"
+                        placeholder="Enter new password"
                         value={newPassword}
                         onChange={inputHandler}
                     />

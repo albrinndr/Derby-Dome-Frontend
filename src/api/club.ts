@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import Api from "../services/axios";
 import clubRoutes from "../services/endpoints/clubEndPoints";
 import errorHandle from "./error";
@@ -56,3 +57,26 @@ export const logoutClub = async ()=>{
         return errorHandle(err);
     }
 }
+
+export const getClubProfile = async () => {
+    try {
+        const response = await Api.get(clubRoutes.getProfile);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};
+
+export const updateClubProfile = async (clubData: FormData) => {
+    try {
+        const response = await Api.put(clubRoutes.updateProfile, clubData);
+        toast.success('updated')
+        console.log(response.data);
+        
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};
