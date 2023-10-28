@@ -37,7 +37,7 @@ const Login: React.FC<UserType> = ({ type }) => {
 
     useEffect(() => {
         if (uLoggedIn) {
-            navigate('/');
+            navigate(-1);
         }
     }, [navigate, uLoggedIn]);
 

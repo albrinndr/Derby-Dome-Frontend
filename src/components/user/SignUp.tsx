@@ -1,15 +1,30 @@
-import { Link } from 'react-router-dom';
+import { ChangeEvent, FormEvent, useState,useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import formImage from '../../assets/form-image.webp';
 import backgroundImage from '../../assets/stadium-background.webp';
-import { ChangeEvent, FormEvent, useState } from 'react';
 import { signUp } from '../../api/user';
-import toast from 'react-hot-toast';
 
 interface OTP {
     otpSubmit: () => void;
 }
 
+interface RootState {
+    auth: {
+        uLoggedIn: boolean;
+    };
+}
+
 const SignUp: React.FC<OTP> = ({ otpSubmit }) => {
+    const { uLoggedIn } = useSelector((state: RootState) => state.auth);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (uLoggedIn) {
+            navigate(-1);
+        }
+    }, [navigate, uLoggedIn]);
 
     const [formData, setFormData] = useState({
         name: '',

@@ -12,6 +12,7 @@ import ClubProfile from './pages/club/ClubProfile';
 import NotFound from './pages/NotFound';
 import LoginPage from './pages/LoginPage';
 import { Toaster } from 'react-hot-toast';
+import UserProtect from './components/user/UserProtext';
 export default function App() {
   return (
     <>
@@ -22,7 +23,9 @@ export default function App() {
           <Route index={true} element={<UserHome />} />
           <Route path="login" element={<LoginPage user='user' />} />
           <Route path="signup" element={<UserSignUp />} />
-          <Route path="profile" element={<UserProfile />} />
+          <Route path='' element={<UserProtect />}>
+            <Route path="profile" element={<UserProfile />} />
+          </Route>
         </Route>
 
         <Route path='/admin'>
