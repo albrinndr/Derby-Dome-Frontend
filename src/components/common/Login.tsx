@@ -1,16 +1,23 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import formImage from '../../assets/form-image.webp';
 import backgroundImage from '../../assets/stadium-background.webp';
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useState, useEffect } from 'react';
 import { login } from '../../api/user';
+import { useSelector, useDispatch } from 'react-redux';
+import { setLogin } from '../../store/slices/authSlice';
+
 interface UserType {
     type?: string;
 }
-const Login: React.FC<UserType> = ({ type }) => {
-    const divStyle = {
-        backgroundImage: `url(${backgroundImage})`,
-        height: '100%',
+
+interface RootState {
+    auth: {
+        uLoggedIn: boolean;
+        cLoggedIn: boolean;
     };
+}
+
+const Login: React.FC<UserType> = ({ type }) => {
     const [user, setUser] = useState(type);
     const changeUserType = (val: string) => {
         setUser(val);
@@ -23,6 +30,18 @@ const Login: React.FC<UserType> = ({ type }) => {
 
     const { email, password } = formData;
 
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const { uLoggedIn } = useSelector((state: RootState) => state.auth);
+
+    useEffect(() => {
+        if (uLoggedIn) {
+            navigate('/');
+        }
+    }, [navigate, uLoggedIn]);
+
+
     const inputHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.id]: e.target.value });
     };
@@ -32,7 +51,8 @@ const Login: React.FC<UserType> = ({ type }) => {
         if (user == 'user') {
             const response = await login({ email, password });
             if (response) {
-                console.log(response.data);
+                navigate('/');
+                dispatch(setLogin());
             }
         } else {
             console.log(formData);
@@ -42,6 +62,10 @@ const Login: React.FC<UserType> = ({ type }) => {
     const userBtn = user == 'club' ? 'bg-gray-300 hover:bg-gray-200' : 'bg-gray-400';
     const clubBtn = user == 'user' ? 'bg-gray-300 hover:bg-gray-200' : 'bg-gray-400';
     const signUpBtn = user == 'club' ? '/club/signup' : '/signup';
+    const divStyle = {
+        backgroundImage: `url(${backgroundImage})`,
+        height: '100%',
+    };
     return (
         <div style={divStyle} className="min-h-screen flex items-center justify-center bg-stadium-background bg-cover bg-center backdrop-filter  backdrop-blur-md">
 

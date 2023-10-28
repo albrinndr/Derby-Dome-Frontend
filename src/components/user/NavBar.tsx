@@ -1,17 +1,28 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import Logo from '../../assets/logo.svg';
 import LogoWhite from '../../assets/logo-white.svg';
-
 import MenuIcon from '../../assets/menu.svg';
 import MenuWhite from '../../assets/menu-white.svg';
-import { Link } from 'react-router-dom';
+
 
 interface NavBarProps {
     color?: boolean;
     fixed?: boolean;
 }
+
+interface RootState {
+    auth: {
+        uLoggedIn: boolean;
+    };
+}
+
 const NavBar: React.FC<NavBarProps> = ({ color, fixed }) => {
     const [dropMenu, setDropMenu] = useState(false);
+
+    const { uLoggedIn } = useSelector((state: RootState) => state.auth);
+    console.log(uLoggedIn);
 
     const handleMenu = () => {
         setDropMenu(prevMenu => !prevMenu);
@@ -58,7 +69,15 @@ const NavBar: React.FC<NavBarProps> = ({ color, fixed }) => {
 
 
                     <div className="hidden md:flex md:items-center">
-                        <Link to='/login' className={`${itemStyle} text-md font-semibold  px-4 py-2 rounded-lg  hover:bg-gray-400 hover:bg-opacity-25`}>Log In</Link>
+                        {uLoggedIn ?
+                            <Link to='/profile' className={`${itemStyle} text-md font-semibold relative group`}>
+                                Profile
+                                <span className={`absolute left-0 right-0 bottom-0 h-px top-7 ${underLineStyle} transition-all`}></span>
+                            </Link>
+                            :
+                            <Link to='/login' className={`${itemStyle} text-md font-semibold  px-4 py-2 rounded-lg  hover:bg-gray-400 hover:bg-opacity-25`}>Log In</Link>
+                        }
+
                     </div>
 
                     <div className="md:hidden cursor-pointer" onClick={handleMenu}>
@@ -74,7 +93,12 @@ const NavBar: React.FC<NavBarProps> = ({ color, fixed }) => {
                         <Link to='#' className="text-gray-800 text-md font-semibold hover:text-purple-600 mb-1">Community</Link>
                         <Link to='#' className="text-gray-800 text-md font-semibold hover:text-purple-600 mb-1">Search</Link>
                         <div className="flex justify-between items-center border-t-2 pt-2">
-                            <Link to='/login' className="text-gray-800 text-md font-semibold border px-4 py-1 rounded-lg hover:bg-gray-400 hover:bg-opacity-25">Log In</Link>
+                            {
+                                uLoggedIn ?
+                                    <Link to='/profile' className="text-gray-800 text-md font-semibold border px-4 py-1 rounded-lg hover:bg-gray-400 hover:bg-opacity-25">Profile</Link>
+                                    :
+                                    <Link to='/login' className="text-gray-800 text-md font-semibold border px-4 py-1 rounded-lg hover:bg-gray-400 hover:bg-opacity-25">Log In</Link>
+                            }
                         </div>
                     </div>
                 </div>}
