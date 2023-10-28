@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
 import formImage from '../../assets/form-image.webp';
 import backgroundImage from '../../assets/stadium-background.webp';
-import { useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
+import { login } from '../../api/user';
 interface UserType {
     type?: string;
 }
@@ -13,6 +14,29 @@ const Login: React.FC<UserType> = ({ type }) => {
     const [user, setUser] = useState(type);
     const changeUserType = (val: string) => {
         setUser(val);
+    };
+
+    const [formData, setFormData] = useState({
+        email: '',
+        password: ''
+    });
+
+    const { email, password } = formData;
+
+    const inputHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setFormData({ ...formData, [e.target.id]: e.target.value });
+    };
+
+    const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (user == 'user') {
+            const response = await login({ email, password });
+            if (response) {
+                console.log(response.data);
+            }
+        } else {
+            console.log(formData);
+        }
     };
 
     const userBtn = user == 'club' ? 'bg-gray-300 hover:bg-gray-200' : 'bg-gray-400';
@@ -41,7 +65,7 @@ const Login: React.FC<UserType> = ({ type }) => {
                             Club
                         </button>
                     </div>
-                    <form method="post" action="#" >
+                    <form onSubmit={submitHandler} >
                         <h1 className=" text-2xl font-bold">Sign in to your account</h1>
 
                         <div className="mb-4 mt-6">
@@ -56,6 +80,8 @@ const Login: React.FC<UserType> = ({ type }) => {
                                 id="email"
                                 type="text"
                                 placeholder="Your email address"
+                                value={email}
+                                onChange={inputHandler}
                             />
                         </div>
                         <div className="mb-6 mt-6">
@@ -70,6 +96,8 @@ const Login: React.FC<UserType> = ({ type }) => {
                                 id="password"
                                 type="password"
                                 placeholder="Your password"
+                                value={password}
+                                onChange={inputHandler}
                             />
                             <a
                                 className="inline-block align-baseline text-sm text-gray-600 hover:text-gray-800"
@@ -81,7 +109,7 @@ const Login: React.FC<UserType> = ({ type }) => {
                         <div className="flex w-full mt-8">
                             <button
                                 className="w-full bg-gray-800 hover:bg-grey-900 text-white text-sm py-2 px-4 font-semibold rounded focus:outline-none focus:shadow-outline h-10"
-                                type="button"
+                                type="submit"
                             >
                                 Sign in
                             </button>
