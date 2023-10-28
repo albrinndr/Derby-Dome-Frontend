@@ -42,7 +42,17 @@ export const resendOtp = async () => {
 export const login = async (loginData: FormData) => {
     try {
         const response = await Api.post(userRoutes.login, loginData);
-        return response;    
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};
+
+export const logout = async () => {
+    try {
+        const response = await Api.post(userRoutes.logout);
+        return response;
     } catch (error) {
         const err: Error = error as Error;
         return errorHandle(err);

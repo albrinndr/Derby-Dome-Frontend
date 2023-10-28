@@ -1,4 +1,23 @@
+import { useDispatch } from 'react-redux';
+import { logout } from '../../api/user';
+import toast from 'react-hot-toast';
+import { userLogout } from '../../store/slices/authSlice';
+import { useNavigate } from 'react-router-dom';
+
 const ProfileHeadSection = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const logoutHandler = async () => {
+        const response = await logout();
+        if (response) {
+            toast.success(response.data.message);
+            dispatch(userLogout());
+            navigate('/login');
+        }
+
+    };
+
     return (
         <div className="px-4 md:px-14 pt-10 bg-sky-100 shadow ">
             <div className="flex justify-between">
@@ -7,7 +26,7 @@ const ProfileHeadSection = () => {
                     <h3 className="mt-3 text-gray-600 sm:text-sm md:text-base lg:text-lg">WALLET: 4000 points left to spend</h3>
                 </div>
                 <div>
-                    <button className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded ">
+                    <button onClick={logoutHandler} className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded ">
                         Logout
                     </button>
                 </div>
