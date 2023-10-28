@@ -4,7 +4,8 @@ import backgroundImage from '../../assets/stadium-background.webp';
 import { ChangeEvent, FormEvent, useState, useEffect } from 'react';
 import { login } from '../../api/user';
 import { useSelector, useDispatch } from 'react-redux';
-import { setLogin } from '../../store/slices/authSlice';
+import { setClubLogin, setLogin } from '../../store/slices/authSlice';
+import { clubLogin } from '../../api/club';
 
 interface UserType {
     type?: string;
@@ -34,12 +35,13 @@ const Login: React.FC<UserType> = ({ type }) => {
     const dispatch = useDispatch();
 
     const { uLoggedIn } = useSelector((state: RootState) => state.auth);
+    const { cLoggedIn } = useSelector((state: RootState) => state.auth);
 
     useEffect(() => {
-        if (uLoggedIn) {
+        if (uLoggedIn || cLoggedIn) {
             navigate(-1);
         }
-    }, [navigate, uLoggedIn]);
+    }, [navigate, uLoggedIn, cLoggedIn]);
 
 
     const inputHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -55,7 +57,11 @@ const Login: React.FC<UserType> = ({ type }) => {
                 dispatch(setLogin());
             }
         } else {
-            console.log(formData);
+            const response = await clubLogin({ email, password });
+            if (response) {
+                navigate('/club/profile');
+                dispatch(setClubLogin());
+            }
         }
     };
 
@@ -102,7 +108,7 @@ const Login: React.FC<UserType> = ({ type }) => {
                             <input
                                 className="text-sm appearance-none rounded w-full py-2 px-3 text-gray-700 bg-gray-200 leading-tight focus:outline-none focus:shadow-outline h-10"
                                 id="email"
-                                type="text"
+                                type="email"
                                 placeholder="Your email address"
                                 value={email}
                                 onChange={inputHandler}
