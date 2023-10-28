@@ -1,15 +1,31 @@
-import { Link } from 'react-router-dom';
+import { Link ,useNavigate} from 'react-router-dom';
 import formImage from '../../assets/form-image.webp';
 import backgroundImage from '../../assets/stadium-background.webp';
-import { useState, ChangeEvent, FormEvent } from 'react';
+import { useState, ChangeEvent, FormEvent,useEffect } from 'react';
 import { clubSignUp } from '../../api/club';
+import { useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
 
 interface OTP {
     otpSubmit: () => void;
 }
 
-const SignUp : React.FC<OTP> = ({ otpSubmit }) =>{
+interface RootState {
+    auth: {
+        cLoggedIn: boolean;
+    };
+}
+
+const SignUp: React.FC<OTP> = ({ otpSubmit }) => {
+    const { cLoggedIn } = useSelector((state: RootState) => state.auth);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (cLoggedIn) {
+            navigate(-1);
+        }
+    }, [navigate, cLoggedIn]);
+
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -35,7 +51,7 @@ const SignUp : React.FC<OTP> = ({ otpSubmit }) =>{
         clubData.append("password", password);
         if (image) clubData.append("image", image);
 
-        
+
         const res = await clubSignUp(clubData);
         if (res) {
             otpSubmit();
@@ -50,7 +66,7 @@ const SignUp : React.FC<OTP> = ({ otpSubmit }) =>{
 
 
     return (
-        <div style={divStyle} className="min-h-screen flex  items-center justify-center bg-stadium-background bg-cover bg-center backdrop-filter  backdrop-blur-md">
+        <div style={divStyle} className="min-h-screen flex pb-10  items-center justify-center bg-stadium-background bg-cover bg-center backdrop-filter  backdrop-blur-md">
             <div
                 className="container max-w-md mx-auto  xl:max-w-3xl mt-24 flex bg-white rounded-lg shadow overflow-hidden bg-opacity-50"
             >
