@@ -4,7 +4,12 @@ import toast from 'react-hot-toast';
 import { userLogout } from '../../store/slices/authSlice';
 import { useNavigate } from 'react-router-dom';
 
-const ProfileHeadSection = () => {
+interface UserData {
+    userData?: string
+    isLoading?: boolean;
+}
+
+const ProfileHeadSection: React.FC<UserData> = ({ userData, isLoading }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -17,12 +22,13 @@ const ProfileHeadSection = () => {
         }
 
     };
+    const userName = isLoading?<span className="text-2xl text-gray-600">Loading...</span>:userData
 
     return (
         <div className="px-4 md:px-14 pt-10 bg-sky-100 shadow ">
             <div className="flex justify-between">
                 <div>
-                    <h1 className="text-2xl sm:text-4xl md:text-6xl font-semibold subpixel-antialiased text-blue-950">HI, ALBRIN</h1>
+                    <h1 className="text-2xl sm:text-4xl md:text-6xl font-semibold subpixel-antialiased text-blue-950">HI, {userName}</h1>
                     <h3 className="mt-3 text-gray-600 sm:text-sm md:text-base lg:text-lg">WALLET: 4000 points left to spend</h3>
                 </div>
                 <div>

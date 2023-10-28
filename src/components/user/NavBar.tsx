@@ -22,7 +22,6 @@ const NavBar: React.FC<NavBarProps> = ({ color, fixed }) => {
     const [dropMenu, setDropMenu] = useState(false);
 
     const { uLoggedIn } = useSelector((state: RootState) => state.auth);
-    console.log(uLoggedIn);
 
     const handleMenu = () => {
         setDropMenu(prevMenu => !prevMenu);

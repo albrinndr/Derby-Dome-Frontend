@@ -61,7 +61,7 @@ export const logout = async () => {
 
 export const getUserProfile = async () => {
     try {
-        const response = await Api.post(userRoutes.getProfile);
+        const response = await Api.get(userRoutes.getProfile);
         return response;
     } catch (error) {
         const err: Error = error as Error;
