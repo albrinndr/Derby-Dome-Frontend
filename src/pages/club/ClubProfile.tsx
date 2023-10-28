@@ -11,7 +11,7 @@ const ClubProfile = () => {
         return () => (window.onscroll = null);
     };
     return (
-        <div className="bg-gray-50 bg-opacity-50 min-h-screen">
+        <div className="bg-slate-200 bg-opacity-50 min-h-screen">
             <Navbar color={!isScrolled} fixed/>
             <div className="relative z-10" style={{ marginTop: "-10px" }} >
                 <ProfileHeader />

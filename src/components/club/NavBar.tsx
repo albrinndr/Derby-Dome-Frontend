@@ -4,6 +4,12 @@ import LogoBlack from '../../assets/logo.svg';
 import MenuIcon from '../../assets/menu.svg';
 import MenuWhite from '../../assets/menu-white.svg';
 import { Link } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { logoutClub } from "../../api/club";
+import { clubLogout } from "../../store/slices/authSlice";
+import { useDispatch } from "react-redux";
+
 interface NavBarProps {
     color?: boolean;
     fixed?: boolean;
@@ -13,6 +19,19 @@ const NavBar: React.FC<NavBarProps> = ({ color, fixed }) => {
 
     const handleMenu = () => {
         setDropMenu(prevMenu => !prevMenu);
+    };
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const logoutHandler = async () => {
+        const response = await logoutClub();
+        if (response) {
+            toast.success(response.data.message);
+            dispatch(clubLogout());
+            navigate('/club/login');
+        }
+
     };
 
     const navBarStyle = !color ? 'bg-white shadow  transition-all transition-all duration-1000 delay-2000 ' : '';
@@ -58,7 +77,7 @@ const NavBar: React.FC<NavBarProps> = ({ color, fixed }) => {
                             <Link to="#" className="text-gray-800 text-md font-semibold hover:text-purple-600 mb-2">Fixtures</Link>
                             <Link to="/club/profile" className="text-gray-800 text-md font-semibold hover:text-purple-600 mb-2">My Club</Link>
                             <div className="flex justify-between items-center border-t-2 pt-2">
-                                <button className="text-gray-800 text-md font-semibold border px-4 py-1 rounded-lg hover:bg-red-500 hover:text-white">Log Out</button>
+                                <button onClick={logoutHandler} className="text-gray-800 text-md font-semibold border px-4 py-1 rounded-lg hover:bg-red-500 hover:text-white">Log Out</button>
                             </div>
                         </div>
                     </div>}

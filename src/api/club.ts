@@ -46,3 +46,13 @@ export const clubLogin = async (clubData: ClubFormData)=>{
         return errorHandle(err);
     }
 };
+
+export const logoutClub = async ()=>{
+    try {
+        const response = await Api.post(clubRoutes.logout);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+}
