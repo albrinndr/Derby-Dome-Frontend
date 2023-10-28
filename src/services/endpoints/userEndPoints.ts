@@ -3,7 +3,10 @@ const userRoutes = {
     verify:'/user/verify',
     resendOtp:'/user/resendOtp',
     login:'/user/login',
-    logout:'/user/logout'
+    logout:'/user/logout',
+
+    getProfile:'/user/profile',
+    updateProfile:'/user/profile'
 };
 
 export default userRoutes;

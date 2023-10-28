@@ -58,3 +58,13 @@ export const logout = async () => {
         return errorHandle(err);
     }
 };
+
+export const getUserProfile = async () => {
+    try {
+        const response = await Api.post(userRoutes.getProfile);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};
