@@ -52,15 +52,13 @@ const NavBar: React.FC<NavBarProps> = ({ color, fixed }) => {
                         </div>
                     </div>
 
-                    {dropMenu && <div className="block md:hidden bg-white  border-t-2 py-2">
+                    {dropMenu && <div className="block md:hidden bg-white rounded py-2">
                         <div className="flex flex-col p-3">
-                            <a href="#" className="text-gray-800 text-md font-semibold hover:text-purple-600 mb-1">Home</a>
-                            <a href="#" className="text-gray-800 text-md font-semibold hover:text-purple-600 mb-1">Fixtures</a>
-                            <a href="#" className="text-gray-800 text-md font-semibold hover:text-purple-600 mb-1">Reviews</a>
-                            <a href="#" className="text-gray-800 text-md font-semibold hover:text-purple-600 mb-1">Community</a>
-                            <a href="#" className="text-gray-800 text-md font-semibold hover:text-purple-600 mb-1">Search</a>
+                            <Link to="#" className="text-gray-800 text-md font-semibold hover:text-purple-600 mb-2">Dashboard</Link>
+                            <Link to="#" className="text-gray-800 text-md font-semibold hover:text-purple-600 mb-2">Fixtures</Link>
+                            <Link to="/club/profile" className="text-gray-800 text-md font-semibold hover:text-purple-600 mb-2">My Club</Link>
                             <div className="flex justify-between items-center border-t-2 pt-2">
-                                <a href="#" className="text-gray-800 text-md font-semibold border px-4 py-1 rounded-lg hover:bg-gray-400 hover:bg-opacity-25">Log In</a>
+                                <button className="text-gray-800 text-md font-semibold border px-4 py-1 rounded-lg hover:bg-red-500 hover:text-white">Log Out</button>
                             </div>
                         </div>
                     </div>}
