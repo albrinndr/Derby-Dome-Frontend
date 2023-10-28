@@ -2,15 +2,19 @@ import { createSlice } from '@reduxjs/toolkit';
 
 interface InitialState {
     uLoggedIn: boolean;
-    cLoggedIn: boolean;
+    cLoggedIn: string | null;
     aLoggedIn: boolean;
 }
 
+const storedClubInfo = localStorage.getItem('clubInfo');
+const parsedClubInfo = storedClubInfo ? JSON.parse(storedClubInfo) : null;
+
 const initialState: InitialState = {
     uLoggedIn: localStorage.getItem('uLoggedIn') ? true : false,
-    cLoggedIn: localStorage.getItem('cLoggedIn') ? true : false,
+    cLoggedIn: parsedClubInfo,
     aLoggedIn: localStorage.getItem('aLoggedIn') ? true : false,
 };
+
 
 const authSlice = createSlice({
     name: "auth",
@@ -24,13 +28,13 @@ const authSlice = createSlice({
             state.uLoggedIn = false;
             localStorage.removeItem('uLoggedIn');
         },
-        setClubLogin: (state) => {
-            state.cLoggedIn = true;
-            localStorage.setItem('cLoggedIn', 'true');
+        setClubLogin: (state, action) => {
+            state.cLoggedIn = action.payload;
+            localStorage.setItem('clubInfo', JSON.stringify(action.payload));
         },
         clubLogout: (state) => {
-            state.cLoggedIn = false;
-            localStorage.removeItem('cLoggedIn');
+            state.cLoggedIn = null;
+            localStorage.removeItem('clubInfo');
         },
         setAdminLogin: (state) => {
             state.aLoggedIn = true;
