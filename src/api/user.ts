@@ -8,10 +8,12 @@ interface FormData {
     phone?: string,
     password?: string;
     newPassword?: string;
+    isGoogle?:boolean
 }
 
 export const signUp = async (userData: FormData) => {
     try {
+        console.log(userData)
         const response = await Api.post(userRoutes.signUp, userData);
         return response;
     } catch (error) {

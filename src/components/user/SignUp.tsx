@@ -1,10 +1,12 @@
-import { ChangeEvent, FormEvent, useState,useEffect } from 'react';
+import { ChangeEvent, FormEvent, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import formImage from '../../assets/form-image.webp';
 import backgroundImage from '../../assets/stadium-background.webp';
 import { signUp } from '../../api/user';
+import { GoogleLogin, CredentialResponse } from '@react-oauth/google';
+import { jwtDecode } from 'jwt-decode';
 
 interface OTP {
     otpSubmit: () => void;
@@ -13,18 +15,21 @@ interface OTP {
 interface RootState {
     auth: {
         uLoggedIn: boolean;
+        cLoggedIn: boolean;
     };
 }
 
 const SignUp: React.FC<OTP> = ({ otpSubmit }) => {
-    const { uLoggedIn } = useSelector((state: RootState) => state.auth);
+    const { uLoggedIn, cLoggedIn } = useSelector((state: RootState) => state.auth);
     const navigate = useNavigate();
 
     useEffect(() => {
         if (uLoggedIn) {
-            navigate(-1);
+            navigate('/');
+        } else if (cLoggedIn) {
+            navigate('/club/profile');
         }
-    }, [navigate, uLoggedIn]);
+    }, [navigate, uLoggedIn, cLoggedIn]);
 
     const [formData, setFormData] = useState({
         name: '',
@@ -47,6 +52,23 @@ const SignUp: React.FC<OTP> = ({ otpSubmit }) => {
         if (res) {
             otpSubmit();
             toast.success(res?.data.message);
+        }
+    };
+
+    const gSignup = async (res: CredentialResponse) => {
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const result: any = jwtDecode(res.credential as string);
+        const data = {
+            name: result.name,
+            email: result.email,
+            password: '@@google##7',
+            isGoogle: true
+        };
+        const response = await signUp(data);
+        if (response) {
+            toast.success(response.data.message);
+            navigate('/login');
         }
     };
 
@@ -127,13 +149,17 @@ const SignUp: React.FC<OTP> = ({ otpSubmit }) => {
                             />
 
                         </div>
-                        <div className="flex w-full mt-8">
+                        <div className="flex w-full mt-8 mb-3">
                             <button
                                 className="w-full bg-gray-800 hover:bg-grey-900 text-white text-sm py-2 px-4 font-semibold rounded focus:outline-none focus:shadow-outline h-10"
                                 type="submit"
                             >
                                 Sign up
                             </button>
+                        </div>
+                        <div className='flex justify-center '>
+                            <GoogleLogin onSuccess={credentialResponse => { gSignup(credentialResponse); }} onError={() => { console.log('Login Failed'); }} />
+
                         </div>
                         <div className='text-center m-2'>
                             <span className="text-gray-700 text-sm">
