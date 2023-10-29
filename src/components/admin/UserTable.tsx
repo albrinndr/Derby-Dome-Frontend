@@ -1,6 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
+import { fetchUsers } from "../../api/admin";
+import { useQuery } from "@tanstack/react-query";
+
+type User = {
+    _id: string;
+    name: string;
+    email: string;
+    phone: string;
+    isBlocked: boolean;
+};
 
 const UserTable = () => {
+    const [search, setSearch] = useState('');
+    const { data: usersList, isLoading } = useQuery({ queryKey: ['usersList'], queryFn: fetchUsers });
+
+    let users = [];
+    if (!isLoading && usersList) {
+        users = usersList.data.filter((user: User) => {
+            const userName = user.name.toLowerCase();
+            const searchValue = search.toLowerCase();
+            return userName.includes(searchValue);
+        });
+    }
+
     return (
         <div className="container mx-auto px-4 sm:px-8">
             <div className="py-8">
@@ -9,8 +31,8 @@ const UserTable = () => {
                 </div>
                 <div className="my-2 flex sm:flex-row flex-col">
                     <div className="flex flex-row mb-1 sm:mb-0">
-                        
-                        
+
+
                     </div>
                     <div className="block relative">
                         <span className="h-full absolute inset-y-0 left-0 flex items-center pl-2">
@@ -21,7 +43,9 @@ const UserTable = () => {
                             </svg>
                         </span>
                         <input placeholder="Search"
-                            className="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" />
+                            className="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none " 
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)} />
                     </div>
                 </div>
                 <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
@@ -52,167 +76,67 @@ const UserTable = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                {
+                                    users.map((user: User, i: number) => (
+                                        <tr key={i}>
+                                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                <div className="flex items-center">
+
+                                                    <div className="ml-3">
+                                                        <p className="text-gray-900 whitespace-no-wrap">
+                                                            {user.name}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                <p className="text-gray-900 whitespace-no-wrap">{user.email}</p>
+                                            </td>
+                                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                <p className="text-gray-900 whitespace-no-wrap">
+                                                    {user.phone}
+                                                </p>
+                                            </td>
+                                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                <p className="text-gray-900 whitespace-no-wrap">
+                                                    Jan 21, 2020
+                                                </p>
+                                            </td>
+                                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                {
+                                                    user.isBlocked ?
+                                                        <span
+                                                            className="relative inline-block px-3 py-1 font-semibold text-red-900 leading-tight">
+                                                            <span aria-hidden
+                                                                className="absolute inset-0 bg-red-200 opacity-50 rounded-full"></span>
+                                                            <button className="relative">Blocked</button>
+                                                        </span>
+                                                        :
+                                                        <span
+                                                            className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                                                            <span aria-hidden
+                                                                className="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
+                                                            <button className="relative">Active</button>
+                                                        </span>
+                                                }
+
+                                            </td>
+                                        </tr>
+                                    ))
+                                }
+                                {!users.length && <tr className="flex justify-center ">
+                                    <td className="px-5 py-5 text-center border-b border-gray-200  text-sm w-">
                                         <div className="flex items-center">
-                                            
+
                                             <div className="ml-3">
                                                 <p className="text-gray-900 whitespace-no-wrap">
-                                                    Vera Carpenter
+                                                   No users found
                                                 </p>
                                             </div>
                                         </div>
                                     </td>
-                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <p className="text-gray-900 whitespace-no-wrap">Admin</p>
-                                    </td>
-                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <p className="text-gray-900 whitespace-no-wrap">
-                                            Jan 21, 2020
-                                        </p>
-                                    </td>
-                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <p className="text-gray-900 whitespace-no-wrap">
-                                            Jan 21, 2020
-                                        </p>
-                                    </td>
-                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <span
-                                            className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                                            <span aria-hidden
-                                                className="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
-                                            <button className="relative">Unblocked</button>
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <div className="flex items-center">
-                                            
-                                            <div className="ml-3">
-                                                <p className="text-gray-900 whitespace-no-wrap">
-                                                    Blake Bowman
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <p className="text-gray-900 whitespace-no-wrap">Editor</p>
-                                    </td>
-                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <p className="text-gray-900 whitespace-no-wrap">
-                                            Jan 01, 2020
-                                        </p>
-                                    </td>
-                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <p className="text-gray-900 whitespace-no-wrap">
-                                            Jan 01, 2020
-                                        </p>
-                                    </td>
-                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <span
-                                            className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                                            <span aria-hidden
-                                                className="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
-                                            <span className="relative">Activo</span>
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <div className="flex items-center">
-                                           
-                                            <div className="ml-3">
-                                                <p className="text-gray-900 whitespace-no-wrap">
-                                                    Dana Moore
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <p className="text-gray-900 whitespace-no-wrap">Editor</p>
-                                    </td>
-                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <p className="text-gray-900 whitespace-no-wrap">
-                                            Jan 10, 2020
-                                        </p>
-                                    </td>
-                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <p className="text-gray-900 whitespace-no-wrap">
-                                            Jan 10, 2020
-                                        </p>
-                                    </td>
-                                    <td className="px-5 py-5 bg-white text-sm">
-                                        <span
-                                            className="relative inline-block px-3 py-1 font-semibold text-red-900 leading-tight">
-                                            <span aria-hidden
-                                                className="absolute inset-0 bg-red-200 opacity-50 rounded-full"></span>
-                                            <button className="relative">Blocked</button>
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <div className="flex items-center">
-                                            
-                                            <div className="ml-3">
-                                                <p className="text-gray-900 whitespace-no-wrap">
-                                                    Dana Moore
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <p className="text-gray-900 whitespace-no-wrap">Editor</p>
-                                    </td>
-                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <p className="text-gray-900 whitespace-no-wrap">
-                                            Jan 10, 2020
-                                        </p>
-                                    </td>
-                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <p className="text-gray-900 whitespace-no-wrap">
-                                            Jan 10, 2020
-                                        </p>
-                                    </td>
-                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <span
-                                            className="relative inline-block px-3 py-1 font-semibold text-orange-900 leading-tight">
-                                            <span aria-hidden
-                                                className="absolute inset-0 bg-orange-200 opacity-50 rounded-full"></span>
-                                            <span className="relative">Suspended</span>
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td className="px-5 py-5 bg-white text-sm">
-                                        <div className="flex items-center">
-                                            
-                                            <div className="ml-3">
-                                                <p className="text-gray-900 whitespace-no-wrap">
-                                                    Alonzo Cox
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td className="px-5 py-5 bg-white text-sm">
-                                        <p className="text-gray-900 whitespace-no-wrap">Admin</p>
-                                    </td>
-                                    <td className="px-5 py-5 bg-white text-sm">
-                                        <p className="text-gray-900 whitespace-no-wrap">Jan 18, 2020</p>
-                                    </td>
-                                    <td className="px-5 py-5 bg-white text-sm">
-                                        <p className="text-gray-900 whitespace-no-wrap">Jan 18, 2020</p>
-                                    </td>
-                                    <td className="px-5 py-5 bg-white text-sm">
-                                        <span
-                                            className="relative inline-block px-3 py-1 font-semibold text-red-900 leading-tight">
-                                            <span aria-hidden
-                                                className="absolute inset-0 bg-red-200 opacity-50 rounded-full"></span>
-                                            <button className="relative">Blocked</button>
-                                        </span>
-                                    </td>
-                                </tr>
+                                    
+                                </tr>}
                             </tbody>
                         </table>
                         <div

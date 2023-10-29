@@ -3,7 +3,7 @@ import Logo from '../../../assets/logo.svg';
 
 const NavBarStadium = () => {
     return (
-        <div className="flex justify-between sticky top-0 bg-white shadow pl-3 py-4">
+        <div className="flex justify-between sticky top-0 bg-white shadow pl-3 py-4 z-10">
             <div className="">
                 <img src={Logo} alt="" width={100} height={100} />
             </div>
