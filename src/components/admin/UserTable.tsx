@@ -8,6 +8,7 @@ type User = {
     email: string;
     phone: string;
     isBlocked: boolean;
+    createdAt:string
 };
 
 const UserTable = () => {
@@ -37,7 +38,7 @@ const UserTable = () => {
             setUsers(updatedUsers);
         },
     });
-    
+
     const filteredUsers = users.filter(user => {
         const userName = user.name.toLowerCase();
         const searchValue = search.toLowerCase();
@@ -127,7 +128,7 @@ const UserTable = () => {
                                             </td>
                                             <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                 <p className="text-gray-900 whitespace-no-wrap">
-                                                    Jan 21, 2020
+                                                    {user.createdAt}
                                                 </p>
                                             </td>
                                             <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
