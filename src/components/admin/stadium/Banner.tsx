@@ -1,20 +1,70 @@
-import React from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { AiOutlineQuestionCircle } from 'react-icons/ai';
+import { getBanners, updateBanner } from "../../../api/admin";
 
 const Banner = () => {
-    const imageURL = 'https://res.cloudinary.com/ddzzicdji/image/upload/v1698151130/userManagement/zu797ljiskrvdxbb54p7.png';
+    const { status, data: banners } = useQuery({ queryKey: ['adminBanners'], queryFn: getBanners });
+
+    const [formData, setFormData] = useState({
+        name: 'banner1',
+        text: '',
+        image: '',
+        color: ''
+    });
+    const [image, setImage] = useState<File | null>(null);
+
+    useEffect(() => {
+        if (status != 'pending' && banners?.data) {
+            setFormData({
+                name: 'banner1',
+                text: banners.data[0].text,
+                image: banners.data[0].image,
+                color: banners.data[0].color,
+            });
+        }
+    }, [status, banners]);
+
+    const inputHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setFormData({ ...formData, [e.target.id]: e.target.value });
+    };
+
+    const queryClient = useQueryClient();
+
+    const { mutate } = useMutation({
+        mutationFn: updateBanner,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['adminBanners'] });
+        },
+    });
+
+
+    const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const bannerData = new FormData();
+        bannerData.append("name", formData.name);
+        bannerData.append("text", formData.text);
+        bannerData.append("color", formData.color);
+        if (image) bannerData.append("image", image);
+        mutate(bannerData);
+        setImage(null)
+    };
+
+    const isDisabled = (status as string) === 'loading' || (status as string) === 'pending';
+
     return (
         <div className="p-4">
-            <img src={imageURL} className="mb-5 rounded w-1/2" alt="" />
-
-            <form action="" className="">
+            {!isDisabled && <form onSubmit={submitHandler}>
+                <img src={formData.image} className="mb-5 rounded w-1/2" alt="" />
                 <div>
+                    <input type="text" name="name" id="" value={formData.name} onChange={inputHandler} hidden />
                     <input
                         className="hidden"
                         id="image"
                         type="file"
+                        name='file'
                         accept="image/*"
-                        multiple={false}
+                        onChange={(e) => setImage(e.target.files?.[0] || null)}
                     />
                     <label
                         htmlFor="image"
@@ -34,7 +84,7 @@ const Banner = () => {
                                 d="M12 6v6m0 0v6m0-6h6m-6 0H6"
                             />
                         </svg>
-                        <span className='text-gray-500 text-sm'>Upload Your Logo</span>
+                        <span className='text-gray-500 text-sm'>{image ? image.name : 'Upload banner'}</span>
                     </label>
                 </div>
                 <div className="mt-4 ">
@@ -42,13 +92,13 @@ const Banner = () => {
                         <span className="text-sm text-gray-500 mt-1"> <AiOutlineQuestionCircle /> </span>
                         <span className="text-sm text-gray-500 ml-1">Optional</span>
                     </div>
-                    <input type="text" name="" id="" placeholder="Enter you banner text" className="border border-gray-400 rounded " />
+                    <input type="text" name="" id="text" placeholder="Enter you banner text" className="border border-gray-400 rounded " value={formData.text} onChange={inputHandler} />
 
                 </div>
                 <div>
-                    <button className="bg-green-400 mt-5 hover:bg-green-500 rounded p-2 w-1/4">Save</button>
+                    <button className="bg-green-400 mt-5 hover:bg-green-500 rounded p-2 w-1/4" type="submit">Save</button>
                 </div>
-            </form>
+            </form>}
         </div>
     );
 };

@@ -3,12 +3,12 @@ import Api from "../services/axios";
 import errorHandle from "./error";
 import adminRoutes from "../services/endpoints/adminEndPoints";
 
-interface FormData {
+interface LoginData {
     email: string,
     password: string;
 }
 
-export const adminLogin = async (adminData: FormData) => {
+export const adminLogin = async (adminData: LoginData) => {
     try {
         const response = await Api.post(adminRoutes.login, adminData);
         return response;
@@ -61,6 +61,26 @@ export const fetchClubs = async () => {
 export const blockClub = async (id: string) => {
     try {
         const response = await Api.put(adminRoutes.blockClubs(id));
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};
+
+export const getBanners = async () => {
+    try {
+        const response = await Api.get(adminRoutes.banners);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};
+
+export const updateBanner = async (bannerData: FormData) => {
+    try {
+        const response = await Api.put(adminRoutes.banners, bannerData);
         return response;
     } catch (error) {
         const err: Error = error as Error;
