@@ -1,10 +1,55 @@
+import { ChangeEvent, FormEvent, useState,useEffect } from 'react';
 import formImage from '../../assets/form-image.webp';
-import backgroundImage from '../../assets/stadium-background.webp'
+import backgroundImage from '../../assets/stadium-background.webp';
+import { adminLogin } from '../../api/admin';
+import { useSelector, useDispatch } from 'react-redux';
+import { setAdminLogin } from '../../store/slices/authSlice';
+import { useNavigate } from 'react-router-dom';
+
+interface RootState {
+    auth: {
+        aLoggedIn: boolean;
+    };
+}
+
 const Login = () => {
+    
+    const [formData, setFormData] = useState({
+        email: '',
+        password: ''
+    });
+
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const { aLoggedIn } = useSelector((state: RootState) => state.auth);
+
+    useEffect(()=>{
+        if(aLoggedIn){
+            navigate('/admin/users')
+        }
+    },[aLoggedIn,navigate])
+
+
+    const { email, password } = formData;
+
+    const inputHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setFormData({ ...formData, [e.target.id]: e.target.value });
+    };
+
+    const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const response = await adminLogin(formData);
+        if (response) {
+            navigate('/admin/users')
+            dispatch(setAdminLogin());
+        }
+    };
     const divStyle = {
         backgroundImage: `url(${backgroundImage})`,
         height: '100%',
     };
+
+
     return (
         <div style={divStyle} className="min-h-screen flex items-center justify-center bg-stadium-background bg-cover bg-center backdrop-filter  backdrop-blur-md">
 
@@ -21,7 +66,7 @@ const Login = () => {
 
                 <div className="w-full xl:w-1/2 p-8  ">
 
-                    <form method="post" action="#" >
+                    <form onSubmit={submitHandler}>
                         <h1 className=" text-2xl font-bold">Sign in to your account</h1>
 
                         <div className="mb-4 mt-6">
@@ -34,8 +79,10 @@ const Login = () => {
                             <input
                                 className="text-sm appearance-none rounded w-full py-2 px-3 text-gray-700 bg-gray-200 leading-tight focus:outline-none focus:shadow-outline h-10"
                                 id="email"
-                                type="text"
+                                type="email"
                                 placeholder="Your email address"
+                                value={email}
+                                onChange={inputHandler}
                             />
                         </div>
                         <div className="mb-6 mt-6">
@@ -50,13 +97,15 @@ const Login = () => {
                                 id="password"
                                 type="password"
                                 placeholder="Your password"
+                                value={password}
+                                onChange={inputHandler}
                             />
 
                         </div>
                         <div className="flex w-full mt-8">
                             <button
                                 className="w-full bg-gray-800 hover:bg-grey-900 text-white text-sm py-2 px-4 font-semibold rounded focus:outline-none focus:shadow-outline h-10"
-                                type="button"
+                                type="submit"
                             >
                                 Sign in
                             </button>

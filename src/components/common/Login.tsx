@@ -38,8 +38,10 @@ const Login: React.FC<UserType> = ({ type }) => {
     const { cLoggedIn } = useSelector((state: RootState) => state.auth);
 
     useEffect(() => {
-        if (uLoggedIn || cLoggedIn) {
-            navigate(-1);
+        if (uLoggedIn) {
+            navigate('/');
+        }else if(cLoggedIn){
+            navigate('/club/profile')
         }
     }, [navigate, uLoggedIn, cLoggedIn]);
 
