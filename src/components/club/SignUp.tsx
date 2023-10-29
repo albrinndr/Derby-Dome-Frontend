@@ -12,17 +12,21 @@ interface OTP {
 
 interface RootState {
     auth: {
+        uLoggedIn: boolean;
         cLoggedIn: boolean;
     };
 }
 
 const SignUp: React.FC<OTP> = ({ otpSubmit }) => {
-    const { cLoggedIn } = useSelector((state: RootState) => state.auth);
+    const {uLoggedIn, cLoggedIn } = useSelector((state: RootState) => state.auth);
     const navigate = useNavigate();
 
     useEffect(() => {
         if (cLoggedIn) {
-            navigate(-1);
+            navigate('/club/profile');
+        }else if(uLoggedIn){
+            navigate('/');
+
         }
     }, [navigate, cLoggedIn]);
 
