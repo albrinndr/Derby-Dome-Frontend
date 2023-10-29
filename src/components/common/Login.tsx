@@ -6,6 +6,9 @@ import { login } from '../../api/user';
 import { useSelector, useDispatch } from 'react-redux';
 import { setClubLogin, setLogin } from '../../store/slices/authSlice';
 import { clubLogin } from '../../api/club';
+import { GoogleLogin, CredentialResponse } from '@react-oauth/google';
+import { jwtDecode } from 'jwt-decode';
+
 
 interface UserType {
     type?: string;
@@ -40,8 +43,8 @@ const Login: React.FC<UserType> = ({ type }) => {
     useEffect(() => {
         if (uLoggedIn) {
             navigate('/');
-        }else if(cLoggedIn){
-            navigate('/club/profile')
+        } else if (cLoggedIn) {
+            navigate('/club/profile');
         }
     }, [navigate, uLoggedIn, cLoggedIn]);
 
@@ -63,10 +66,25 @@ const Login: React.FC<UserType> = ({ type }) => {
             if (response) {
                 navigate('/club/profile');
                 const data = { name: response.data.club.name, image: response.data.club.image };
-            
+
                 dispatch(setClubLogin(data));
 
             }
+        }
+    };
+
+    const gLogin = async (res: CredentialResponse) => {
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const result: any = jwtDecode(res.credential as string);
+        const data = {
+            email: result.email,
+            password: '@@google##7',
+        };
+        const response = await login(data);
+        if (response) {
+            navigate('/');
+            dispatch(setLogin());
         }
     };
 
@@ -81,7 +99,7 @@ const Login: React.FC<UserType> = ({ type }) => {
         <div style={divStyle} className="min-h-screen flex items-center justify-center bg-stadium-background bg-cover bg-center backdrop-filter  backdrop-blur-md">
 
             <div
-                className="container max-w-md mx-auto xl:max-w-3xl h-full flex bg-white rounded-lg shadow overflow-hidden bg-opacity-50"
+                className="container mt-10 max-w-md mx-auto xl:max-w-3xl h-full flex bg-white rounded-lg shadow overflow-hidden bg-opacity-50"
             >
                 <div className="relative hidden xl:block xl:w-1/2 ">
                     <img
@@ -149,6 +167,12 @@ const Login: React.FC<UserType> = ({ type }) => {
                                 Sign in
                             </button>
                         </div>
+                        {user == 'user' &&
+                            <div className='flex justify-center mt-3'>
+                                <GoogleLogin onSuccess={credentialResponse => { gLogin(credentialResponse); }} onError={() => { console.log('Login Failed'); }} />
+
+                            </div>
+                        }
 
                         <div className='text-center m-2'>
                             <span className="text-gray-600 text-sm">
