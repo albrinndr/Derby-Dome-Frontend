@@ -38,3 +38,12 @@ export const fetchUsers = async () => {
     }
 };
 
+export const blockUser = async (id: string) => {
+    try {
+        const response = await Api.put(adminRoutes.blockUsers(id));
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};

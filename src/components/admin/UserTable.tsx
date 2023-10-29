@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { fetchUsers } from "../../api/admin";
-import { useQuery } from "@tanstack/react-query";
+import React, { useState, useEffect } from "react";
+import { blockUser, fetchUsers } from "../../api/admin";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 type User = {
     _id: string;
@@ -14,14 +14,41 @@ const UserTable = () => {
     const [search, setSearch] = useState('');
     const { data: usersList, isLoading } = useQuery({ queryKey: ['usersList'], queryFn: fetchUsers });
 
-    let users = [];
-    if (!isLoading && usersList) {
-        users = usersList.data.filter((user: User) => {
-            const userName = user.name.toLowerCase();
-            const searchValue = search.toLowerCase();
-            return userName.includes(searchValue);
-        });
-    }
+    const [users, setUsers] = useState<User[]>([]);
+
+    useEffect(() => {
+        if (usersList) {
+            setUsers(usersList.data);
+        }
+    }, [usersList]);
+
+    const { status, mutate } = useMutation({
+        mutationFn: blockUser,
+        onSuccess: (data, variables) => {
+            const updatedUsers = users.map(user => {
+                if (user._id === variables) {
+                    return {
+                        ...user,
+                        isBlocked: !user.isBlocked,
+                    };
+                }
+                return user;
+            });
+            setUsers(updatedUsers);
+        },
+    });
+    
+    const filteredUsers = users.filter(user => {
+        const userName = user.name.toLowerCase();
+        const searchValue = search.toLowerCase();
+        return userName.includes(searchValue);
+    });
+
+    const userActionHandler = async (id: string) => {
+        mutate(id);
+    };
+
+    const isDisabled = (status as string) === 'loading' || (status as string) === 'pending';
 
     return (
         <div className="container mx-auto px-4 sm:px-8">
@@ -43,7 +70,7 @@ const UserTable = () => {
                             </svg>
                         </span>
                         <input placeholder="Search"
-                            className="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none " 
+                            className="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none "
                             value={search}
                             onChange={(e) => setSearch(e.target.value)} />
                     </div>
@@ -75,9 +102,10 @@ const UserTable = () => {
                                     </th>
                                 </tr>
                             </thead>
+
                             <tbody>
                                 {
-                                    users.map((user: User, i: number) => (
+                                    filteredUsers.map((user: User, i: number) => (
                                         <tr key={i}>
                                             <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                 <div className="flex items-center">
@@ -106,17 +134,21 @@ const UserTable = () => {
                                                 {
                                                     user.isBlocked ?
                                                         <span
-                                                            className="relative inline-block px-3 py-1 font-semibold text-red-900 leading-tight">
+                                                            className="relative inline-block px-3 py-1 font-semibold text-red-900 leading-tight"
+                                                        >
                                                             <span aria-hidden
                                                                 className="absolute inset-0 bg-red-200 opacity-50 rounded-full"></span>
-                                                            <button className="relative">Blocked</button>
+                                                            <button className="relative" onClick={() => userActionHandler(user._id)}
+                                                                disabled={isDisabled}>Blocked</button>
                                                         </span>
                                                         :
                                                         <span
-                                                            className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                                                            className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight"
+                                                        >
                                                             <span aria-hidden
                                                                 className="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
-                                                            <button className="relative">Active</button>
+                                                            <button className="relative" onClick={() => userActionHandler(user._id)}
+                                                                disabled={isDisabled}>Active</button>
                                                         </span>
                                                 }
 
@@ -130,14 +162,15 @@ const UserTable = () => {
 
                                             <div className="ml-3">
                                                 <p className="text-gray-900 whitespace-no-wrap">
-                                                   No users found
+                                                    No users found
                                                 </p>
                                             </div>
                                         </div>
                                     </td>
-                                    
+
                                 </tr>}
                             </tbody>
+
                         </table>
                         <div
                             className="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
