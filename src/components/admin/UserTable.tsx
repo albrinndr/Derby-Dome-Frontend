@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { blockUser, fetchUsers } from "../../api/admin";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { FcGoogle } from 'react-icons/fc';
 
 type User = {
     _id: string;
@@ -8,7 +9,8 @@ type User = {
     email: string;
     phone: string;
     isBlocked: boolean;
-    createdAt:string
+    createdAt: string,
+    isGoogle: boolean;
 };
 
 const UserTable = () => {
@@ -119,7 +121,10 @@ const UserTable = () => {
                                                 </div>
                                             </td>
                                             <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                <p className="text-gray-900 whitespace-no-wrap">{user.email}</p>
+                                                <div className="flex">
+                                                    <p className="text-gray-900 whitespace-no-wrap">{user.email}</p>
+                                                    {user.isGoogle && <p className="mt-1 ml-1"><FcGoogle /></p>}
+                                                </div>
                                             </td>
                                             <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                 <p className="text-gray-900 whitespace-no-wrap">
