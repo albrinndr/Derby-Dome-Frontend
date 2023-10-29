@@ -2,6 +2,8 @@ import { useState } from "react";
 import NavBar from "../../components/user/NavBar";
 import BannerOne from "../../components/user/BannerOne";
 import MatchDayCards from "../../components/user/MatchDayCards";
+import { getBanner } from "../../api/user";
+import { useQuery } from "@tanstack/react-query";
 
 const UserHome = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -11,13 +13,13 @@ const UserHome = () => {
     return () => (window.onscroll = null);
   };
 
-  const imageURL = 'https://res.cloudinary.com/ddzzicdji/image/upload/v1698151130/userManagement/zu797ljiskrvdxbb54p7.png';
-  // const imageURL = 'https://wallpapers.com/images/hd/white-full-screen-with-stripes-k6sqdizwumrl3y8h.jpg';
+  const { isLoading, data: banners } = useQuery({ queryKey: ['banners'], queryFn: getBanner });
+
   return (
     <div style={{ minHeight: '200vh' }}>
       <NavBar color={!isScrolled} fixed />
       <div className="relative z-0 ">
-        <BannerOne banner={imageURL} />
+        {!isLoading && <BannerOne  data={banners?.data[0]} />}
       </div>
       <div className="relative bottom-10">
         <MatchDayCards />

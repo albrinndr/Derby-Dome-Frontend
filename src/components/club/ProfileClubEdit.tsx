@@ -71,7 +71,7 @@ const ProfileClubEdit = () => {
                         <img src={clubData?.data.image} alt="" width={150} height={150} />
                         <div className="mt-10 relative flex items-center justify-center">
                             <label className="cursor-pointer bg-gray-200 hover:bg-gray-300 text-gray-600 font-semibold py-2 px-4 rounded-lg">
-                                Change Logo
+                            {image ? image.name : 'Upload banner'}
                                 <input
                                     className="hidden"
                                     type="file"

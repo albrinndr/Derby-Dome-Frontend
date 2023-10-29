@@ -6,7 +6,9 @@ const userRoutes = {
     logout:'/user/logout',
 
     getProfile:'/user/profile',
-    updateProfile:'/user/profile'
+    updateProfile:'/user/profile',
+
+    banners:'/user/banner'
 };
 
 export default userRoutes;
