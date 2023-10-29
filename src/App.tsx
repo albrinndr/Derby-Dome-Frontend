@@ -14,6 +14,7 @@ import LoginPage from './pages/LoginPage';
 import { Toaster } from 'react-hot-toast';
 import UserProtect from './components/user/UserProtext';
 import ClubProtect from './components/club/ClubProtect';
+import AdminProtect from './components/admin/AdminProtect';
 export default function App() {
   return (
     <>
@@ -31,9 +32,11 @@ export default function App() {
 
         <Route path='/admin'>
           <Route path='login' element={<AdminLogin />} />
-          <Route path='users' element={<AdminUsers />} />
-          <Route path='clubs' element={<AdminClubs />} />
-          <Route path='stadium' element={<AdminBanner />} />
+          <Route element={<AdminProtect />}>
+            <Route path='users' element={<AdminUsers />} />
+            <Route path='clubs' element={<AdminClubs />} />
+            <Route path='stadium' element={<AdminBanner />} />
+          </Route>
         </Route>
 
         <Route path='/club'>
