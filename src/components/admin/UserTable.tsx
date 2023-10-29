@@ -13,7 +13,7 @@ type User = {
 
 const UserTable = () => {
     const [search, setSearch] = useState('');
-    const { data: usersList, isLoading } = useQuery({ queryKey: ['usersList'], queryFn: fetchUsers });
+    const { data: usersList } = useQuery({ queryKey: ['usersList'], queryFn: fetchUsers });
 
     const [users, setUsers] = useState<User[]>([]);
 

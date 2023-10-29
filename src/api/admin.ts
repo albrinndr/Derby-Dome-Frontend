@@ -47,3 +47,23 @@ export const blockUser = async (id: string) => {
         return errorHandle(err);
     }
 };
+
+export const fetchClubs = async () => {
+    try {
+        const response = await Api.get(adminRoutes.fetchClubs);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};
+
+export const blockClub = async (id: string) => {
+    try {
+        const response = await Api.put(adminRoutes.blockClubs(id));
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};

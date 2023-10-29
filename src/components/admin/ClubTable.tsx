@@ -1,6 +1,58 @@
-import React from "react";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import React, { useState, useEffect } from "react";
+import { blockClub, fetchClubs } from "../../api/admin";
+
+type Club = {
+    _id: string;
+    name: string;
+    email: string;
+    phone: string;
+    isBlocked: boolean;
+    createdAt: string;
+    image?: string;
+};
 
 const ClubTable = () => {
+    const [search, setSearch] = useState('');
+    const { data: clubsList } = useQuery({ queryKey: ['clubsList'], queryFn: fetchClubs });
+
+    const [clubs, setClubs] = useState<Club[]>([]);
+
+    useEffect(() => {
+        if (clubsList) {
+            setClubs(clubsList.data);
+        }
+    }, [clubsList]);
+
+    const filteredClubs = clubs.filter(club => {
+        const clubName = club.name.toLowerCase();
+        const searchValue = search.toLowerCase();
+        return clubName.includes(searchValue);
+    });
+
+    const { status, mutate } = useMutation({
+        mutationFn: blockClub,
+        onSuccess: (data, variables) => {
+            const updatedClubs = clubs.map(club => {
+                if (club._id === variables) {
+                    return {
+                        ...club,
+                        isBlocked: !club.isBlocked,
+                    };
+                }
+                return club;
+            });
+            setClubs(updatedClubs);
+        },
+    });
+
+    const clubActionHandler = async (id: string) => {
+        mutate(id);
+    };
+
+    const isDisabled = (status as string) === 'loading' || (status as string) === 'pending';
+
+
     return (
         <div className="container mx-auto px-4 sm:px-8">
             <div className="py-8">
@@ -21,7 +73,9 @@ const ClubTable = () => {
                             </svg>
                         </span>
                         <input placeholder="Search"
-                            className="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" />
+                            className="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)} />
                     </div>
                 </div>
                 <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
@@ -52,187 +106,61 @@ const ClubTable = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <div className="flex items-center">
-                                            <div className="flex-shrink-0 w-10 h-10">
-                                                <img className="w-full h-full rounded-full"
-                                                    src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
-                                                    alt="" />
+                                {filteredClubs.map((club: Club, i: number) => (
+                                    <tr key={i}>
+                                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                            <div className="flex items-center">
+                                                <div className="flex-shrink-0 w-10 h-10">
+                                                    <img className="w-full h-full rounded-full"
+                                                        src={club.image}
+                                                        alt="" />
+                                                </div>
+                                                <div className="ml-3">
+                                                    <p className="text-gray-900 whitespace-no-wrap">
+                                                        {club.name}
+                                                    </p>
+                                                </div>
                                             </div>
-                                            <div className="ml-3">
-                                                <p className="text-gray-900 whitespace-no-wrap">
-                                                    Vera Carpenter
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <p className="text-gray-900 whitespace-no-wrap">Admin</p>
-                                    </td>
-                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <p className="text-gray-900 whitespace-no-wrap">
-                                            Jan 21, 2020
-                                        </p>
-                                    </td>
-                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <p className="text-gray-900 whitespace-no-wrap">
-                                            Jan 21, 2020
-                                        </p>
-                                    </td>
-                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <span
-                                            className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                                            <span aria-hidden
-                                                className="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
-                                            <button className="relative">Unblocked</button>
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <div className="flex items-center">
-                                            <div className="flex-shrink-0 w-10 h-10">
-                                                <img className="w-full h-full rounded-full"
-                                                    src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
-                                                    alt="" />
-                                            </div>
-                                            <div className="ml-3">
-                                                <p className="text-gray-900 whitespace-no-wrap">
-                                                    Blake Bowman
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <p className="text-gray-900 whitespace-no-wrap">Editor</p>
-                                    </td>
-                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <p className="text-gray-900 whitespace-no-wrap">
-                                            Jan 01, 2020
-                                        </p>
-                                    </td>
-                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <p className="text-gray-900 whitespace-no-wrap">
-                                            Jan 01, 2020
-                                        </p>
-                                    </td>
-                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <span
-                                            className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                                            <span aria-hidden
-                                                className="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
-                                            <span className="relative">Activo</span>
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <div className="flex items-center">
-                                            <div className="flex-shrink-0 w-10 h-10">
-                                                <img className="w-full h-full rounded-full"
-                                                    src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
-                                                    alt="" />
-                                            </div>
-                                            <div className="ml-3">
-                                                <p className="text-gray-900 whitespace-no-wrap">
-                                                    Dana Moore
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <p className="text-gray-900 whitespace-no-wrap">Editor</p>
-                                    </td>
-                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <p className="text-gray-900 whitespace-no-wrap">
-                                            Jan 10, 2020
-                                        </p>
-                                    </td>
-                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <p className="text-gray-900 whitespace-no-wrap">
-                                            Jan 10, 2020
-                                        </p>
-                                    </td>
-                                    <td className="px-5 py-5 bg-white text-sm">
-                                        <span
-                                            className="relative inline-block px-3 py-1 font-semibold text-red-900 leading-tight">
-                                            <span aria-hidden
-                                                className="absolute inset-0 bg-red-200 opacity-50 rounded-full"></span>
-                                            <button className="relative">Blocked</button>
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <div className="flex items-center">
-                                            <div className="flex-shrink-0 w-10 h-10">
-                                                <img className="w-full h-full rounded-full"
-                                                    src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
-                                                    alt="" />
-                                            </div>
-                                            <div className="ml-3">
-                                                <p className="text-gray-900 whitespace-no-wrap">
-                                                    Dana Moore
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <p className="text-gray-900 whitespace-no-wrap">Editor</p>
-                                    </td>
-                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <p className="text-gray-900 whitespace-no-wrap">
-                                            Jan 10, 2020
-                                        </p>
-                                    </td>
-                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <p className="text-gray-900 whitespace-no-wrap">
-                                            Jan 10, 2020
-                                        </p>
-                                    </td>
-                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <span
-                                            className="relative inline-block px-3 py-1 font-semibold text-orange-900 leading-tight">
-                                            <span aria-hidden
-                                                className="absolute inset-0 bg-orange-200 opacity-50 rounded-full"></span>
-                                            <span className="relative">Suspended</span>
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td className="px-5 py-5 bg-white text-sm">
-                                        <div className="flex items-center">
-                                            <div className="flex-shrink-0 w-10 h-10">
-                                                <img className="w-full h-full rounded-full"
-                                                    src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
-                                                    alt="" />
-                                            </div>
-                                            <div className="ml-3">
-                                                <p className="text-gray-900 whitespace-no-wrap">
-                                                    Alonzo Cox
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td className="px-5 py-5 bg-white text-sm">
-                                        <p className="text-gray-900 whitespace-no-wrap">Admin</p>
-                                    </td>
-                                    <td className="px-5 py-5 bg-white text-sm">
-                                        <p className="text-gray-900 whitespace-no-wrap">Jan 18, 2020</p>
-                                    </td>
-                                    <td className="px-5 py-5 bg-white text-sm">
-                                        <p className="text-gray-900 whitespace-no-wrap">Jan 18, 2020</p>
-                                    </td>
-                                    <td className="px-5 py-5 bg-white text-sm">
-                                        <span
-                                            className="relative inline-block px-3 py-1 font-semibold text-red-900 leading-tight">
-                                            <span aria-hidden
-                                                className="absolute inset-0 bg-red-200 opacity-50 rounded-full"></span>
-                                            <button className="relative">Blocked</button>
-                                        </span>
-                                    </td>
-                                </tr>
+                                        </td>
+                                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                            <p className="text-gray-900 whitespace-no-wrap">{club.email}</p>
+                                        </td>
+                                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                            <p className="text-gray-900 whitespace-no-wrap">
+                                                {club.phone}
+                                            </p>
+                                        </td>
+                                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                            <p className="text-gray-900 whitespace-no-wrap">
+                                                {club.createdAt}
+                                            </p>
+                                        </td>
+                                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                            {
+                                                club.isBlocked ?
+                                                    <span
+                                                        className="relative inline-block px-3 py-1 font-semibold text-red-900 leading-tight"
+                                                    >
+                                                        <span aria-hidden
+                                                            className="absolute inset-0 bg-red-200 opacity-50 rounded-full"></span>
+                                                        <button className="relative" onClick={() => clubActionHandler(club._id)}
+                                                            disabled={isDisabled}>Blocked</button>
+                                                    </span>
+                                                    :
+                                                    <span
+                                                        className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight"
+                                                    >
+                                                        <span aria-hidden
+                                                            className="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
+                                                        <button className="relative" onClick={() => clubActionHandler(club._id)}
+                                                            disabled={isDisabled}>Active</button>
+                                                    </span>
+                                            }
+
+                                        </td>
+                                    </tr>
+                                ))}
+
                             </tbody>
                         </table>
                         <div
