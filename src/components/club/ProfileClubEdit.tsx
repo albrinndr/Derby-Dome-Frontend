@@ -3,6 +3,7 @@ import { getClubProfile, updateClubProfile } from "../../api/club";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
 import { setClubLogin } from "../../store/slices/authSlice";
+import toast from "react-hot-toast";
 
 const ProfileClubEdit = () => {
     const { data: clubData, isLoading } = useQuery({ queryKey: ['clubData'], queryFn: getClubProfile });
@@ -51,6 +52,18 @@ const ProfileClubEdit = () => {
 
     const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        if (name.trim().length < 1 || !name.match(/^[a-zA-Z ]{2,30}$/)) {
+            toast.error('Enter a valid name');
+            return;
+        } else if (password.trim().length > 0 && newPassword.trim().length == 0) {
+            toast.error('Enter new password');
+            return;
+        } else if (phone.trim().length < 1 || !phone.match(/^[6-9]\d{9}$/)) {
+            toast.error('Enter a valid phone number');
+            return;
+        }
+
         const clubData = new FormData();
         clubData.append("name", name);
         clubData.append("email", email);

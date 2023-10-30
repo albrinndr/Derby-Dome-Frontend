@@ -8,6 +8,7 @@ import { setClubLogin, setLogin } from '../../store/slices/authSlice';
 import { clubLogin } from '../../api/club';
 import { GoogleLogin, CredentialResponse } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
+import toast from 'react-hot-toast';
 
 
 interface UserType {
@@ -55,6 +56,10 @@ const Login: React.FC<UserType> = ({ type }) => {
 
     const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        if (email.trim().length === 0 || password.trim().length === 0) {
+            toast.error('Fields cannot be empty!');
+            return;
+        }
         if (user == 'user') {
             const response = await login({ email, password });
             if (response) {

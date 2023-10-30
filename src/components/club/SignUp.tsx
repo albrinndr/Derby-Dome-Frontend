@@ -48,6 +48,27 @@ const SignUp: React.FC<OTP> = ({ otpSubmit }) => {
 
     const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        if (name.trim().length < 1 || !name.match(/^[a-zA-Z ]{2,30}$/)) {
+            toast.error('Enter a valid name');
+            return;
+        } else if (email.trim().length < 1) {
+            toast.error('Enter a valid email');
+            return;
+        } else if (phone.trim().length < 1 || !phone.match(/^[6-9]\d{9}$/)) {
+            toast.error('Enter a valid phone no.');
+            return;
+        }else if(password.trim().length<5){
+            toast.error('Enter a valid password');
+            return;
+        }else if(confirmPassword!==password){
+            toast.error('Passwords does not match');
+            return;
+        }else if(!image){
+            toast.error('Please upload club logo');
+            return; 
+        }
+
         const clubData = new FormData();
         clubData.append("name", name);
         clubData.append("email", email);
@@ -124,6 +145,8 @@ const SignUp: React.FC<OTP> = ({ otpSubmit }) => {
                                 value={password}
                                 onChange={inputHandler}
                             />
+                            <span className='text-xs text-gray-900'>Min length 5 characters</span>
+
                         </div>
                         <div className="mb-6 mt-6">
 

@@ -38,16 +38,31 @@ const SignUp: React.FC<OTP> = ({ otpSubmit }) => {
         password: '',
         confirmPassword: ''
     });
-
     const { name, email, phone, password, confirmPassword } = formData;
 
     const inputHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.id]: e.target.value });
     };
 
+
     const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(formData);
+        if (name.trim().length < 1 || !name.match(/^[a-zA-Z ]{2,30}$/)) {
+            toast.error('Enter a valid name');
+            return;
+        } else if (email.trim().length < 1) {
+            toast.error('Enter a valid email');
+            return;
+        } else if (phone.trim().length < 1 || !phone.match(/^[6-9]\d{9}$/)) {
+            toast.error('Enter a valid phone no.');
+            return;
+        }else if(password.trim().length<5){
+            toast.error('Enter a valid password');
+            return;
+        }else if(confirmPassword!==password){
+            toast.error('Passwords does not match');
+            return;
+        }
         const res = await signUp({ name, email, phone, password });
         if (res) {
             otpSubmit();
@@ -77,8 +92,9 @@ const SignUp: React.FC<OTP> = ({ otpSubmit }) => {
         height: '100%',
     };
 
+
     return (
-        <div style={divStyle} className="min-h-screen flex items-center justify-center bg-stadium-background bg-cover bg-center backdrop-filter  backdrop-blur-md">
+        <div style={divStyle} className="min-h-screen pb-10 flex items-center justify-center bg-stadium-background bg-cover bg-center backdrop-filter  backdrop-blur-md">
 
             <div
                 className="container max-w-md mx-auto xl:max-w-3xl mt-24 flex bg-white rounded-lg shadow overflow-hidden bg-opacity-50"
@@ -135,8 +151,9 @@ const SignUp: React.FC<OTP> = ({ otpSubmit }) => {
                                 onChange={inputHandler}
 
                             />
+                            <span className='text-xs text-gray-900'>Min length 5 characters</span>
                         </div>
-                        <div className="mb-6 mt-6">
+                        <div className="mt-6 mb-4">
 
                             <input
                                 className="text-sm bg-gray-200 appearance-none rounded w-full py-2 px-3 text-gray-700 mb-1 leading-tight focus:outline-none focus:shadow-outline h-10"

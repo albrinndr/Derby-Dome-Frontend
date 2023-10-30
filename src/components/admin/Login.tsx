@@ -5,6 +5,7 @@ import { adminLogin } from '../../api/admin';
 import { useSelector, useDispatch } from 'react-redux';
 import { setAdminLogin } from '../../store/slices/authSlice';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 interface RootState {
     auth: {
@@ -38,6 +39,10 @@ const Login = () => {
 
     const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        if (email.trim().length === 0 || password.trim().length === 0) {
+            toast.error('Fields cannot be empty!');
+            return;
+        }
         const response = await adminLogin(formData);
         if (response) {
             navigate('/admin/users')
