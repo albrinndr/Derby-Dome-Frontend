@@ -9,15 +9,19 @@ const Backdrop: React.FC = () => {
 };
 
 const UserSignUp: React.FC = () => {
+  const [isScrolled, setIsScrolled] = useState(false);
   const [showOtp, setShowOtp] = useState(false);
 
   const otpHandler = () => {
     setShowOtp(!showOtp);
   };
-
+  window.onscroll = () => {
+    setIsScrolled(window.pageYOffset === 0 ? false : true);
+    return () => (window.onscroll = null);
+};
   return (
     <>
-      <NavBar color={true} fixed />
+      <NavBar color={!isScrolled} fixed />
       <div className="relative z-0">
         <SignUp otpSubmit={otpHandler} />
       </div>
