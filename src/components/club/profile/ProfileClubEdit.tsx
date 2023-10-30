@@ -1,14 +1,14 @@
 import React, { useState, ChangeEvent, useEffect, FormEvent } from "react";
-import { getClubProfile, updateClubProfile } from "../../api/club";
+import { getClubProfile, updateClubProfile } from "../../../api/club";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
-import { setClubLogin } from "../../store/slices/authSlice";
+import { setClubLogin } from "../../../store/slices/authSlice";
 import toast from "react-hot-toast";
 
 const ProfileClubEdit = () => {
     const { data: clubData, isLoading } = useQuery({ queryKey: ['clubData'], queryFn: getClubProfile });
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
     const [formData, setFormData] = useState({
         name: '',
@@ -29,10 +29,10 @@ const ProfileClubEdit = () => {
                 newPassword: ''
             });
             const data = { name: clubData.data.name, image: clubData.data.image };
-            
+
             dispatch(setClubLogin(data));
         }
-    }, [isLoading, clubData,dispatch]);
+    }, [isLoading, clubData, dispatch]);
 
 
     const { name, email, phone, password, newPassword } = formData;
@@ -84,7 +84,7 @@ const ProfileClubEdit = () => {
                         <img src={clubData?.data.image} alt="" width={150} height={150} />
                         <div className="mt-10 relative flex items-center justify-center">
                             <label className="cursor-pointer bg-gray-200 hover:bg-gray-300 text-gray-600 font-semibold py-2 px-4 rounded-lg">
-                            {image ? image.name : 'Upload banner'}
+                                {image ? image.name : 'Upload banner'}
                                 <input
                                     className="hidden"
                                     type="file"

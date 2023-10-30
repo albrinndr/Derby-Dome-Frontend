@@ -1,6 +1,6 @@
 import NavBar from "../../components/user/NavBar";
-import ProfileHeadSection from "../../components/user/ProfileHeadSection";
-import ProfileEditSection from "../../components/user/ProfileEditSection";
+import ProfileHeadSection from "../../components/user/profile/ProfileHeadSection";
+import ProfileEditSection from "../../components/user/profile/ProfileEditSection";
 import { useQuery } from '@tanstack/react-query';
 import { getUserProfile } from "../../api/user";
 

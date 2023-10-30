@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
-import { logout } from '../../api/user';
+import { logout } from '../../../api/user';
 import toast from 'react-hot-toast';
-import { userLogout } from '../../store/slices/authSlice';
+import { userLogout } from '../../../store/slices/authSlice';
 import { useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 

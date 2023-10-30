@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import Logo from '../../assets/logo-white.svg';
-import LogoBlack from '../../assets/logo.svg';
-import MenuIcon from '../../assets/menu.svg';
-import MenuWhite from '../../assets/menu-white.svg';
+import Logo from '../../../assets/logo-white.svg';
+import LogoBlack from '../../../assets/logo.svg';
+import MenuIcon from '../../../assets/menu.svg';
+import MenuWhite from '../../../assets/menu-white.svg';
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { logoutClub } from "../../api/club";
-import { clubLogout } from "../../store/slices/authSlice";
+import { logoutClub } from "../../../api/club";
+import { clubLogout } from "../../../store/slices/authSlice";
 import { useDispatch } from "react-redux";
 
 interface NavBarProps {

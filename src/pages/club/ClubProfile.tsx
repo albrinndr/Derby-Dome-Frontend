@@ -1,7 +1,7 @@
 // import { useState } from "react";
 // import Navbar from "../../components/club/NavBarFull";
-import ProfileClubEdit from "../../components/club/ProfileClubEdit";
-import ProfileHeader from "../../components/club/ProfileHeader";
+import ProfileClubEdit from "../../components/club/profile/ProfileClubEdit";
+import ProfileHeader from "../../components/club/profile/ProfileHeader";
 
 const ClubProfile = () => {
     // const [isScrolled, setIsScrolled] = useState(false);

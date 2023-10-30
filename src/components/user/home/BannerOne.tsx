@@ -15,7 +15,7 @@ const BannerOne: React.FC<Image> = ({ data }) => {
 
     const divStyle = {
         backgroundImage: `url(${data && data.image || defaultImage})`,
-        height: '90vh', // Adjust the height as required
+        height: '80vh', // Adjust the height as required
     };
 
     return (

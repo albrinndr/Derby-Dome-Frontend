@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import { useState } from "react";
-import Navbar from "../../components/club/NavBarFull";
+import Navbar from "./navbar/NavBarFull";
 
 
 interface RootState {
@@ -22,7 +22,7 @@ const ClubProtect = () => {
         cLoggedIn ?
             <div className="bg-slate-200 bg-opacity-50 min-h-screen">
                 <Navbar color={!isScrolled} fixed />
-                
+
                 <Outlet />
 
             </div>

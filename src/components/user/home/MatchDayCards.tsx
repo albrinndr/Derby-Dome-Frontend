@@ -1,5 +1,5 @@
 import React from "react";
-import MatchDayCard from "../UI/MatchDayCard";
+import MatchDayCard from "../../UI/MatchDayCard";
 
 const MatchDayCards = () => {
     return (

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import navBackground from '../../assets/navbarBackground.svg';
-import dashboardBackground from '../../assets/dashboardMainImage.png';
+import navBackground from '../../../assets/navbarBackground.svg';
+import dashboardBackground from '../../../assets/dashboardMainImage.png';
 import NavBar from "./NavBar";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { logoutClub } from "../../api/club";
-import { clubLogout } from "../../store/slices/authSlice";
+import { logoutClub } from "../../../api/club";
+import { clubLogout } from "../../../store/slices/authSlice";
 
 interface ImageData {
     dashboard?: boolean;
@@ -58,7 +58,7 @@ const NavBarFull: React.FC<ImageData> = ({ dashboard, color, fixed }) => {
             <NavBar color={color} fixed={fixed} />
             <div style={divStyle} className={`pt-20 px-4 md:px-14 flex justify-between  ${dashBoardStyle}`}>
                 <div className="flex items-center ">
-                    <img className="w-14 h-14 mr-3" src={clubImage}  alt="" />
+                    <img className="w-14 h-14 mr-3" src={clubImage} alt="" />
                     <h1 className="text-white  text-2xl font-semibold">{clubName}</h1>
                 </div>
                 <div className="hidden md:block">

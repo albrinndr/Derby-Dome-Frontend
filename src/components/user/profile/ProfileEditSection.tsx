@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useState, FormEvent, useEffect } from "react";
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { updateUserProfile } from "../../api/user";
+import { updateUserProfile } from "../../../api/user";
 import toast from "react-hot-toast";
 
 interface UserDetails {
