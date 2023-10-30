@@ -9,7 +9,8 @@ const UserProfile = () => {
     const userDetails = {
         name: userData?.data.name,
         email: userData?.data.email,
-        phone:userData?.data.phone
+        phone: userData?.data.phone,
+        isGoogle: userData?.data.isGoogle
     };
     return (
         <div className="bg-stone-50 min-h-screen">

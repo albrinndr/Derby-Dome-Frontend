@@ -1,11 +1,13 @@
-import React, { ChangeEvent, useState, FormEvent } from "react";
+import React, { ChangeEvent, useState, FormEvent, useEffect } from "react";
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { updateUserProfile } from "../../api/user";
+import toast from "react-hot-toast";
 
 interface UserDetails {
     name?: string;
     email?: string;
     phone?: string;
+    isGoogle?: boolean;
 }
 
 interface ProfileEditProps {
@@ -21,6 +23,17 @@ const ProfileEditSection: React.FC<ProfileEditProps> = ({ userDetails }) => {
         password: '',
         newPassword: '',
     });
+
+    useEffect(() => {
+        setFormData({
+            name: userDetails.name || '',
+            email: userDetails.email || '',
+            phone: userDetails.phone || '',
+            password: '',
+            newPassword: '',
+        });
+    }, [userDetails]);
+
     const { name, email, password, newPassword, phone } = formData;
 
     const inputHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -37,8 +50,17 @@ const ProfileEditSection: React.FC<ProfileEditProps> = ({ userDetails }) => {
     });
 
     const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
-        console.log('here')
         e.preventDefault();
+        if (name.trim().length < 1 || !name.match(/^[a-zA-Z ]{2,30}$/)) {
+            toast.error('Enter a valid name');
+            return;
+        } else if (password.trim().length > 0 && newPassword.trim().length == 0) {
+            toast.error('Enter new password');
+            return;
+        } else if (userDetails.isGoogle === false && (phone.trim().length < 1 || !phone.match(/^[6-9]\d{9}$/))) {
+            toast.error('Enter a valid phone number');
+            return;
+        }
         mutate(formData);
     };
     const isDisabled = (status as string) === 'loading' || (status as string) === 'pending';

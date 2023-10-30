@@ -3,9 +3,10 @@ import { logout } from '../../api/user';
 import toast from 'react-hot-toast';
 import { userLogout } from '../../store/slices/authSlice';
 import { useNavigate } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface UserData {
-    userData?: string
+    userData?: string;
     isLoading?: boolean;
 }
 
@@ -13,7 +14,10 @@ const ProfileHeadSection: React.FC<UserData> = ({ userData, isLoading }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const queryClient = useQueryClient();
+
     const logoutHandler = async () => {
+        queryClient.invalidateQueries({ queryKey: ['userData'] });
         const response = await logout();
         if (response) {
             toast.success(response.data.message);
@@ -22,7 +26,7 @@ const ProfileHeadSection: React.FC<UserData> = ({ userData, isLoading }) => {
         }
 
     };
-    const userName = isLoading?<span className="text-2xl text-gray-600">Loading...</span>:userData
+    const userName = isLoading ? <span className="text-2xl text-gray-600">Loading...</span> : userData;
 
     return (
         <div className="px-4 md:px-14 pt-10 bg-sky-100 shadow ">
