@@ -22,6 +22,8 @@ interface RootState {
 const SignUp: React.FC<OTP> = ({ otpSubmit }) => {
     const { uLoggedIn, cLoggedIn } = useSelector((state: RootState) => state.auth);
     const navigate = useNavigate();
+    const [goToUser, setGoToUser] = useState(false);
+
 
     useEffect(() => {
         if (uLoggedIn) {
@@ -30,6 +32,10 @@ const SignUp: React.FC<OTP> = ({ otpSubmit }) => {
             navigate('/club/profile');
         }
     }, [navigate, uLoggedIn, cLoggedIn]);
+
+    useEffect(() => {
+        if (goToUser) navigate('/club/signup');
+    }, [goToUser, navigate]);
 
     const [formData, setFormData] = useState({
         name: '',
@@ -56,10 +62,10 @@ const SignUp: React.FC<OTP> = ({ otpSubmit }) => {
         } else if (phone.trim().length < 1 || !phone.match(/^[6-9]\d{9}$/)) {
             toast.error('Enter a valid phone no.');
             return;
-        }else if(password.trim().length<5){
+        } else if (password.trim().length < 5) {
             toast.error('Enter a valid password');
             return;
-        }else if(confirmPassword!==password){
+        } else if (confirmPassword !== password) {
             toast.error('Passwords does not match');
             return;
         }
@@ -99,6 +105,7 @@ const SignUp: React.FC<OTP> = ({ otpSubmit }) => {
             <div
                 className="container max-w-md mx-auto xl:max-w-3xl mt-24 flex bg-white rounded-lg shadow overflow-hidden bg-opacity-50"
             >
+
                 <div className="relative hidden xl:block xl:w-1/2 ">
                     <img
                         className=" h-full object-cover"
@@ -107,6 +114,12 @@ const SignUp: React.FC<OTP> = ({ otpSubmit }) => {
                     />
                 </div>
                 <div className="w-full xl:w-1/2 p-8  ">
+                    <div className='flex justify-end'>
+                    <select name="" id="" onChange={() => setGoToUser(true)} className='rounded p-1' defaultValue="User">
+                            <option value="User">User</option>
+                            <option value="Club">Club</option>
+                        </select>
+                    </div>
                     <form onSubmit={submitHandler} >
                         <h1 className=" text-2xl font-bold">Create a new account</h1>
                         <div className="mb-4 mt-6">

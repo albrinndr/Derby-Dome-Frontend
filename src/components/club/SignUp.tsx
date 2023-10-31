@@ -1,7 +1,7 @@
-import { Link ,useNavigate} from 'react-router-dom';
-import formImage from '../../assets/form-image.webp';
+import { Link, useNavigate } from 'react-router-dom';
+// import formImage from '../../assets/form-image.webp';
 import backgroundImage from '../../assets/stadium-background.webp';
-import { useState, ChangeEvent, FormEvent,useEffect } from 'react';
+import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import { clubSignUp } from '../../api/club';
 import { useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
@@ -18,31 +18,42 @@ interface RootState {
 }
 
 const SignUp: React.FC<OTP> = ({ otpSubmit }) => {
-    const {uLoggedIn, cLoggedIn } = useSelector((state: RootState) => state.auth);
+    const { uLoggedIn, cLoggedIn } = useSelector((state: RootState) => state.auth);
+    const [goToUser, setGoToUser] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
         if (cLoggedIn) {
             navigate('/club/profile');
-        }else if(uLoggedIn){
+        } else if (uLoggedIn) {
             navigate('/');
 
         }
-    }, [navigate, cLoggedIn]);
+    }, [navigate, cLoggedIn, uLoggedIn]);
+
+    useEffect(() => {
+        if (goToUser) navigate('/signup');
+    }, [goToUser, navigate]);
 
     const [formData, setFormData] = useState({
         name: '',
         email: '',
+        contactPerson: '',
         phone: '',
+        address: '',
+        description: '',
         password: '',
         confirmPassword: ''
     });
 
     const [image, setImage] = useState<File | null>(null);
 
-    const { name, email, phone, password, confirmPassword } = formData;
+    const { name, email, phone, password, contactPerson, confirmPassword, address, description } = formData;
 
     const inputHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setFormData({ ...formData, [e.target.id]: e.target.value });
+    };
+    const textAreaHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
         setFormData({ ...formData, [e.target.id]: e.target.value });
     };
 
@@ -58,15 +69,15 @@ const SignUp: React.FC<OTP> = ({ otpSubmit }) => {
         } else if (phone.trim().length < 1 || !phone.match(/^[6-9]\d{9}$/)) {
             toast.error('Enter a valid phone no.');
             return;
-        }else if(password.trim().length<5){
+        } else if (password.trim().length < 5) {
             toast.error('Enter a valid password');
             return;
-        }else if(confirmPassword!==password){
+        } else if (confirmPassword !== password) {
             toast.error('Passwords does not match');
             return;
-        }else if(!image){
+        } else if (!image) {
             toast.error('Please upload club logo');
-            return; 
+            return;
         }
 
         const clubData = new FormData();
@@ -74,6 +85,10 @@ const SignUp: React.FC<OTP> = ({ otpSubmit }) => {
         clubData.append("email", email);
         clubData.append("phone", phone);
         clubData.append("password", password);
+        clubData.append("contactPerson", contactPerson);
+        clubData.append("description", description);
+        clubData.append("address", address);
+
         if (image) clubData.append("image", image);
 
 
@@ -93,74 +108,126 @@ const SignUp: React.FC<OTP> = ({ otpSubmit }) => {
     return (
         <div style={divStyle} className="min-h-screen flex pb-10  items-center justify-center bg-stadium-background bg-cover bg-center backdrop-filter  backdrop-blur-md">
             <div
-                className="container max-w-md mx-auto  xl:max-w-3xl mt-24 flex bg-white rounded-lg shadow overflow-hidden bg-opacity-50"
+                className="container max-w-lg mx-auto  xl:max-w-3xl mt-28 flex bg-white rounded-lg shadow overflow-hidden bg-opacity-50"
             >
-                <div className="relative hidden xl:block xl:w-1/2 ">
+                {/* <div className="relative hidden xl:block xl:w-1/4 ">
                     <img
                         className=" h-full object-cover"
                         src={formImage}
                         alt="image"
                     />
-                </div>
-                <div className="w-full  xl:w-1/2 p-8  ">
+                </div> */}
+
+                <div className="w-full   p-8  ">
+                    <div className='flex justify-end '>
+                        <select name="" id="" onChange={() => setGoToUser(true)} className='rounded p-1' defaultValue="Club">
+                            <option value="Club">Club</option>
+                            <option value="User">User</option>
+                        </select>
+                    </div>
                     <form onSubmit={submitHandler} encType="multipart/form-data">
-                        <h1 className=" text-2xl font-bold">Create a new account</h1>
-                        <div className="mb-4 mt-6">
-                            <input
-                                className="text-sm appearance-none rounded w-full py-2 px-3 text-gray-700 bg-gray-200 leading-tight focus:outline-none focus:shadow-outline h-10"
-                                id="name"
-                                type="text"
-                                placeholder="Enter your full name"
-                                value={name}
-                                onChange={inputHandler}
-                            />
+                        <h1 className=" text-2xl font-bold text-center">Create a new club account</h1>
+                        <div className='md:flex md:gap-4'>
+                            <div className="mb-1 mt-6 md:mt-3 w-full">
+                                <label htmlFor="" className='text-gray-800'>Club name: </label>
+                                <input
+                                    className="text-sm appearance-none rounded w-full py-2 px-3 text-gray-700 bg-gray-200 leading-tight focus:outline-none focus:shadow-outline h-10"
+                                    id="name"
+                                    type="text"
+                                    placeholder="Enter club name"
+                                    value={name}
+                                    onChange={inputHandler}
+                                />
+                            </div>
+                            <div className="mb-1 mt-6 md:mt-3 w-full">
+                                <label htmlFor="" className='text-gray-800'>Contact Person: </label>
+                                <input
+                                    className="text-sm appearance-none rounded w-full py-2 px-3 text-gray-700 bg-gray-200 leading-tight focus:outline-none focus:shadow-outline h-10"
+                                    id="contactPerson"
+                                    type="text"
+                                    placeholder="Enter name"
+                                    value={contactPerson}
+                                    onChange={inputHandler}
+                                />
+                            </div>
                         </div>
-                        <div className="mb-4 mt-6">
-                            <input
-                                className="text-sm appearance-none rounded w-full py-2 px-3 text-gray-700 bg-gray-200 leading-tight focus:outline-none focus:shadow-outline h-10"
-                                id="email"
-                                type="email"
-                                placeholder="Enter your email address"
-                                value={email}
-                                onChange={inputHandler}
-                            />
-                        </div>
-                        <div className="mb-4 mt-6">
-                            <input
-                                className="text-sm appearance-none rounded w-full py-2 px-3 text-gray-700 bg-gray-200 leading-tight focus:outline-none focus:shadow-outline h-10"
-                                id="phone"
-                                type="number"
-                                placeholder="Enter your phone no."
-                                value={phone}
-                                onChange={inputHandler}
-                            />
-                        </div>
-                        <div className="mb-4 mt-6">
+                        <div className='md:flex md:gap-4'>
+                            <div className="mb-1 mt-6 md:mt-3 w-full">
+                                <label htmlFor="" className='text-gray-800'>Contact email: </label>
 
-                            <input
-                                className="text-sm appearance-none rounded w-full py-2 px-3 text-gray-700 bg-gray-200 leading-tight focus:outline-none focus:shadow-outline h-10"
-                                id="password"
-                                type="password"
-                                placeholder="Enter your password"
-                                value={password}
-                                onChange={inputHandler}
-                            />
-                            <span className='text-xs text-gray-900'>Min length 5 characters</span>
+                                <input
+                                    className="text-sm appearance-none rounded w-full py-2 px-3 text-gray-700 bg-gray-200 leading-tight focus:outline-none focus:shadow-outline h-10"
+                                    id="email"
+                                    type="email"
+                                    placeholder="Enter email address"
+                                    value={email}
+                                    onChange={inputHandler}
+                                />
+                            </div>
+                            <div className="mb-1 mt-6 md:mt-3 w-full">
+                                <label htmlFor="" className='text-gray-800'>Contact no: </label>
 
+                                <input
+                                    className="text-sm appearance-none rounded w-full py-2 px-3 text-gray-700 bg-gray-200 leading-tight focus:outline-none focus:shadow-outline h-10"
+                                    id="phone"
+                                    type="number"
+                                    placeholder="Enter phone no."
+                                    value={phone}
+                                    onChange={inputHandler}
+                                />
+                            </div>
                         </div>
-                        <div className="mb-6 mt-6">
 
-                            <input
-                                className="text-sm bg-gray-200 appearance-none rounded w-full py-2 px-3 text-gray-700 mb-1 leading-tight focus:outline-none focus:shadow-outline h-10"
-                                id="confirmPassword"
-                                type="password"
-                                placeholder="Confirm password"
-                                value={confirmPassword}
-                                onChange={inputHandler}
-                            />
+                        <div className="mb-1 mt-6 md:mt-3">
+                            <label htmlFor="" className='text-gray-800'>Address:</label>
 
+                            <textarea
+                                className="text-sm appearance-none rounded w-full py-2 px-3 text-gray-700 bg-gray-200 leading-tight focus:outline-none focus:shadow-outline h-15"
+                                id="address"
+                                value={address}
+                                onChange={textAreaHandler}
+                            ></textarea>
                         </div>
-                        <div className="mb-6 mt-6 relative">
+                        <div className="mb-1 mt-6 md:mt-3">
+                            <label htmlFor="" className='text-gray-800'>Description</label>
+
+                            <textarea
+                                className="text-sm appearance-none rounded w-full py-2 px-3 text-gray-700 bg-gray-200 leading-tight focus:outline-none focus:shadow-outline h-15"
+                                id="description"
+                                value={description}
+                                onChange={textAreaHandler}
+                            ></textarea>
+                        </div>
+                        <div className='md:flex md:gap-4'>
+                            <div className="mb-4 mt-6 md:mt-3 w-full">
+                                <label htmlFor="" className='text-gray-800'>Password</label>
+
+                                <input
+                                    className="text-sm appearance-none rounded w-full py-2 px-3 text-gray-700 bg-gray-200 leading-tight focus:outline-none focus:shadow-outline h-10"
+                                    id="password"
+                                    type="password"
+                                    placeholder="Enter your password"
+                                    value={password}
+                                    onChange={inputHandler}
+                                />
+                                <span className='text-xs text-gray-900'>Min length 5 characters</span>
+
+                            </div>
+                            <div className="mb-6 mt-6 md:mt-3 w-full">
+                                <label htmlFor="" className='text-gray-800'>Confirm Password</label>
+
+                                <input
+                                    className="text-sm bg-gray-200 appearance-none rounded w-full py-2 px-3 text-gray-700 mb-1 leading-tight focus:outline-none focus:shadow-outline h-10"
+                                    id="confirmPassword"
+                                    type="password"
+                                    placeholder="Confirm password"
+                                    value={confirmPassword}
+                                    onChange={inputHandler}
+                                />
+
+                            </div>
+                        </div>
+                        <div className="mb-6 mt-3 relative">
                             <input
                                 className="hidden"
                                 id="image"

@@ -7,7 +7,6 @@ import toast from "react-hot-toast";
 
 const ProfileClubEdit = () => {
     const { data: clubData, isLoading } = useQuery({ queryKey: ['clubData'], queryFn: getClubProfile });
-
     const dispatch = useDispatch();
 
     const [formData, setFormData] = useState({
@@ -15,7 +14,10 @@ const ProfileClubEdit = () => {
         email: '',
         phone: '',
         password: '',
-        newPassword: ''
+        newPassword: '',
+        contactPerson: '',
+        address: '',
+        description: ''
     });
 
     const [image, setImage] = useState<File | null>(null);
@@ -26,7 +28,10 @@ const ProfileClubEdit = () => {
                 email: clubData.data.email,
                 phone: clubData.data.phone,
                 password: '',
-                newPassword: ''
+                newPassword: '',
+                contactPerson: clubData.data.contactPerson,
+                address: clubData.data.address,
+                description: clubData.data.description,
             });
             const data = { name: clubData.data.name, image: clubData.data.image };
 
@@ -35,9 +40,13 @@ const ProfileClubEdit = () => {
     }, [isLoading, clubData, dispatch]);
 
 
-    const { name, email, phone, password, newPassword } = formData;
+    const { name, email, phone, password, newPassword, contactPerson, address, description } = formData;
 
     const inputHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setFormData({ ...formData, [e.target.id]: e.target.value });
+    };
+
+    const textAreaHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
         setFormData({ ...formData, [e.target.id]: e.target.value });
     };
 
@@ -70,6 +79,9 @@ const ProfileClubEdit = () => {
         clubData.append("phone", phone);
         clubData.append("password", password);
         clubData.append("newPassword", newPassword);
+        clubData.append("address", address);
+        clubData.append("description", description);
+        clubData.append("contactPerson", contactPerson);
         if (image) clubData.append("image", image);
         mutate(clubData);
     };
@@ -79,12 +91,12 @@ const ProfileClubEdit = () => {
     return (
         <div className="px-4 md:px-14 mt-20">
             {!isLoading && <form onSubmit={submitHandler} className=" p-6 text-center ">
-                <div className="flex justify-center gap-20">
+                <div className="flex justify-center gap-10 md:gap-20">
                     <div className="hidden sm:block">
                         <img src={clubData?.data.image} alt="" width={150} height={150} />
                         <div className="mt-10 relative flex items-center justify-center">
                             <label className="cursor-pointer bg-gray-200 hover:bg-gray-300 text-gray-600 font-semibold py-2 px-4 rounded-lg">
-                                {image ? image.name : 'Upload banner'}
+                                {image ? image.name : 'Change logo'}
                                 <input
                                     className="hidden"
                                     type="file"
@@ -96,53 +108,80 @@ const ProfileClubEdit = () => {
                         </div>
                     </div>
                     <div className="">
-                        <input
-                            className="border w-full sm:w-64 lg:w-96 pr-3 sm:mr-6 mb-6 border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-100"
-                            type="text"
-                            placeholder="Your name"
-                            id="name"
-                            value={name}
-                            onChange={inputHandler}
-                        />
-                        <br />
-                        <input
-                            className="border w-full sm:w-64 lg:w-96 pr-3 sm:mr-6 mb-6 border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-100"
-                            type="email"
-                            name=""
-                            id="email"
-                            placeholder="Your email"
-                            value={email}
-                            onChange={inputHandler}
-                            readOnly
-                        />
-                        <br />
-                        <input
-                            className="border w-full sm:w-64 lg:w-96 pr-3 sm:mr-6 mb-6 border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-100"
-                            type="number"
-                            name=""
-                            id="phone"
-                            placeholder="Your phone no."
-                            value={phone}
-                            onChange={inputHandler}
-                        />
-                        <br />
-                        <input
-                            className="border  w-full sm:w-64 lg:w-96 pr-3 sm:mr-6 mb-6 border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-100"
-                            type="password"
-                            id="password"
-                            placeholder="Enter your current password"
-                            value={password}
-                            onChange={inputHandler}
-                        />
-                        <br />
-                        <input
-                            className="border w-full sm:w-64 lg:w-96 pr-3 sm:mr-6 mb-6 border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-100"
-                            type="password"
-                            id="newPassword"
-                            placeholder="Enter new password"
-                            value={newPassword}
-                            onChange={inputHandler}
-                        />
+                        <div className="md:flex">
+                            <input
+                                className="border w-full sm:w-64 lg:w-96 pr-3 sm:mr-6 mb-6 border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-100"
+                                type="text"
+                                placeholder="Your name"
+                                id="name"
+                                value={name}
+                                onChange={inputHandler}
+                            />
+
+                            <input
+                                className="border w-full sm:w-64 lg:w-96 pr-3 sm:mr-6 mb-6 border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-100"
+                                type="text"
+                                name=""
+                                id="contactPerson"
+                                placeholder="Contact Person"
+                                value={contactPerson}
+                                onChange={inputHandler}
+
+                            />
+                        </div>
+                        <div className="md:flex">
+                            <input
+                                className="border w-full sm:w-64 lg:w-96 pr-3 sm:mr-6 mb-6 border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-100"
+                                type="email"
+                                name=""
+                                id="email"
+                                placeholder="Your email"
+                                value={email}
+                                onChange={inputHandler}
+                                readOnly
+                            />
+                            <input
+                                className="border w-full sm:w-64 lg:w-96 pr-3 sm:mr-6 mb-6 border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-100"
+                                type="number"
+                                name=""
+                                id="phone"
+                                placeholder="Your phone no."
+                                value={phone}
+                                onChange={inputHandler}
+                            />
+                        </div>
+                        <div className="md:flex">
+                            <textarea
+                                className="border  w-full sm:w-64 lg:w-96 pr-3 sm:mr-6 mb-6 border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green- h-20"
+                                id="address"
+                                value={address}
+                                onChange={textAreaHandler}
+                            ></textarea>
+                            <textarea
+                                className="border  w-full sm:w-64 lg:w-96 pr-3 sm:mr-6 mb-6 border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-100 h-20"
+                                id="description"
+                                value={description}
+                                onChange={textAreaHandler}
+                            ></textarea>
+                        </div>
+                        <div className="md:flex">
+                            <input
+                                className="border  w-full sm:w-64 lg:w-96 pr-3 sm:mr-6 mb-6 border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-100"
+                                type="password"
+                                id="password"
+                                placeholder="Enter your current password"
+                                value={password}
+                                onChange={inputHandler}
+                            />
+                            <input
+                                className="border w-full sm:w-64 lg:w-96 pr-3 sm:mr-6 mb-6 border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-100"
+                                type="password"
+                                id="newPassword"
+                                placeholder="Enter new password"
+                                value={newPassword}
+                                onChange={inputHandler}
+                            />
+                        </div>
                         <br />
                         <div className=" sm:hidden flex items-center">
                             <img src={clubData?.data.image} alt="" width={100} height={100} />
