@@ -2,7 +2,7 @@ import Api from "../services/axios";
 import userRoutes from "../services/endpoints/userEndPoints";
 import errorHandle from "./error";
 
-interface FormData {
+interface userFormData {
     name?: string,
     email: string,
     phone?: string,
@@ -11,7 +11,7 @@ interface FormData {
     isGoogle?: boolean;
 }
 
-export const signUp = async (userData: FormData) => {
+export const signUp = async (userData: userFormData) => {
     try {
         const response = await Api.post(userRoutes.signUp, userData);
         return response;
@@ -41,7 +41,7 @@ export const resendOtp = async () => {
     }
 };
 
-export const login = async (loginData: FormData) => {
+export const login = async (loginData: userFormData) => {
     try {
         const response = await Api.post(userRoutes.login, loginData);
         return response;

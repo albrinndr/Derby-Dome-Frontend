@@ -84,7 +84,8 @@ const SignUp: React.FC<OTP> = ({ otpSubmit }) => {
             name: result.name,
             email: result.email,
             password: '@@google##7',
-            isGoogle: true
+            isGoogle: true,
+            profilePic:result.picture
         };
         const response = await signUp(data);
         if (response) {
@@ -115,7 +116,7 @@ const SignUp: React.FC<OTP> = ({ otpSubmit }) => {
                 </div>
                 <div className="w-full xl:w-1/2 p-8  ">
                     <div className='flex justify-end'>
-                    <select name="" id="" onChange={() => setGoToUser(true)} className='rounded p-1' defaultValue="User">
+                        <select name="" id="" onChange={() => setGoToUser(true)} className='rounded p-1' defaultValue="User">
                             <option value="User">User</option>
                             <option value="Club">Club</option>
                         </select>

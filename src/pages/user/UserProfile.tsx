@@ -10,12 +10,13 @@ const UserProfile = () => {
         name: userData?.data.name,
         email: userData?.data.email,
         phone: userData?.data.phone,
-        isGoogle: userData?.data.isGoogle
+        isGoogle: userData?.data.isGoogle,
+        profilePic:userData?.data.profilePic
     };
     return (
         <div className="bg-stone-50 min-h-screen">
             <NavBar />
-            <ProfileHeadSection userData={userData?.data.name} isLoading={isLoading} />
+            <ProfileHeadSection userData={userData?.data.name} isLoading={isLoading} profilePic={userData?.data.profilePic}/>
             {!isLoading && <ProfileEditSection userDetails={userDetails} />}
         </div>
 

@@ -24,6 +24,9 @@ const ProfileEditSection: React.FC<ProfileEditProps> = ({ userDetails }) => {
         newPassword: '',
     });
 
+    const [image, setImage] = useState<File | null>(null);
+
+
     useEffect(() => {
         setFormData({
             name: userDetails.name || '',
@@ -61,7 +64,14 @@ const ProfileEditSection: React.FC<ProfileEditProps> = ({ userDetails }) => {
             toast.error('Enter a valid phone number');
             return;
         }
-        mutate(formData);
+        const userData = new FormData();
+        userData.append("name", name);
+        userData.append("email", email);
+        userData.append("phone", phone);
+        userData.append("password", password);
+        userData.append("newPassword", newPassword);
+        if (image) userData.append("profilePic", image);
+        mutate(userData);
     };
     const isDisabled = (status as string) === 'loading' || (status as string) === 'pending';
 
@@ -112,6 +122,17 @@ const ProfileEditSection: React.FC<ProfileEditProps> = ({ userDetails }) => {
                         value={phone}
                         onChange={inputHandler}
                     />
+                    <label className="cursor-pointer md:ml-10 bg-gray-200 w-full sm:w-64 lg:w-96 hover:bg-gray-300 text-gray-600 font-semibold py-2 px-4 rounded-lg">
+                        change profile pic
+                        <input
+                            className="hidden "
+                            type="file"
+                            name='file'
+                            accept="image/*"
+                            onChange={(e) => setImage(e.target.files?.[0] || null)}
+
+                        />
+                    </label>
                 </div>
 
                 <div className="">

@@ -8,9 +8,10 @@ import { useQueryClient } from '@tanstack/react-query';
 interface UserData {
     userData?: string;
     isLoading?: boolean;
+    profilePic?: string;
 }
 
-const ProfileHeadSection: React.FC<UserData> = ({ userData, isLoading }) => {
+const ProfileHeadSection: React.FC<UserData> = ({ userData, isLoading, profilePic }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -31,8 +32,11 @@ const ProfileHeadSection: React.FC<UserData> = ({ userData, isLoading }) => {
     return (
         <div className="px-4 md:px-14 pt-10 bg-sky-100 shadow ">
             <div className="flex justify-between">
-                <div>
-                    <h1 className="text-2xl sm:text-4xl md:text-6xl font-semibold subpixel-antialiased text-blue-950">HI, {userName}</h1>
+                <div className=''>
+                    <div className='sm:flex'>
+                        <img className='rounded-full mr-2' width={60} height={60} src={profilePic} alt="" />
+                        <h1 className="text-2xl sm:text-4xl md:text-6xl font-semibold subpixel-antialiased text-blue-950">HI, {userName}</h1>
+                    </div>
                     <h3 className="mt-3 text-gray-600 sm:text-sm md:text-base lg:text-lg">WALLET: 4000 points left to spend</h3>
                 </div>
                 <div>
