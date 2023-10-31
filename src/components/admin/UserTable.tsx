@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { blockUser, fetchUsers } from "../../api/admin";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { FcGoogle } from 'react-icons/fc';
+import { useDispatch, useSelector } from "react-redux";
+import { openModal } from "../../store/slices/modalSlice";
+import ConfirmationModal from "../common/ConfirmationModal";
 
 type User = {
     _id: string;
@@ -12,6 +15,12 @@ type User = {
     createdAt: string,
     isGoogle: boolean;
 };
+
+interface ModalState {
+    modal: {
+        showModal: boolean;
+    };
+}
 
 const UserTable = () => {
     const [search, setSearch] = useState('');
@@ -50,6 +59,16 @@ const UserTable = () => {
     const userActionHandler = async (id: string) => {
         mutate(id);
     };
+
+    const [userId, setUserId] = useState('');
+    const { showModal } = useSelector((state: ModalState) => state.modal);
+    const dispatch = useDispatch();
+
+    const modalHandler = (id: string) => {
+        setUserId(id);
+        dispatch(openModal());
+    };
+
 
     const isDisabled = (status as string) === 'loading' || (status as string) === 'pending';
 
@@ -144,7 +163,7 @@ const UserTable = () => {
                                                         >
                                                             <span aria-hidden
                                                                 className="absolute inset-0 bg-red-200 opacity-50 rounded-full"></span>
-                                                            <button className="relative" onClick={() => userActionHandler(user._id)}
+                                                            <button className="relative" onClick={() => modalHandler(user._id)}
                                                                 disabled={isDisabled}>Blocked</button>
                                                         </span>
                                                         :
@@ -153,7 +172,7 @@ const UserTable = () => {
                                                         >
                                                             <span aria-hidden
                                                                 className="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
-                                                            <button className="relative" onClick={() => userActionHandler(user._id)}
+                                                            <button className="relative" onClick={() => modalHandler(user._id)}
                                                                 disabled={isDisabled}>Active</button>
                                                         </span>
                                                 }
@@ -197,6 +216,7 @@ const UserTable = () => {
                     </div>
                 </div>
             </div>
+            {showModal && <ConfirmationModal confirmFn={userActionHandler} id={userId} />}
         </div>
     );
 };

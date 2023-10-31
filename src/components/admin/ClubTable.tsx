@@ -1,6 +1,9 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import React, { useState, useEffect } from "react";
 import { blockClub, fetchClubs } from "../../api/admin";
+import { useDispatch, useSelector } from "react-redux";
+import { openModal } from "../../store/slices/modalSlice";
+import ConfirmationModal from "../common/ConfirmationModal";
 
 type Club = {
     _id: string;
@@ -11,6 +14,12 @@ type Club = {
     createdAt: string;
     image?: string;
 };
+
+interface ModalState {
+    modal: {
+        showModal: boolean;
+    };
+}
 
 const ClubTable = () => {
     const [search, setSearch] = useState('');
@@ -48,6 +57,15 @@ const ClubTable = () => {
 
     const clubActionHandler = async (id: string) => {
         mutate(id);
+    };
+
+    const [clubId, setClubId] = useState('');
+    const { showModal } = useSelector((state: ModalState) => state.modal);
+    const dispatch = useDispatch();
+
+    const modalHandler = (id: string) => {
+        setClubId(id);
+        dispatch(openModal());
     };
 
     const isDisabled = (status as string) === 'loading' || (status as string) === 'pending';
@@ -143,7 +161,7 @@ const ClubTable = () => {
                                                     >
                                                         <span aria-hidden
                                                             className="absolute inset-0 bg-red-200 opacity-50 rounded-full"></span>
-                                                        <button className="relative" onClick={() => clubActionHandler(club._id)}
+                                                        <button className="relative" onClick={() => modalHandler(club._id)}
                                                             disabled={isDisabled}>Blocked</button>
                                                     </span>
                                                     :
@@ -152,7 +170,7 @@ const ClubTable = () => {
                                                     >
                                                         <span aria-hidden
                                                             className="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
-                                                        <button className="relative" onClick={() => clubActionHandler(club._id)}
+                                                        <button className="relative" onClick={() => modalHandler(club._id)}
                                                             disabled={isDisabled}>Active</button>
                                                     </span>
                                             }
@@ -182,6 +200,8 @@ const ClubTable = () => {
                     </div>
                 </div>
             </div>
+            {showModal && <ConfirmationModal confirmFn={clubActionHandler} id={clubId} />}
+
         </div>
     );
 };
