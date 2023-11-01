@@ -2,6 +2,7 @@
 import Api from "../services/axios";
 import errorHandle from "./error";
 import adminRoutes from "../services/endpoints/adminEndPoints";
+import toast from "react-hot-toast";
 
 interface LoginData {
     email: string,
@@ -81,6 +82,7 @@ export const getBanners = async () => {
 export const updateBanner = async (bannerData: FormData) => {
     try {
         const response = await Api.put(adminRoutes.banners, bannerData);
+        toast.success('Banner updated!')
         return response;
     } catch (error) {
         const err: Error = error as Error;

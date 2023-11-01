@@ -20,7 +20,7 @@ const UserHome = () => {
       {/* <NavBar color={!isScrolled} fixed /> */}
       <NavBar />
       <div className="relative z-0 ">
-        {!isLoading && <BannerOne data={banners?.data[0]} />}
+        {!isLoading && <BannerOne data={banners?.data} />}
       </div>
       <div className="relative bottom-10">
         <MatchDayCards />
