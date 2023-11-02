@@ -31,7 +31,6 @@ const Timings = () => {
     onSuccess: () => {
       refetch();
     }
-
   });
 
   const submitHandler = (e: FormEvent<HTMLFormElement>) => {
@@ -97,7 +96,7 @@ const Timings = () => {
 
         </div>
       </div>
-      {!isLoading && <TimeTable times={matchTimes} />}
+      {!isLoading && <TimeTable times={matchTimes} refetchFn={refetch} />}
     </div>
   );
 };

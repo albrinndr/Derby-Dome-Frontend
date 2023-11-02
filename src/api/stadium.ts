@@ -4,8 +4,9 @@ import errorHandle from "./error";
 import Api from "../services/axios";
 
 interface MatchTime {
-    time: string,
+    time?: string,
     price: number;
+    id?: string;
 }
 
 export const getBanners = async () => {
@@ -49,3 +50,15 @@ export const getAllTimes = async () => {
         return errorHandle(err);
     }
 };
+
+
+export const updateMatchTimePrice = async (data: MatchTime) => {
+    try {
+        const response = await Api.put(stadiumRoutes.updateMatchTimePrice, data);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};
+
