@@ -8,8 +8,7 @@ const adminRoutes = {
     fetchClubs:'/admin/clubs',
     blockClubs: (id: string) => `/admin/clubs/action?id=${id}`,
 
-    banners:'/admin/banner',
-    bannerUpdate:'/admin/banner'
+
     
 };
 

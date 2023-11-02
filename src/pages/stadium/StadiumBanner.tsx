@@ -1,7 +1,7 @@
-import Banner from "../../components/admin/stadium/Banner";
+import Banner from "../../components/admin/banner/Banner";
 import NavBar from "../../components/admin/nav/NavBarStadium";
 
-const AdminBanner = () => {
+const StadiumBanner = () => {
     return (
         <div className=" text-xl text-gray-900 font-semibold bg-slate-50 w-screen">
             <NavBar />
@@ -10,4 +10,4 @@ const AdminBanner = () => {
     );
 };
 
-export default AdminBanner;
+export default StadiumBanner;

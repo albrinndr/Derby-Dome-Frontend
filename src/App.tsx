@@ -3,18 +3,24 @@ import { Route, Routes } from 'react-router-dom';
 import UserHome from './pages/user/UserHome';
 import UserSignUp from './pages/user/UserSignUp';
 import UserProfile from './pages/user/UserProfile';
-import AdminBanner from './pages/admin/AdminBanner';
+import UserProtect from './components/user/UserProtect';
+
 import AdminLogin from './pages/admin/AdminLogin';
 import AdminUsers from './pages/admin/AdminUsers';
 import AdminClubs from './pages/admin/AdminClubs';
+import AdminProtect from './components/admin/AdminProtect';
+
 import ClubSignUp from './pages/club/ClubSignUp';
 import ClubProfile from './pages/club/ClubProfile';
+import ClubProtect from './components/club/ClubProtect';
+
+import StadiumBanner from './pages/stadium/StadiumBanner';
+import StadiumTiming from './pages/stadium/StadiumTiming';
+
 import NotFound from './pages/NotFound';
 import LoginPage from './pages/LoginPage';
 import { Toaster } from 'react-hot-toast';
-import UserProtect from './components/user/UserProtext';
-import ClubProtect from './components/club/ClubProtect';
-import AdminProtect from './components/admin/AdminProtect';
+
 export default function App() {
   return (
     <>
@@ -35,7 +41,9 @@ export default function App() {
           <Route element={<AdminProtect />}>
             <Route path='users' element={<AdminUsers />} />
             <Route path='clubs' element={<AdminClubs />} />
-            <Route path='stadium' element={<AdminBanner />} />
+            <Route path='stadium' element={<StadiumTiming />} />
+            <Route path='stadium/timings' element={<StadiumTiming />} />
+            <Route path='stadium/banner' element={<StadiumBanner />} />
           </Route>
         </Route>
 
@@ -48,7 +56,6 @@ export default function App() {
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
-      {/* <ImageTest /> */}
     </>
 
   );

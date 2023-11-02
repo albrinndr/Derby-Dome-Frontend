@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { AiOutlineQuestionCircle } from 'react-icons/ai';
-import { getBanners, updateBanner } from "../../../api/admin";
+import { getBanners, updateBanner } from "../../../api/stadium";
 
 const Banner = () => {
     const { status, data: banners } = useQuery({ queryKey: ['adminBanners'], queryFn: getBanners });

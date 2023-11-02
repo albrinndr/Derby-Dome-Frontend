@@ -2,7 +2,6 @@
 import Api from "../services/axios";
 import errorHandle from "./error";
 import adminRoutes from "../services/endpoints/adminEndPoints";
-import toast from "react-hot-toast";
 
 interface LoginData {
     email: string,
@@ -62,27 +61,6 @@ export const fetchClubs = async () => {
 export const blockClub = async (id: string) => {
     try {
         const response = await Api.put(adminRoutes.blockClubs(id));
-        return response;
-    } catch (error) {
-        const err: Error = error as Error;
-        return errorHandle(err);
-    }
-};
-
-export const getBanners = async () => {
-    try {
-        const response = await Api.get(adminRoutes.banners);
-        return response;
-    } catch (error) {
-        const err: Error = error as Error;
-        return errorHandle(err);
-    }
-};
-
-export const updateBanner = async (bannerData: FormData) => {
-    try {
-        const response = await Api.put(adminRoutes.banners, bannerData);
-        toast.success('Banner updated!')
         return response;
     } catch (error) {
         const err: Error = error as Error;
