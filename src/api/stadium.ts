@@ -39,3 +39,13 @@ export const addMatchTime = async (data: MatchTime) => {
         return errorHandle(err);
     }
 };
+
+export const getAllTimes = async () => {
+    try {
+        const response = await Api.get(stadiumRoutes.getAllTimes);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};

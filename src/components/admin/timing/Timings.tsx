@@ -1,9 +1,9 @@
-import React, { useState, FormEvent } from "react";
+import React, { useState, FormEvent, useEffect } from "react";
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import './Timings.css';
-import { useMutation } from "@tanstack/react-query";
-import { addMatchTime } from "../../../api/stadium";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { addMatchTime, getAllTimes } from "../../../api/stadium";
 import TimeTable from "./TimeTable";
 
 type ValuePiece = Date | null;
@@ -16,13 +16,27 @@ const Timings = () => {
   const [value, onChange] = useState<Value>(futureDate);
   const [time, setTime] = useState<string>('');
   const [price, setPrice] = useState<number>(0);
+  const [matchTimes, setMatchTimes] = useState<[]>([]);
+
+
+  const { isLoading, data: times, refetch } = useQuery({ queryKey: ['matchTimes'], queryFn: getAllTimes });
+  useEffect(() => {
+    if (times) {
+      setMatchTimes(times.data);
+    }
+  }, [times]);
 
   const { mutate } = useMutation({
     mutationFn: addMatchTime,
+    onSuccess: () => {
+      refetch();
+    }
+
   });
 
   const submitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log(time, price);
     mutate({ time, price });
     setTime('');
     setPrice(0);
@@ -83,7 +97,7 @@ const Timings = () => {
 
         </div>
       </div>
-      <TimeTable />
+      {!isLoading && <TimeTable times={matchTimes} />}
     </div>
   );
 };
