@@ -1,13 +1,21 @@
 import React, { useState } from "react";
 import PriceEditModal from "./ConfirmationModal";
 import { useMutation } from "@tanstack/react-query";
-import { updateMatchTimePrice } from "../../../api/stadium";
+import { deleteMatchTime, updateMatchTimePrice } from "../../../api/stadium";
 import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { openModal } from "../../../store/slices/modalSlice";
+import ConfirmationModal from "../../common/ConfirmationModal";
 
 interface Time {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     times: any[];
     refetchFn: () => void;
+}
+interface ModalState {
+    modal: {
+        showModal: boolean;
+    };
 }
 
 const TimeTable: React.FC<Time> = ({ times, refetchFn }) => {
@@ -17,6 +25,14 @@ const TimeTable: React.FC<Time> = ({ times, refetchFn }) => {
 
     const { mutate } = useMutation({
         mutationFn: updateMatchTimePrice,
+        onSuccess: () => {
+            refetchFn();
+            toast.success('Price updated');
+        }
+    });
+
+    const { mutate: deleteTime } = useMutation({
+        mutationFn: deleteMatchTime,
         onSuccess: () => {
             refetchFn();
             toast.success('Price updated');
@@ -38,6 +54,18 @@ const TimeTable: React.FC<Time> = ({ times, refetchFn }) => {
         setShowEdit(false);
     };
 
+    const matchTimeDelete = (id: string) => {
+        deleteTime(id);
+    };
+
+    const { showModal } = useSelector((state: ModalState) => state.modal);
+    const dispatch = useDispatch();
+
+    const modalHandler = (id: string) => {
+        setTimeId(id);
+        dispatch(openModal());
+    };
+
     return (
         <div className="flex justify-center">
             <div className="lg:col-span-2 p-1 border-2 overflow-y-auto w-full max-h-64 max-w-4xl p- mt-10">
@@ -49,7 +77,7 @@ const TimeTable: React.FC<Time> = ({ times, refetchFn }) => {
                         </div>
                         <div className="flex justify-center mt-2 sm:mt-0 sm:justify-between gap-5 sm:w-1/3">
                             <button className="p-2 bg-green-600 text-white hover:bg-green-700 text-md rounded px-6" onClick={() => editHandler(time._id, time.newPrice)}>Edit</button>
-                            <button className="p-2 bg-red-500 text-white hover:bg-red-600 text-md rounded">Delete</button>
+                            <button className="p-2 bg-red-500 text-white hover:bg-red-600 text-md rounded" onClick={() => modalHandler(time._id)}>Delete</button>
                         </div>
                     </div>
                 ))}
@@ -62,6 +90,7 @@ const TimeTable: React.FC<Time> = ({ times, refetchFn }) => {
                 }
             </div>
             {showEdit && <PriceEditModal updateFn={updateHandler} cancelFn={cancelModel} currPrice={currentPrice} />}
+            {showModal && <ConfirmationModal confirmFn={matchTimeDelete} id={timeId} />}
 
         </div>
     );

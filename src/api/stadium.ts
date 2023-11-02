@@ -62,3 +62,13 @@ export const updateMatchTimePrice = async (data: MatchTime) => {
     }
 };
 
+export const deleteMatchTime = async (id: string) => {
+    try {
+        const response = await Api.put(stadiumRoutes.deleteMatchTimes(id));
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};
+

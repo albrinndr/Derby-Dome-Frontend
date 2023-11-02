@@ -5,8 +5,9 @@ const stadiumRoutes = {
 
     matchTime: '/admin/matchTime',
     getAllTimes: 'admin/matchTimes',
+    updateMatchTimePrice: '/admin/updateTimePrice',
+    deleteMatchTimes: (id: string) => `/admin/deleteMatchPrice/${id}`
 
-    updateMatchTimePrice:'/admin/updateTimePrice'
 
 };
 export default stadiumRoutes;
