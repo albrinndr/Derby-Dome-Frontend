@@ -21,6 +21,7 @@ import StadiumTiming from './pages/stadium/StadiumTiming';
 import NotFound from './pages/NotFound';
 import LoginPage from './pages/LoginPage';
 import { Toaster } from 'react-hot-toast';
+import ClubBackground from './pages/club/ClubBackground';
 
 export default function App() {
   return (
@@ -54,6 +55,7 @@ export default function App() {
           <Route element={<ClubProtect />}>
             <Route path='profile' element={<ClubProfile />} />
             <Route path='profile/edit' element={<ClubProfileEdit />} />
+            <Route path='profile/background' element={<ClubBackground />} />
           </Route>
         </Route>
         <Route path="*" element={<NotFound />} />

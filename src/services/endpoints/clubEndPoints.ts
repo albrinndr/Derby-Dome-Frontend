@@ -6,7 +6,8 @@ const clubRoutes = {
     logout:'/club/logout',
 
     getProfile:'/club/profile',
-    updateProfile:'/club/profile'
+    updateProfile:'/club/profile',
+    updateBackground:'/club/background'
 };
 
 export default clubRoutes;

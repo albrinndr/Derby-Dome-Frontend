@@ -38,6 +38,7 @@ const ProfileClubEdit = () => {
                 image: clubData.data.image,
                 description: clubData.data.description,
                 address: clubData.data.address,
+                bgImg: clubData.data.bgImg
             };
 
             dispatch(setClubLogin(data));
@@ -60,6 +61,7 @@ const ProfileClubEdit = () => {
     const { status, mutate } = useMutation({
         mutationFn: updateClubProfile,
         onSuccess: (data) => {
+            console.log(data)
             queryClient.setQueryData(['clubData'], data);
         },
     });

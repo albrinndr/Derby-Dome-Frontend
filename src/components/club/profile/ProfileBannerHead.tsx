@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { logoutClub } from "../../../api/club";
 import { clubLogout } from "../../../store/slices/authSlice";
-import ClubBG from '../../../img/wp4208608.jpg';
 
 
 interface RootState {
@@ -12,6 +11,7 @@ interface RootState {
         cLoggedIn: {
             name: string;
             image: string;
+            bgImg: string;
         };
     };
 }
@@ -21,11 +21,14 @@ const ProfileBannerHead = () => {
     const navigate = useNavigate();
     const [clubName, setClubName] = useState('');
     const [clubImage, setClubImage] = useState('');
+    const [clubBgImg, setClubBanner] = useState('');
+    // const ClubBG = 'https://res.cloudinary.com/ddzzicdji/image/upload/v1699006744/club-banners/vdwaui8m3bom4cmgohdy.webp';
 
     const { cLoggedIn } = useSelector((state: RootState) => state.auth);
     useEffect(() => {
         setClubName(cLoggedIn.name);
         setClubImage(cLoggedIn.image);
+        setClubBanner(cLoggedIn.bgImg);
     }, [cLoggedIn]);
 
     const logoutHandler = async () => {
@@ -38,9 +41,9 @@ const ProfileBannerHead = () => {
     };
 
     // const ClubLogo = 'https://res.cloudinary.com/ddzzicdji/image/upload/v1698230568/userManagement/fcmjysl2mhlauqcopgtj.png';
-    const dashBoardStyle ='pb-9';
+    const dashBoardStyle = 'pb-9';
     const divStyle = {
-        backgroundImage: `url(${ClubBG})`,
+        backgroundImage: `url(${clubBgImg})`,
         height: '50vh',
         backgroundSize: 'cover',
     };
@@ -55,7 +58,7 @@ const ProfileBannerHead = () => {
                     <button onClick={logoutHandler} className="p-2 bg-opacity-40 hover:bg-red-600  text-white bg-gray-400 rounded">LOG OUT</button>
                 </div>
             </div>
-            
+
         </>
     );
 };
