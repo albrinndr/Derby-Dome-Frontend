@@ -13,6 +13,7 @@ import AdminProtect from './components/admin/AdminProtect';
 import ClubSignUp from './pages/club/ClubSignUp';
 import ClubProfile from './pages/club/ClubProfile';
 import ClubProtect from './components/club/ClubProtect';
+import ClubProfileEdit from './pages/club/ClubProfileEdit';
 
 import StadiumBanner from './pages/stadium/StadiumBanner';
 import StadiumTiming from './pages/stadium/StadiumTiming';
@@ -52,6 +53,7 @@ export default function App() {
           <Route path='signup' element={<ClubSignUp />} />
           <Route element={<ClubProtect />}>
             <Route path='profile' element={<ClubProfile />} />
+            <Route path='profile/edit' element={<ClubProfileEdit />} />
           </Route>
         </Route>
         <Route path="*" element={<NotFound />} />

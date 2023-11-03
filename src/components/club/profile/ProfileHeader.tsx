@@ -1,30 +1,51 @@
-import React,{useState} from "react";
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const ProfileHeader = () => {
-    const [state, setState] = useState('MY CLUB');
+const YourComponent = () => {
+    const navigate = useNavigate();
+    const [state, setState] = useState('');
+
+    const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedValue = event.target.value;
+        setState(selectedValue); // You might need to update the state here as well if needed
+        switch (selectedValue) {
+            case 'MY CLUB':
+                navigate('/club/profile');
+                break;
+            case 'EDIT':
+                navigate('/club/profile/edit');
+                break;
+            case 'BANNER':
+                navigate('/club/profile/banner');
+                break;
+            case 'WALLET':
+                navigate('/club/profile/wallet');
+                break;
+            default:
+                break;
+        }
+    };
 
     return (
-        <>
-            <div className="px-4 md:px-14 hidden sm:block">
-                <div className=" bg-gray-400 bg-opacity-95 shadow-sm flex p-2 rounded justify-center gap-7">
-                    <h1 className="text-gray-800 font-semibold">MY CLUB</h1>
-                    <h1 className="text-gray-800 font-semibold">|</h1>
-                    <h1 className="text-gray-800 font-semibold">POSTER</h1>
-                    <h1 className="text-gray-800 font-semibold">|</h1>
-                    <h1 className="text-gray-800 font-semibold">WALLET</h1>
-                </div>
+        <div className="px-4 md:px-14 sm:hidden">
+            <div className="bg-white shadow-md flex rounded justify-center gap-7">
+                <select
+                    name=""
+                    id=""
+                    value={state}
+                    onChange={handleSelectChange}
+                    className="w-full rounded p-2 bg-white bg-opacity-95 shadow-md focus:outline-none text-center"
+                   
+                >
+                    <option value="MY CLUB">MY CLUB</option>
+                    <option value="EDIT">EDIT</option>
+                    <option value="BANNER">BANNER</option>
+                    <option value="WALLET">WALLET</option>
+                </select>
+
             </div>
-            <div className="px-4 md:px-14 sm:hidden">
-                <div className=" bg-gray-400 bg-opacity-95 shadow-sm flex rounded justify-center gap-7">
-                    <select name="" id="" defaultValue={state} className="w-full rounded p-2 bg-gray-400 bg-opacity-95 shadow-sm focus:outline-none text-center">
-                        <option value="" onClick={()=>setState('MY CLUB')}>MY CLUB</option>
-                        <option value="" onClick={()=>setState('POSTER')}>POSTER</option>
-                        <option value="" onClick={()=>setState('WALLET')}>WALLET</option>
-                    </select>
-                </div>
-            </div>
-        </>
+        </div>
     );
 };
 
-export default ProfileHeader;
+export default YourComponent;

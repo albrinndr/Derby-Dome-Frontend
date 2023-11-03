@@ -33,7 +33,12 @@ const ProfileClubEdit = () => {
                 address: clubData.data.address,
                 description: clubData.data.description,
             });
-            const data = { name: clubData.data.name, image: clubData.data.image };
+            const data = {
+                name: clubData.data.name,
+                image: clubData.data.image,
+                description: clubData.data.description,
+                address: clubData.data.address,
+            };
 
             dispatch(setClubLogin(data));
         }
@@ -84,12 +89,13 @@ const ProfileClubEdit = () => {
         clubData.append("contactPerson", contactPerson);
         if (image) clubData.append("image", image);
         mutate(clubData);
+        setImage(null);
     };
 
     const isDisabled = (status as string) === 'loading' || (status as string) === 'pending';
 
     return (
-        <div className="px-4 md:px-14 mt-20">
+        <div className="px-4 md:px-14 mt-12">
             {!isLoading && <form onSubmit={submitHandler} className=" p-6 text-center ">
                 <div className="flex justify-center gap-10 md:gap-20">
                     <div className="hidden sm:block">

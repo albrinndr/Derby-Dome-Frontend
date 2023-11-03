@@ -70,10 +70,8 @@ const Login: React.FC<UserType> = ({ type }) => {
             const response = await clubLogin({ email, password });
             if (response) {
                 navigate('/club/profile');
-                const data = { name: response.data.club.name, image: response.data.club.image };
-
+                const data = { name: response.data.club.name, image: response.data.club.image, address: response.data.club.address, description: response.data.club.description };
                 dispatch(setClubLogin(data));
-
             }
         }
     };

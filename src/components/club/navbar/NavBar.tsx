@@ -34,12 +34,12 @@ const NavBar: React.FC<NavBarProps> = ({ color, fixed }) => {
 
     };
 
-    const navBarStyle = !color ? 'bg-white shadow  transition-all transition-all duration-1000 delay-2000 ' : '';
-    const itemStyle = !color ? 'text-gray-800 ' : 'text-white';
-    const navPosition = fixed ? 'fixed' : 'sticky';
-    const MenuIconType = !color ? MenuIcon : MenuWhite;
-    const MainLogo = color ? Logo : LogoBlack;
-    const underLineStyle = !color ? 'group-hover:bg-gray-800' : 'group-hover:bg-white';
+    const navBarStyle = color ? 'bg-white shadow  transition-all transition-all duration-1000 delay-2000 ' : 'bg-gray-900 bg-opacity-20';
+    const itemStyle = color ? 'text-gray-800 ' : 'text-white';
+    const navPosition = !fixed ? 'fixed' : 'sticky';
+    const MenuIconType = color ? MenuIcon : MenuWhite;
+    const MainLogo = color ?  LogoBlack: Logo;
+    const underLineStyle = color ? 'group-hover:bg-gray-800' : 'group-hover:bg-white';
     return (
         <>
             <div className={` right-0 left-0 top-0 z-50 px-4 md:pl-14  ${navBarStyle} ${navPosition}`}>
