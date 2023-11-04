@@ -9,6 +9,11 @@ interface MatchTime {
     id?: string;
 }
 
+interface Seat {
+    stand: string;
+    price: number;
+}
+
 export const getBanners = async () => {
     try {
         const response = await Api.get(stadiumRoutes.banners);
@@ -72,3 +77,22 @@ export const deleteMatchTime = async (id: string) => {
     }
 };
 
+export const getAllSeatPrice = async () => {
+    try {
+        const response = await Api.get(stadiumRoutes.getSeatPrice);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};
+
+export const setSeatPrice = async (data: Seat) => {
+    try {
+        const response = await Api.post(stadiumRoutes.setSeatPrice, data);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};

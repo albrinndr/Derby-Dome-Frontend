@@ -22,6 +22,7 @@ import NotFound from './pages/NotFound';
 import LoginPage from './pages/LoginPage';
 import { Toaster } from 'react-hot-toast';
 import ClubBackground from './pages/club/ClubBackground';
+import StadiumSeats from './pages/stadium/StadiumSeats';
 
 export default function App() {
   return (
@@ -46,6 +47,7 @@ export default function App() {
             <Route path='stadium' element={<StadiumTiming />} />
             <Route path='stadium/timings' element={<StadiumTiming />} />
             <Route path='stadium/banner' element={<StadiumBanner />} />
+            <Route path='stadium/seats' element={<StadiumSeats />} />
           </Route>
         </Route>
 

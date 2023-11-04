@@ -84,7 +84,7 @@ const Banner = () => {
     }; 1;
 
     return (
-        <div className="p-4">
+        <div className="p-4 md:p-14">
             {!isDisabled &&
                 <>
                     <div className="lg:flex lg:gap-10">

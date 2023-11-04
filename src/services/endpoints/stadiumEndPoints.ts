@@ -6,7 +6,10 @@ const stadiumRoutes = {
     matchTime: '/admin/matchTime',
     getAllTimes: 'admin/matchTimes',
     updateMatchTimePrice: '/admin/updateTimePrice',
-    deleteMatchTimes: (id: string) => `/admin/deleteMatchPrice/${id}`
+    deleteMatchTimes: (id: string) => `/admin/deleteMatchPrice/${id}`,
+
+    getSeatPrice:'/admin/getSeats',
+    setSeatPrice:'/admin/seatPrice'
 
 
 };
