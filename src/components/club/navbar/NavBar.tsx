@@ -38,7 +38,7 @@ const NavBar: React.FC<NavBarProps> = ({ color, fixed }) => {
     const itemStyle = color ? 'text-gray-800 ' : 'text-white';
     const navPosition = !fixed ? 'fixed' : 'sticky';
     const MenuIconType = color ? MenuIcon : MenuWhite;
-    const MainLogo = color ?  LogoBlack: Logo;
+    const MainLogo = color ? LogoBlack : Logo;
     const underLineStyle = color ? 'group-hover:bg-gray-800' : 'group-hover:bg-white';
     return (
         <>
@@ -55,10 +55,10 @@ const NavBar: React.FC<NavBarProps> = ({ color, fixed }) => {
                                 Dashboard
                                 <span className={`absolute left-0 right-0 bottom-0 h-px top-7 ${underLineStyle} transition-all`}></span>
                             </a>
-                            <a href="#" className={`${itemStyle} text-md font-semibold relative mr-9 group`}>
+                            <Link to="/club/fixture" className={`${itemStyle} text-md font-semibold relative mr-9 group`}>
                                 Fixtures
                                 <span className={`absolute left-0 right-0 bottom-0 h-px top-7 ${underLineStyle} transition-all`}></span>
-                            </a>
+                            </Link>
                             <Link to='/club/profile' className={`${itemStyle} text-md font-semibold relative mr-9 group`}>
                                 My Club
                                 <span className={`absolute left-0 right-0 bottom-0 h-px top-7 ${underLineStyle} transition-all`}></span>

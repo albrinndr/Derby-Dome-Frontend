@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import ReactDOM from 'react-dom';
+import toast from "react-hot-toast";
 
 
 interface ModalContent {
@@ -20,6 +21,10 @@ const PriceEditModal: React.FC<ModalContent> = ({ updateFn, cancelFn, currPrice 
     };
 
     const updatePrice = () => {
+        if (price === 0) {
+            toast.error('Enter a valid price!');
+            return;
+        }
         updateFn(price);
     };
     return (

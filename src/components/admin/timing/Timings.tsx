@@ -43,7 +43,7 @@ const Timings = () => {
 
   return (
     <div className="p-4 md:p-14 md:pr-16 min-h-screen text-center mb-10">
-      <h1 className="text-gray-700">Changes will only be applied to the dates after <span className="font-semibold">{futureDate.toDateString()}</span></h1>
+      <h1 className="text-gray-700">New times will be shown to fixtures after <span className="font-semibold">{futureDate.toDateString()}</span></h1>
       <div className="lg:flex lg:items-center justify-center mt-2">
         <div className="w-full sm:max-w-md p-2 custom-calendar flex justify-center">
           <Calendar onChange={onChange} value={value} className="text-center" />
