@@ -14,15 +14,17 @@ import ClubSignUp from './pages/club/ClubSignUp';
 import ClubProfile from './pages/club/ClubProfile';
 import ClubProtect from './components/club/ClubProtect';
 import ClubProfileEdit from './pages/club/ClubProfileEdit';
+import ClubBackground from './pages/club/ClubBackground';
+import ClubNewFixture from './pages/club/ClubNewFixture';
 
 import StadiumBanner from './pages/stadium/StadiumBanner';
 import StadiumTiming from './pages/stadium/StadiumTiming';
+import StadiumSeats from './pages/stadium/StadiumSeats';
 
 import NotFound from './pages/NotFound';
 import LoginPage from './pages/LoginPage';
 import { Toaster } from 'react-hot-toast';
-import ClubBackground from './pages/club/ClubBackground';
-import StadiumSeats from './pages/stadium/StadiumSeats';
+import ClubProfileHead from './components/club/headers/ClubProfileHead';
 
 export default function App() {
   return (
@@ -55,9 +57,13 @@ export default function App() {
           <Route path='login' element={<LoginPage user='club' />} />
           <Route path='signup' element={<ClubSignUp />} />
           <Route element={<ClubProtect />}>
-            <Route path='profile' element={<ClubProfile />} />
-            <Route path='profile/edit' element={<ClubProfileEdit />} />
-            <Route path='profile/background' element={<ClubBackground />} />
+            <Route element={<ClubProfileHead />}>
+              <Route path='profile' element={<ClubProfile />} />
+              <Route path='profile/edit' element={<ClubProfileEdit />} />
+              <Route path='profile/background' element={<ClubBackground />} />
+            </Route>
+            <Route path='fixture' element={<ClubNewFixture />} />
+
           </Route>
         </Route>
         <Route path="*" element={<NotFound />} />
