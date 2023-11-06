@@ -15,6 +15,7 @@ const errorHandle = (error: Error | AxiosError) => {
             console.log('Error response has no message');
         }
     } else {
+        toast.error('An error occurred. Please try again!');
         console.log(axiosError.message);
     }
 };
