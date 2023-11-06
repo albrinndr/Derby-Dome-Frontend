@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 const ProfileClubEdit = () => {
     const { data: clubData, isLoading } = useQuery({ queryKey: ['clubData'], queryFn: getClubProfile });
     const dispatch = useDispatch();
+    console.log(clubData);
 
     const [formData, setFormData] = useState({
         name: '',
@@ -61,7 +62,7 @@ const ProfileClubEdit = () => {
     const { status, mutate } = useMutation({
         mutationFn: updateClubProfile,
         onSuccess: (data) => {
-            console.log(data)
+            console.log(data);
             queryClient.setQueryData(['clubData'], data);
         },
     });
@@ -104,7 +105,7 @@ const ProfileClubEdit = () => {
                         <img src={clubData?.data.image} alt="" width={150} height={150} />
                         <div className="mt-10 relative flex items-center justify-center">
                             <label className="cursor-pointer bg-gray-200 hover:bg-gray-300 text-gray-600 font-semibold py-2 px-4 rounded-lg">
-                                {image ? image.name : 'Change logo'}
+                                {image ? image.name.substring(0, 17) + (image.name.length > 17 ? "..." : "") : 'Change logo'}
                                 <input
                                     className="hidden"
                                     type="file"

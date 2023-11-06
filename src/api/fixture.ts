@@ -22,3 +22,23 @@ export const newFixture = async (fixtureForm: FormData) => {
         return errorHandle(err);
     }
 };
+
+export const getClubFixtures = async () => {
+    try {
+        const response = await Api.get(fixtureRoutes.getClubFixture);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};
+
+export const cancelFixture = async (id: string) => {
+    try {
+        const response = await Api.put(fixtureRoutes.cancelFixture(id));
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};

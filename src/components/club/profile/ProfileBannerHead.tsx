@@ -51,14 +51,13 @@ const ProfileBannerHead = () => {
         <>
             <div style={divStyle} className={`pt-20 px-4 md:px-14 flex justify-between  ${dashBoardStyle}`}>
                 <div className="flex items-center py-10" >
-                    <img className="md:w-20 w-14 h-auto mr-3" src={clubImage} alt="" />
-                    <h1 className="text-white text-4xl xs:text-5xl sm:text-6xl md:text-7xl font-semibold  whitespace-normal max-w-screen-sm" style={{ textShadow: '1px 1px 1px #000000' }}>{clubName}</h1>
+                    <img className="md:w-24 w-14 h-auto mr-3" src={clubImage} alt="" />
+                    <h1 className="text-white text-4xl xs:text-5xl sm:text-6xl md:text-8xl font-semibold  whitespace-normal max-w-screen-sm" style={{ textShadow: '1px 1px 1px #000000' }}>{clubName}</h1>
                 </div>
                 <div className="hidden md:block">
                     <button onClick={logoutHandler} className="p-2 bg-opacity-40 hover:bg-red-600  text-white bg-gray-400 rounded">LOG OUT</button>
                 </div>
             </div>
-
         </>
     );
 };

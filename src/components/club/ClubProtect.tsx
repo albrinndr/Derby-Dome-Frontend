@@ -11,7 +11,7 @@ const ClubProtect = () => {
     const { cLoggedIn } = useSelector((state: RootState) => state.auth);
     return (
         cLoggedIn ?
-            <div className="bg-slate-100 bg-opacity-50 min-h-screen min-w-fit">
+            <div className="bg-customBg bg-opacity-50 min-h-screen min-w-fit">
                 <Outlet />
 
             </div>

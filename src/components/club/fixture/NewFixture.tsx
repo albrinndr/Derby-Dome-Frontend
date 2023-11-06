@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import CommonHeader from "../headers/CommonHeader";
 import Calendar from "react-calendar";
 import { getFixtureDateContent, newFixture } from "../../../api/fixture";
@@ -30,6 +30,7 @@ const NewFixture = () => {
     const [selectedAwayTeam, setSelectedAwayTeam] = useState('');
     const [awayTeamName, setAwayTeamName] = useState('');
     const [checked, setChecked] = useState(false);
+    const [matchTitle, setMatchTitle] = useState('Friendly Match');
 
     const [showForm, setShowForm] = useState(false);
     const [times, setTimes] = useState([]);
@@ -89,6 +90,9 @@ const NewFixture = () => {
         if (!selectedTime) {
             toast.error('Select a time slot');
             return;
+        } else if (matchTitle.trim().length < 1) {
+            toast.error('Enter match title');
+            return;
         } else if (!selectedAwayTeam && !checked) {
             toast.error('Select an away team');
             return;
@@ -116,6 +120,7 @@ const NewFixture = () => {
                 //     fixtureForm.append('date', newDate.toISOString());
                 // }
             }
+            fixtureForm.append('title', matchTitle);
             fixtureForm.append('time', selectedTime);
             fixtureForm.append('image', image);
             if (selectedTimePrice) {
@@ -177,7 +182,7 @@ const NewFixture = () => {
                                                         {times.map((time: Time) => (
                                                             <button
                                                                 key={time.time}
-                                                                className={`bg-white border ${time.time === selectedTime ? 'bg-green-700 hover:bg-green-800 text-white' : 'bg-gray-200 hover:bg-blue-50 text-gray-700'
+                                                                className={`bg-white border ${time.time === selectedTime ? 'bg-customColor text-white' : 'bg-gray-200 hover:bg-blue-50 text-gray-700'
                                                                     } px-8 py-2 rounded-lg`}
                                                                 onClick={() => handleOptionChange(time.time, time.price)}
                                                             >
@@ -185,6 +190,13 @@ const NewFixture = () => {
                                                             </button>
                                                         ))}
                                                     </div>
+                                                </div>
+                                                <div className="mt-6">
+                                                    <label htmlFor="">Enter match title</label><br />
+                                                    <input type="text" className="pl-2 h-10 mt-2 w-64 border-2 rounded focus:outline-slate-400"
+                                                        value={matchTitle}
+                                                        onChange={(e) => setMatchTitle(e.target.value)}
+                                                    />
                                                 </div>
                                                 <div className="mt-6">
                                                     {!checked ?
@@ -204,7 +216,7 @@ const NewFixture = () => {
                                                         :
                                                         <>
                                                             <label htmlFor="">Enter away team name: </label><br />
-                                                            <input type="text" className="h-10 mt-2 w-64 border-2 rounded focus:outline-slate-400"
+                                                            <input type="text" className="pl-2 h-10 mt-2 w-64 border-2 rounded focus:outline-slate-400"
                                                                 value={awayTeamName}
                                                                 onChange={(e) => setAwayTeamName(e.target.value)}
                                                             />
