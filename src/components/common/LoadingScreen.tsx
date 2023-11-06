@@ -7,7 +7,7 @@ interface LoadingProps {
 const LoadingScreen: React.FC<LoadingProps> = ({ size }) => {
 
     return (
-        <div className="w-screen h-screen fixed flex justify-center items-center bg-white bg-opacity-50 flex-center">
+        <div className="w-screen h-screen grid place-content-center fixed top-0 left-0 bg-white bg-opacity-50 flex-center">
             <div
                 style={{ width: `${size}px`, height: `${size}px` }}
                 className="animate-spin">
