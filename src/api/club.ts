@@ -118,3 +118,23 @@ export const editClubManager = async (data: FormData) => {
         return errorHandle(err);
     }
 };
+
+export const addClubPlayer = async (data: FormData) => {
+    try {
+        const response = await Api.post(clubRoutes.addPlayer, data);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};
+
+export const editClubPlayer = async (data: FormData) => {
+    try {
+        const response = await Api.put(clubRoutes.editPlayer, data);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};

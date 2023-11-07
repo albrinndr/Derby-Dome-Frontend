@@ -1,26 +1,30 @@
 import { useMutation } from "@tanstack/react-query";
 import React, { FormEvent, useState } from "react";
 import { GrClose } from 'react-icons/gr';
-import { addClubPlayer } from "../../../api/club";
+import { editClubPlayer } from "../../../api/club";
 import toast from "react-hot-toast";
 
 interface Modal {
     modalFn: () => void;
     refetch: () => void;
     loadingFn: (val: boolean) => void;
+    pName: string,
+    pShirtNo: string;
+    pPosition: string;
+    pId: string;
 }
 
 
-const AddPlayer: React.FC<Modal> = ({ modalFn, refetch, loadingFn }) => {
-    const [name, setName] = useState<string>('');
-    const [shirtNo, setShirtNo] = useState<string>('');
-    const [position, setPosition] = useState<string>('');
+const EditPlayer: React.FC<Modal> = ({ modalFn, refetch, loadingFn, pName, pShirtNo, pPosition, pId }) => {
+    const [name, setName] = useState<string>(pName);
+    const [shirtNo, setShirtNo] = useState<string>(pShirtNo);
+    const [position, setPosition] = useState<string>(pPosition);
     const [image, setImage] = useState<File | null>(null);
 
-    const { mutate: addPlayerMutate } = useMutation({
-        mutationFn: addClubPlayer,
+    const { mutate: editPlayerMutate } = useMutation({
+        mutationFn: editClubPlayer,
         onSuccess: (res) => {
-            if (res) toast.success('Player added!');
+            if (res) toast.success('Player updated!');
             loadingFn(false);
             refetch();
         }
@@ -37,16 +41,14 @@ const AddPlayer: React.FC<Modal> = ({ modalFn, refetch, loadingFn }) => {
         } else if (position.trim().length < 1) {
             toast.error('Select player position');
             return;
-        } else if (!image) {
-            toast.error('Select an image');
-            return;
         } else {
             const playerForm = new FormData();
             playerForm.append('name', name);
             playerForm.append('shirtNo', shirtNo);
             playerForm.append('position', position);
-            playerForm.append('image', image);
-            addPlayerMutate(playerForm);
+            if (image) playerForm.append('image', image);
+            playerForm.append('id', pId);
+            editPlayerMutate(playerForm);
             loadingFn(true);
             modalFn();
         }
@@ -86,11 +88,18 @@ const AddPlayer: React.FC<Modal> = ({ modalFn, refetch, loadingFn }) => {
                                     value={position}
                                     onChange={(e) => setPosition(e.target.value)}
                                 >
-                                    <option value="" className="">---select position---</option>
-                                    <option value="FW" className="">FW</option>
-                                    <option value="MD" className="">MD</option>
-                                    <option value="DF" className="">DF</option>
-                                    <option value="GK" className="">GK</option>
+                                    <option value="FW" defaultValue={position === 'FW' ? 'selected' : ''}>
+                                        FW
+                                    </option>
+                                    <option value="MD" defaultValue={position === 'MD' ? 'selected' : ''}>
+                                        MD
+                                    </option>
+                                    <option value="DF" defaultValue={position === 'DF' ? 'selected' : ''}>
+                                        DF
+                                    </option>
+                                    <option value="GK" defaultValue={position === 'GK' ? 'selected' : ''}>
+                                        GK
+                                    </option>
                                 </select>
                             </div>
                             <div className="mt-6">
@@ -118,4 +127,4 @@ const AddPlayer: React.FC<Modal> = ({ modalFn, refetch, loadingFn }) => {
     );
 };
 
-export default AddPlayer;
+export default EditPlayer;

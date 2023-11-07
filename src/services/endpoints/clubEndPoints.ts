@@ -11,7 +11,9 @@ const clubRoutes = {
 
     getTeamData: '/club/getTeam',
     addManager:'/club/addManager',
-    editManager:'/club/editManager'
+    editManager:'/club/editManager',
+    addPlayer:'/club/addPlayer',
+    editPlayer:'/club/editPlayer'
 };
 
 export default clubRoutes;

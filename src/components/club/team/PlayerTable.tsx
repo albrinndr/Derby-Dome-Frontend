@@ -9,20 +9,22 @@ import LoadingScreen from "../../common/LoadingScreen";
 import { getClubTeamData } from "../../../api/club";
 import EditManager from "./EditManager";
 import './PlayerTable.module.css';
+import EditPlayer from "./EditPlayer";
 
 
 interface Manager {
     name: string;
     image: string;
 }
-interface Players {
+
+interface Player {
+    _id: string;
     name: string,
     shirtNo: number;
     position: string;
     image: string;
     startingXI: boolean;
-}[];
-
+}
 
 const PlayerTable = () => {
 
@@ -32,10 +34,18 @@ const PlayerTable = () => {
     const [selectedCheckbox1, setSelectedCheckbox1] = useState('');
     const [showLoading, setShowLoading] = useState(false);
 
+    const [pName, setPName] = useState('');
+    const [pShirtNo, setPShirtNo] = useState('');
+    const [pPosition, setPPosition] = useState('');
+    const [pId, setPId] = useState('');
+    const [editPlayerModal, setEditPlayerModal] = useState(false);
+
     const { isLoading, data: clubData, refetch } = useQuery({ queryKey: ['teamData'], queryFn: getClubTeamData });
 
     const manager: Manager = clubData?.data.manager;
-    const players: Players = clubData?.data.players;
+    const players = clubData?.data.players;
+    const starting = players ? players.filter((player: Player) => player.startingXI) : [];
+    const nonStarting = players ? players.filter((player: Player) => !player.startingXI) : [];
 
 
     const modalHandler = () => {
@@ -46,6 +56,17 @@ const PlayerTable = () => {
         setEditManagerModal(!editManagerModal);
     };
 
+    const playerEditModalHandler = () => {
+        setEditPlayerModal(!editPlayerModal);
+    };
+
+    const setEditPlayerData = (name: string, shirtNo: string, position: string, id: string) => {
+        setPName(name);
+        setPShirtNo(shirtNo);
+        setPPosition(position);
+        setPId(id);
+        playerEditModalHandler();
+    };
 
     const handleCheckboxChange = (index: string) => {
         if (selectedCheckbox === index) {
@@ -78,13 +99,23 @@ const PlayerTable = () => {
                 :
                 <>
                     {openModal && !manager.name && <AddManager modalFn={modalHandler} loadingFn={loadingHandler} refetch={refetch} />}
-                    {openModal && manager.name && <AddPlayer modalFn={modalHandler} />}
+                    {openModal && manager.name && <AddPlayer modalFn={modalHandler} refetch={refetch} loadingFn={loadingHandler} />}
 
                     {editManagerModal && <EditManager
                         refetch={refetch}
                         loadingFn={loadingHandler}
                         modalFn={managerEditModalHandler}
                         managerName={manager.name}
+                    />}
+
+                    {editPlayerModal && <EditPlayer
+                        modalFn={playerEditModalHandler}
+                        loadingFn={loadingHandler}
+                        refetch={refetch}
+                        pId={pId}
+                        pName={pName}
+                        pPosition={pPosition}
+                        pShirtNo={pShirtNo}
                     />}
 
                     <div className="flex justify-between items-center gap-5">
@@ -140,143 +171,67 @@ const PlayerTable = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        {nonStarting.length
+                                            ?
+                                            <>
+                                                {nonStarting.map((player: Player) => (
+                                                    <tr className="bg-white  border-b" key={player._id}>
+                                                        <td className="px-3 py-3   text-sm w-32">
+                                                            <div className="flex items-center gap-4">
+                                                                <div className="ml-3">
+                                                                    <input type="checkbox"
+                                                                        checked={selectedCheckbox === player._id}
+                                                                        onChange={() => handleCheckboxChange(player._id)}
+                                                                    />
+                                                                </div>
+                                                                <div className="flex-shrink-0 w-10 h-10">
+                                                                    <img className="w-full h-full rounded-full"
+                                                                        src={player.image}
+                                                                        alt="" />
+                                                                </div>
 
-                                        {/* <tr className="bg-white  border-b">
-                                    <td className="px-3 py-3   text-sm w-32">
-                                        <div className="flex items-center gap-4">
-                                            <div className="ml-3">
-                                                <input type="checkbox" name="" id=""
-                                                    checked={selectedCheckbox === 'one'}
-                                                    onChange={() => handleCheckboxChange('one')}
-                                                />
-                                            </div>
-                                            <div className="flex-shrink-0 w-10 h-10">
-                                                <img className="w-full h-full rounded-full"
-                                                    src='https://sortitoutsi.b-cdn.net/assets/graphic_styles/cut_out_faces.png'
-                                                    alt="" />
-                                            </div>
+                                                            </div>
+                                                        </td>
 
-                                        </div>
-                                    </td>
+                                                        <td className=" w-32 px-3  py-3  text-sm">
+                                                            <p className="text-gray-900 whitespace-no-wrap">{player.shirtNo}</p>
+                                                        </td>
 
-                                    <td className=" w-32 px-3  py-3  text-sm">
-                                        <p className="text-gray-900 whitespace-no-wrap">10</p>
-                                    </td>
+                                                        <td className=" w-32 px-3  py-3   text-sm">
+                                                            <p className="text-gray-900 whitespace-no-wrap"
+                                                                style={{ maxWidth: '130px', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                                                            >{player.name}</p>
+                                                        </td>
 
-                                    <td className=" w-32 px-3  py-3   text-sm">
-                                        <p className="text-gray-900 whitespace-no-wrap"
-                                            style={{ maxWidth: '130px', overflow: 'hidden', textOverflow: 'ellipsis' }}
-                                        >LIONAL MESSI</p>
-                                    </td>
+                                                        <td className=" w-28 px-3  py-3  text-sm">
+                                                            <p className="text-gray-900 whitespace-no-wrap">
+                                                                {player.position}
+                                                            </p>
+                                                        </td>
 
-                                    <td className=" w-28 px-3  py-3  text-sm">
-                                        <p className="text-gray-900 whitespace-no-wrap">
-                                            FW
-                                        </p>
-                                    </td>
+                                                        <td className=" w-28 px-3  py-3 gap-10 border-gray-200 text-xl flex items-center">
+                                                            <div className=" text-green-500 cursor-pointer mt-3"
+                                                                onClick={() => setEditPlayerData(player.name, player.shirtNo + "", player.position, player._id)}
+                                                            >
+                                                                <AiOutlineEdit />
+                                                            </div>
+                                                            <div className=" text-red-500 cursor-pointer mt-3 ">
+                                                                <MdDelete />
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </>
+                                            :
+                                            <tr className="bg-white  border-b">
+                                                <td className=" w-fit px-32 sm:px-48  py-3  text-sm" colSpan={5}>
+                                                    <p className="text-gray-900">
+                                                        No player data available
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                        }
 
-                                    <td className=" w-28 px-3  py-3 gap-10 border-gray-200 text-xl flex items-center">
-                                        <div className=" text-green-500 cursor-pointer mt-3">
-                                            <AiOutlineEdit />
-                                        </div>
-                                        <div className=" text-red-500 cursor-pointer mt-3 ">
-                                            <MdDelete />
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr className="bg-white  border-b">
-                                    <td className="px-3 py-3   text-sm w-32">
-                                        <div className="flex items-center gap-4">
-                                            <div className="ml-3">
-                                                <input type="checkbox" name="" id=""
-                                                    checked={selectedCheckbox === 'two'}
-                                                    onChange={() => handleCheckboxChange('two')}
-                                                />
-                                            </div>
-                                            <div className="flex-shrink-0 w-10 h-10">
-                                                <img className="w-full h-full rounded-full"
-                                                    src='https://sortitoutsi.b-cdn.net/assets/graphic_styles/cut_out_faces.png'
-                                                    alt="" />
-                                            </div>
-
-                                        </div>
-                                    </td>
-
-                                    <td className=" w-32 px-3  py-3  text-sm">
-                                        <p className="text-gray-900 whitespace-no-wrap">10</p>
-                                    </td>
-
-                                    <td className=" w-32 px-3  py-3   text-sm">
-                                        <p className="text-gray-900 whitespace-no-wrap"
-                                            style={{ maxWidth: '130px', overflow: 'hidden', textOverflow: 'ellipsis' }}
-                                        >LIONAL MESSI</p>
-                                    </td>
-
-                                    <td className=" w-28 px-3  py-3  text-sm">
-                                        <p className="text-gray-900 whitespace-no-wrap">
-                                            FW
-                                        </p>
-                                    </td>
-
-                                    <td className=" w-28 px-3  py-3 gap-10 border-gray-200 text-xl flex items-center">
-                                        <div className=" text-green-500 cursor-pointer mt-3">
-                                            <AiOutlineEdit />
-                                        </div>
-                                        <div className=" text-red-500 cursor-pointer mt-3 ">
-                                            <MdDelete />
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr className="bg-white  border-b">
-                                    <td className="px-3 py-3   text-sm w-32">
-                                        <div className="flex items-center gap-4">
-                                            <div className="ml-3">
-                                                <input type="checkbox" name="" id=""
-                                                    checked={selectedCheckbox === 'index'}
-                                                    onChange={() => handleCheckboxChange('index')}
-                                                />
-                                            </div>
-                                            <div className="flex-shrink-0 w-10 h-10">
-                                                <img className="w-full h-full rounded-full"
-                                                    src='https://sortitoutsi.b-cdn.net/assets/graphic_styles/cut_out_faces.png'
-                                                    alt="" />
-                                            </div>
-
-                                        </div>
-                                    </td>
-
-                                    <td className=" w-32 px-3  py-3  text-sm">
-                                        <p className="text-gray-900 whitespace-no-wrap">10</p>
-                                    </td>
-
-                                    <td className=" w-32 px-3  py-3   text-sm">
-                                        <p className="text-gray-900 whitespace-no-wrap"
-                                            style={{ maxWidth: '130px', overflow: 'hidden', textOverflow: 'ellipsis' }}
-                                        >LIONAL MESSI</p>
-                                    </td>
-
-                                    <td className=" w-28 px-3  py-3  text-sm">
-                                        <p className="text-gray-900 whitespace-no-wrap">
-                                            FW
-                                        </p>
-                                    </td>
-
-                                    <td className=" w-28 px-3  py-3 gap-10 border-gray-200 text-xl flex items-center">
-                                        <div className=" text-green-500 cursor-pointer  mt-3">
-                                            <AiOutlineEdit />
-                                        </div>
-                                        <div className=" text-red-500 cursor-pointer mt-3 ">
-                                            <MdDelete />
-                                        </div>
-                                    </td>
-                                </tr> */}
-                                        <tr className="bg-white  border-b">
-                                            <td className=" w-fit px-32 sm:px-48  py-3  text-sm" colSpan={5}>
-                                                <p className="text-gray-900">
-                                                    No player data available
-                                                </p>
-                                            </td>
-                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -312,8 +267,59 @@ const PlayerTable = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        {starting.length
+                                            ?
+                                            <>
+                                                {starting.map((player: Player) => (
+                                                    <tr className=" border-b" key={player._id}>
+                                                        <td className="px-3 py-3   text-sm w-32">
+                                                            <div className="flex items-center gap-4">
+                                                                <div className="ml-3">
+                                                                    <input type="checkbox" name="" id=""
+                                                                        checked={selectedCheckbox1 === player._id}
+                                                                        onChange={() => handleCheckboxChange1(player._id)}
+                                                                    />
+                                                                </div>
+                                                                <div className="flex-shrink-0 w-10 h-10">
+                                                                    <img className="w-full h-full rounded-full"
+                                                                        src={player.image}
+                                                                        alt="" />
+                                                                </div>
 
-                                        <tr className=" border-b">
+                                                            </div>
+                                                        </td>
+
+                                                        <td className=" w-32 px-3  py-3  text-sm">
+                                                            <p className="text-gray-900 whitespace-no-wrap">{player.shirtNo}</p>
+                                                        </td>
+
+                                                        <td className=" w-32 px-3  py-3   text-sm">
+                                                            <p className="text-gray-900 whitespace-no-wrap"
+                                                                style={{ maxWidth: '130px', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                                                            >{player.name}</p>
+                                                        </td>
+
+                                                        <td className=" w-28 px-3  py-3  text-sm">
+                                                            <p className="text-gray-900 whitespace-no-wrap">
+                                                                {player.position}
+                                                            </p>
+                                                        </td>
+
+
+                                                    </tr>
+                                                ))}
+                                            </>
+                                            :
+
+                                            <tr className="bg-white  border-b">
+                                                <td className=" w-fit px-32 sm:px-48  py-3  text-sm" colSpan={5}>
+                                                    <p className="text-gray-900">
+                                                        No player data available
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                        }
+                                        {/* <tr className=" border-b">
                                             <td className="px-3 py-3   text-sm w-32">
                                                 <div className="flex items-center gap-4">
                                                     <div className="ml-3">
@@ -524,7 +530,7 @@ const PlayerTable = () => {
                                                 </p>
                                             </td>
 
-                                        </tr>
+                                        </tr> */}
                                     </tbody>
                                 </table>
                             </div>
