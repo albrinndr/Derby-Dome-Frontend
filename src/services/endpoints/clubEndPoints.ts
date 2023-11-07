@@ -10,10 +10,11 @@ const clubRoutes = {
     updateBackground: '/club/background',
 
     getTeamData: '/club/getTeam',
-    addManager:'/club/addManager',
-    editManager:'/club/editManager',
-    addPlayer:'/club/addPlayer',
-    editPlayer:'/club/editPlayer'
+    addManager: '/club/addManager',
+    editManager: '/club/editManager',
+    addPlayer: '/club/addPlayer',
+    editPlayer: '/club/editPlayer',
+    deletePlayer: (id: string) => `/club/deletePlayer/${id}`
 };
 
 export default clubRoutes;

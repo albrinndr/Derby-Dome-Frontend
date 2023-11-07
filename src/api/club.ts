@@ -138,3 +138,13 @@ export const editClubPlayer = async (data: FormData) => {
         return errorHandle(err);
     }
 };
+
+export const deleteClubPlayer = async (id: string) => {
+    try {
+        const response = await Api.delete(clubRoutes.deletePlayer(id));
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};

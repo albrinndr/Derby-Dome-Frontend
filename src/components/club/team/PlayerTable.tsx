@@ -4,12 +4,16 @@ import { MdDelete } from 'react-icons/md';
 import { AiOutlineEdit } from 'react-icons/ai';
 import AddPlayer from "./AddPlayer";
 import AddManager from "./AddManager";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import LoadingScreen from "../../common/LoadingScreen";
-import { getClubTeamData } from "../../../api/club";
+import { deleteClubPlayer, getClubTeamData } from "../../../api/club";
 import EditManager from "./EditManager";
 import './PlayerTable.module.css';
 import EditPlayer from "./EditPlayer";
+import { useDispatch, useSelector } from "react-redux";
+import { openModal as deleteModal } from "../../../store/slices/modalSlice";
+import toast from "react-hot-toast";
+import ConfirmationModal from "../../common/ConfirmationModal";
 
 
 interface Manager {
@@ -24,6 +28,12 @@ interface Player {
     position: string;
     image: string;
     startingXI: boolean;
+}
+
+interface ModalState {
+    modal: {
+        showModal: boolean;
+    };
 }
 
 const PlayerTable = () => {
@@ -88,6 +98,24 @@ const PlayerTable = () => {
         setShowLoading(val);
     };
 
+    const { mutate: deletePlayerMutate } = useMutation({
+        mutationFn: deleteClubPlayer,
+        onSuccess: (res) => {
+            if (res) toast.success('Player removed');
+            refetch();
+            loadingHandler(false);
+        }
+    });
+
+
+    const { showModal } = useSelector((state: ModalState) => state.modal);
+    const dispatch = useDispatch();
+
+    const deleteModalHandler = (id: string) => {
+        setPId(id);
+        dispatch(deleteModal());
+        loadingHandler(true);
+    };
 
 
     return (
@@ -117,6 +145,7 @@ const PlayerTable = () => {
                         pPosition={pPosition}
                         pShirtNo={pShirtNo}
                     />}
+
 
                     <div className="flex justify-between items-center gap-5">
                         <button className="p-2 bg-red-600 rounded text-white text-sm sm:text-md" onClick={modalHandler}>
@@ -215,7 +244,9 @@ const PlayerTable = () => {
                                                             >
                                                                 <AiOutlineEdit />
                                                             </div>
-                                                            <div className=" text-red-500 cursor-pointer mt-3 ">
+                                                            <div className=" text-red-500 cursor-pointer mt-3 "
+                                                                onClick={() => deleteModalHandler(player._id)}
+                                                            >
                                                                 <MdDelete />
                                                             </div>
                                                         </td>
@@ -236,6 +267,8 @@ const PlayerTable = () => {
                                 </table>
                             </div>
                         </div>
+
+
                         <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto text-center mt-7 xl:mt-0">
                             <h1 className="font-semibold mb-3">POSSIBLE STARTING XI</h1>
                             <div className="inline-block rounded-lg max-h-72 ">
@@ -319,218 +352,6 @@ const PlayerTable = () => {
                                                 </td>
                                             </tr>
                                         }
-                                        {/* <tr className=" border-b">
-                                            <td className="px-3 py-3   text-sm w-32">
-                                                <div className="flex items-center gap-4">
-                                                    <div className="ml-3">
-                                                        <input type="checkbox" name="" id=""
-                                                            checked={selectedCheckbox1 === 'inde'}
-                                                            onChange={() => handleCheckboxChange1('inde')}
-                                                        />
-                                                    </div>
-                                                    <div className="flex-shrink-0 w-10 h-10">
-                                                        <img className="w-full h-full rounded-full"
-                                                            src='https://sortitoutsi.b-cdn.net/assets/graphic_styles/cut_out_faces.png'
-                                                            alt="" />
-                                                    </div>
-
-                                                </div>
-                                            </td>
-
-                                            <td className=" w-32 px-3  py-3  text-sm">
-                                                <p className="text-gray-900 whitespace-no-wrap">10</p>
-                                            </td>
-
-                                            <td className=" w-32 px-3  py-3   text-sm">
-                                                <p className="text-gray-900 whitespace-no-wrap"
-                                                    style={{ maxWidth: '130px', overflow: 'hidden', textOverflow: 'ellipsis' }}
-                                                >LIONAL MESSI</p>
-                                            </td>
-
-                                            <td className=" w-28 px-3  py-3  text-sm">
-                                                <p className="text-gray-900 whitespace-no-wrap">
-                                                    FW
-                                                </p>
-                                            </td>
-
-
-                                        </tr>
-                                        <tr className="bg-white  border-b">
-                                            <td className="px-3 py-3   text-sm w-32">
-                                                <div className="flex items-center gap-4">
-                                                    <div className="ml-3">
-                                                        <input type="checkbox" name="" id=""
-                                                            checked={selectedCheckbox1 === 'ad'}
-                                                            onChange={() => handleCheckboxChange1('ad')}
-                                                        />
-                                                    </div>
-                                                    <div className="flex-shrink-0 w-10 h-10">
-                                                        <img className="w-full h-full rounded-full"
-                                                            src='https://sortitoutsi.b-cdn.net/assets/graphic_styles/cut_out_faces.png'
-                                                            alt="" />
-                                                    </div>
-
-                                                </div>
-                                            </td>
-
-                                            <td className=" w-32 px-3  py-3  text-sm">
-                                                <p className="text-gray-900 whitespace-no-wrap">10</p>
-                                            </td>
-
-                                            <td className=" w-32 px-3  py-3   text-sm">
-                                                <p className="text-gray-900 whitespace-no-wrap"
-                                                    style={{ maxWidth: '130px', overflow: 'hidden', textOverflow: 'ellipsis' }}
-                                                >LIONAL MESSI</p>
-                                            </td>
-
-                                            <td className=" w-28 px-3  py-3  text-sm">
-                                                <p className="text-gray-900 whitespace-no-wrap">
-                                                    FW
-                                                </p>
-                                            </td>
-
-
-                                        </tr>
-                                        <tr className="bg-white  border-b">
-                                            <td className="px-3 py-3   text-sm w-32">
-                                                <div className="flex items-center gap-4">
-                                                    <div className="ml-3">
-                                                        <input type="checkbox" name="" id=""
-                                                            checked={selectedCheckbox1 === 'ae'}
-                                                            onChange={() => handleCheckboxChange1('ae')}
-                                                        />
-                                                    </div>
-                                                    <div className="flex-shrink-0 w-10 h-10">
-                                                        <img className="w-full h-full rounded-full"
-                                                            src='https://sortitoutsi.b-cdn.net/assets/graphic_styles/cut_out_faces.png'
-                                                            alt="" />
-                                                    </div>
-
-                                                </div>
-                                            </td>
-
-                                            <td className=" w-32 px-3  py-3  text-sm">
-                                                <p className="text-gray-900 whitespace-no-wrap">10</p>
-                                            </td>
-
-                                            <td className=" w-32 px-3  py-3   text-sm">
-                                                <p className="text-gray-900 whitespace-no-wrap"
-                                                    style={{ maxWidth: '130px', overflow: 'hidden', textOverflow: 'ellipsis' }}
-                                                >LIONAL MESSI</p>
-                                            </td>
-
-                                            <td className=" w-28 px-3  py-3  text-sm">
-                                                <p className="text-gray-900 whitespace-no-wrap">
-                                                    FW
-                                                </p>
-                                            </td>
-
-                                        </tr>
-                                        <tr className="bg-white  border-b">
-                                            <td className="px-3 py-3   text-sm w-32">
-                                                <div className="flex items-center gap-4">
-                                                    <div className="ml-3">
-                                                        <input type="checkbox" name="" id=""
-                                                            checked={selectedCheckbox1 === 'aeqw'}
-                                                            onChange={() => handleCheckboxChange1('aeqw')}
-                                                        />
-                                                    </div>
-                                                    <div className="flex-shrink-0 w-10 h-10">
-                                                        <img className="w-full h-full rounded-full"
-                                                            src='https://sortitoutsi.b-cdn.net/assets/graphic_styles/cut_out_faces.png'
-                                                            alt="" />
-                                                    </div>
-
-                                                </div>
-                                            </td>
-
-                                            <td className=" w-32 px-3  py-3  text-sm">
-                                                <p className="text-gray-900 whitespace-no-wrap">10</p>
-                                            </td>
-
-                                            <td className=" w-32 px-3  py-3   text-sm">
-                                                <p className="text-gray-900 whitespace-no-wrap"
-                                                    style={{ maxWidth: '130px', overflow: 'hidden', textOverflow: 'ellipsis' }}
-                                                >LIONAL MESSI</p>
-                                            </td>
-
-                                            <td className=" w-28 px-3  py-3  text-sm">
-                                                <p className="text-gray-900 whitespace-no-wrap">
-                                                    FW
-                                                </p>
-                                            </td>
-
-                                        </tr>
-                                        <tr className="bg-white  border-b">
-                                            <td className="px-3 py-3   text-sm w-32">
-                                                <div className="flex items-center gap-4">
-                                                    <div className="ml-3">
-                                                        <input type="checkbox" name="" id=""
-                                                            checked={selectedCheckbox1 === 'polk'}
-                                                            onChange={() => handleCheckboxChange1('polk')}
-                                                        />
-                                                    </div>
-                                                    <div className="flex-shrink-0 w-10 h-10">
-                                                        <img className="w-full h-full rounded-full"
-                                                            src='https://sortitoutsi.b-cdn.net/assets/graphic_styles/cut_out_faces.png'
-                                                            alt="" />
-                                                    </div>
-
-                                                </div>
-                                            </td>
-
-                                            <td className=" w-32 px-3  py-3  text-sm">
-                                                <p className="text-gray-900 whitespace-no-wrap">10</p>
-                                            </td>
-
-                                            <td className=" w-32 px-3  py-3   text-sm">
-                                                <p className="text-gray-900 whitespace-no-wrap"
-                                                    style={{ maxWidth: '130px', overflow: 'hidden', textOverflow: 'ellipsis' }}
-                                                >LIONAL MESSI</p>
-                                            </td>
-
-                                            <td className=" w-28 px-3  py-3  text-sm">
-                                                <p className="text-gray-900 whitespace-no-wrap">
-                                                    FW
-                                                </p>
-                                            </td>
-
-                                        </tr>
-                                        <tr className="bg-white  border-b">
-                                            <td className="px-3 py-3   text-sm w-32">
-                                                <div className="flex items-center gap-4">
-                                                    <div className="ml-3">
-                                                        <input type="checkbox" name="" id=""
-                                                            checked={selectedCheckbox1 === 'iuo'}
-                                                            onChange={() => handleCheckboxChange1('iuo')}
-                                                        />
-                                                    </div>
-                                                    <div className="flex-shrink-0 w-10 h-10">
-                                                        <img className="w-full h-full rounded-full"
-                                                            src='https://sortitoutsi.b-cdn.net/assets/graphic_styles/cut_out_faces.png'
-                                                            alt="" />
-                                                    </div>
-
-                                                </div>
-                                            </td>
-
-                                            <td className=" w-32 px-3  py-3  text-sm">
-                                                <p className="text-gray-900 whitespace-no-wrap">10</p>
-                                            </td>
-
-                                            <td className=" w-32 px-3  py-3   text-sm">
-                                                <p className="text-gray-900 whitespace-no-wrap"
-                                                    style={{ maxWidth: '130px', overflow: 'hidden', textOverflow: 'ellipsis' }}
-                                                >LIONAL MESSI</p>
-                                            </td>
-
-                                            <td className=" w-28 px-3  py-3  text-sm">
-                                                <p className="text-gray-900 whitespace-no-wrap">
-                                                    FW
-                                                </p>
-                                            </td>
-
-                                        </tr> */}
                                     </tbody>
                                 </table>
                             </div>
@@ -540,6 +361,7 @@ const PlayerTable = () => {
             }
 
             </>
+            {showModal && <ConfirmationModal confirmFn={deletePlayerMutate} id={pId} />}
         </>
 
     );
