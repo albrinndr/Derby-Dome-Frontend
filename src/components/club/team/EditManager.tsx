@@ -1,23 +1,24 @@
 import React, { FormEvent, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { GrClose } from 'react-icons/gr';
-import { addClubManager } from "../../../api/club";
+import { editClubManager } from "../../../api/club";
 import toast from "react-hot-toast";
 
 interface Modal {
     modalFn: () => void;
     refetch: () => void;
     loadingFn: (val: boolean) => void;
+    managerName: string;
 }
 
-const AddManager: React.FC<Modal> = ({ modalFn, refetch, loadingFn }) => {
-    const [name, setName] = useState<string>('');
+const EditManager: React.FC<Modal> = ({ modalFn, refetch, loadingFn, managerName }) => {
+    const [name, setName] = useState<string>(managerName);
     const [image, setImage] = useState<File | null>(null);
 
-    const { mutate: addManager } = useMutation({
-        mutationFn: addClubManager,
+    const { mutate: editManager } = useMutation({
+        mutationFn: editClubManager,
         onSuccess: () => {
-            toast.success('Team Manager added!');
+            toast.success('Manager data updated!');
             loadingFn(false);
             refetch();
         }
@@ -28,14 +29,11 @@ const AddManager: React.FC<Modal> = ({ modalFn, refetch, loadingFn }) => {
         if (name.trim().length < 3) {
             toast.error('Add a proper name');
             return;
-        } else if (image === null) {
-            toast.error('Add manager image');
-            return;
         } else {
             const managerFormData = new FormData();
             managerFormData.append('name', name);
-            managerFormData.append('image', image);
-            addManager(managerFormData);
+            if (image) managerFormData.append('image', image);
+            editManager(managerFormData);
             loadingFn(true);
             modalFn();
         }
@@ -63,6 +61,9 @@ const AddManager: React.FC<Modal> = ({ modalFn, refetch, loadingFn }) => {
                                 />
                             </div>
                             <div className="mt-6">
+                                {image && <img src={URL.createObjectURL(image)} className="w-20 rounded-full" alt="" />}
+                            </div>
+                            <div className="mt-3">
                                 <label className="bg-gray-400 px-2 py-1 rounded text-white">
                                     <input
                                         className="hidden"
@@ -74,7 +75,7 @@ const AddManager: React.FC<Modal> = ({ modalFn, refetch, loadingFn }) => {
                                 </label>
                             </div>
                             <div className="mt-6">
-                                <button className="bg-green-500 text-white px-2 py-1 w-full rounded-sm">Submit</button>
+                                <button className="bg-green-500 text-white px-2 py-1 w-full rounded-sm">Update</button>
                             </div>
                         </form>
                     </div>
@@ -85,4 +86,4 @@ const AddManager: React.FC<Modal> = ({ modalFn, refetch, loadingFn }) => {
     );
 };
 
-export default AddManager;
+export default EditManager;

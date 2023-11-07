@@ -88,3 +88,33 @@ export const updateClubBackground = async (bgImg: FormData) => {
         return errorHandle(err);
     }
 };
+
+export const getClubTeamData = async () => {
+    try {
+        const response = await Api.get(clubRoutes.getTeamData);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};
+
+export const addClubManager = async (data: FormData) => {
+    try {
+        const response = await Api.post(clubRoutes.addManager, data);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};
+
+export const editClubManager = async (data: FormData) => {
+    try {
+        const response = await Api.put(clubRoutes.editManager, data);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};
