@@ -59,6 +59,10 @@ const NavBar: React.FC<NavBarProps> = ({ color, fixed }) => {
                                 Fixtures
                                 <span className={`absolute left-0 right-0 bottom-0 h-px top-7 ${underLineStyle} transition-all`}></span>
                             </Link>
+                            <Link to="/club/team" className={`${itemStyle} text-md font-semibold relative mr-9 group`}>
+                                Team
+                                <span className={`absolute left-0 right-0 bottom-0 h-px top-7 ${underLineStyle} transition-all`}></span>
+                            </Link>
                             <Link to='/club/profile' className={`${itemStyle} text-md font-semibold relative mr-9 group`}>
                                 My Club
                                 <span className={`absolute left-0 right-0 bottom-0 h-px top-7 ${underLineStyle} transition-all`}></span>
@@ -74,7 +78,8 @@ const NavBar: React.FC<NavBarProps> = ({ color, fixed }) => {
                     {dropMenu && <div className="block md:hidden bg-white rounded py-2">
                         <div className="flex flex-col p-3">
                             <Link to="#" className="text-gray-800 text-md font-semibold hover:text-purple-600 mb-2">Dashboard</Link>
-                            <Link to="#" className="text-gray-800 text-md font-semibold hover:text-purple-600 mb-2">Fixtures</Link>
+                            <Link to="/club/fixture" className="text-gray-800 text-md font-semibold hover:text-purple-600 mb-2">Fixtures</Link>
+                            <Link to="/club/team" className="text-gray-800 text-md font-semibold hover:text-purple-600 mb-2">Team</Link>
                             <Link to="/club/profile" className="text-gray-800 text-md font-semibold hover:text-purple-600 mb-2">My Club</Link>
                             <div className="flex justify-between items-center border-t-2 pt-2">
                                 <button onClick={logoutHandler} className="text-gray-800 text-md font-semibold border px-4 py-1 rounded-lg hover:bg-red-500 hover:text-white">Log Out</button>

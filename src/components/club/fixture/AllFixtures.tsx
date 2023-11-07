@@ -13,6 +13,7 @@ interface Fixture {
   awayTeam: string;
   time: string,
   date: string;
+  createdAt: Date;
 }
 
 const AllFixtures = () => {
@@ -54,6 +55,7 @@ const AllFixtures = () => {
                   time={fixture.time}
                   date={fixture.date}
                   id={fixture._id}
+                  createdAt={fixture.createdAt}
                   cancelFn={cancelHandler}
                 />
               ))

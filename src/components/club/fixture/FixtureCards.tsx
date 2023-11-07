@@ -13,6 +13,7 @@ interface Fixture {
     time: string;
     id: string;
     cancelFn: (id: string) => void;
+    createdAt: Date;
 }
 
 interface RootState {
@@ -49,14 +50,21 @@ const FixtureCards: React.FC<Fixture> = (props: Fixture) => {
         dispatch(openModal());
     };
 
+    const currentDate = new Date();
+    currentDate.setDate(currentDate.getDate() + 1);
+
+
+    const showDate = new Date(props.createdAt);
+    showDate.setDate(showDate.getDate() + 2);
+
     return (
         <>
             <div className="bg-white rounded-xl mb-10 shadow shadow-gray-300 lg:mx-32 relative z-0">
                 <div className="flex justify-between items-center border-b-4 border-customBg px-4 py-2">
                     <h1 className="text-md md:text-lg tracking-widest ">{props.title}</h1>
-                    <button className="sm:px-4 sm:py-2 py-1 px-2 rounded-lg text-white bg-red-600 hover:bg-red-700"
+                    {currentDate < showDate && <button className="sm:px-4 sm:py-2 py-1 px-2 rounded-lg text-white bg-red-600 hover:bg-red-700"
                         onClick={cancelModalHandler}
-                    >Cancel</button>
+                    >Cancel</button>}
 
                 </div>
                 <div className="px-2 pt-2 pb-1 grid-cols-3 grid">
