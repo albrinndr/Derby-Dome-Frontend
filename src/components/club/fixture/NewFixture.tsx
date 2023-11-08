@@ -4,7 +4,7 @@ import Calendar from "react-calendar";
 import { getFixtureDateContent, newFixture } from "../../../api/fixture";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LoadingScreen from "../../common/LoadingScreen";
 
 type ValuePiece = Date | null;
@@ -31,6 +31,7 @@ const NewFixture = () => {
     const [awayTeamName, setAwayTeamName] = useState('');
     const [checked, setChecked] = useState(false);
     const [matchTitle, setMatchTitle] = useState('Friendly Match');
+    const [teamXI, setTeamXI] = useState(true);
 
     const [showForm, setShowForm] = useState(false);
     const [times, setTimes] = useState([]);
@@ -46,6 +47,7 @@ const NewFixture = () => {
                 if (res.data.times.length > 0) {
                     setClubs(res.data.clubs);
                     setTimes(res.data.times);
+                    setTeamXI(res.data.team);
                     setShowForm(true);
                 }
             }
@@ -176,6 +178,10 @@ const NewFixture = () => {
                                     {showForm ?
                                         <>
                                             <div className="">
+                                                {!teamXI && <div className="flex bg-white shadow-md w-fit p-2 items-center mb-4 gap-4">
+                                                    <p>Complete you team first </p>
+                                                    <Link to="/club/team" className="bg-green-500 p-1 text-white rounded">Go to team</Link>
+                                                </div>}
                                                 <div>
                                                     <label htmlFor="">Select time: </label>
                                                     <div className="sm:flex gap-5 mt-2">
@@ -263,8 +269,9 @@ const NewFixture = () => {
                                                 <h1 className="text-lg">Total: ₹ {selectedTimePrice}</h1>
                                             </div>
                                             <div>
-                                                <button className="p-2 bg-green-500 hover:bg-green-600 w-80 rounded text-white font-semibold mt-4"
-                                                    onClick={submitHandler}
+                                                <button className={`p-2 w-80 rounded font-semibold mt-4 ${!teamXI ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-500 hover:bg-green-600'
+                                                    } text-white`}
+                                                    onClick={submitHandler} disabled={!teamXI}
                                                 >Submit</button>
                                             </div>
                                         </> :
