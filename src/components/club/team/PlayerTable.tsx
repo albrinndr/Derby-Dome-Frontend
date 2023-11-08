@@ -6,7 +6,7 @@ import AddPlayer from "./AddPlayer";
 import AddManager from "./AddManager";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import LoadingScreen from "../../common/LoadingScreen";
-import { deleteClubPlayer, getClubTeamData } from "../../../api/club";
+import { changeStartingXI, deleteClubPlayer, getClubTeamData } from "../../../api/club";
 import EditManager from "./EditManager";
 import './PlayerTable.module.css';
 import EditPlayer from "./EditPlayer";
@@ -117,6 +117,20 @@ const PlayerTable = () => {
         loadingHandler(true);
     };
 
+    const { mutate: changeXI } = useMutation({
+        mutationFn: changeStartingXI,
+        onSuccess: (res) => {
+            if (res) toast.success('XI changed!');
+            refetch();
+            loadingHandler(false);
+        }
+    });
+
+    const swapHandler = () => {
+        const data = { p1Id: selectedCheckbox, p2Id: selectedCheckbox1 };
+        changeXI(data);
+        loadingHandler(true);
+    };
 
     return (
         <>
@@ -165,7 +179,7 @@ const PlayerTable = () => {
                         </div>}
                     </div>
                     {selectedCheckbox && selectedCheckbox1 && <div className="flex justify-center">
-                        <button className="px-4 py-2 rounded bg-green-500 text-white font-semibold flex items-center mt-4 lg:mt-0 sm:gap-2 sm:text-md w-48 justify-center"><IoMdSwap /> SWAP</button>
+                        <button onClick={swapHandler} className="px-4 py-2 rounded bg-green-500 text-white font-semibold flex items-center mt-4 lg:mt-0 sm:gap-2 sm:text-md w-48 justify-center"><IoMdSwap /> SWAP</button>
                     </div>}
 
                     <div className="py-8 xl:flex justify-between ">

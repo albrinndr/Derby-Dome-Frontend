@@ -8,6 +8,11 @@ interface ClubFormData {
     password: string;
 }
 
+interface ChangeXI {
+    p1Id: string,
+    p2Id: string;
+}
+
 export const clubSignUp = async (clubData: FormData) => {
     try {
         const response = await Api.post(clubRoutes.signUp, clubData);
@@ -142,6 +147,16 @@ export const editClubPlayer = async (data: FormData) => {
 export const deleteClubPlayer = async (id: string) => {
     try {
         const response = await Api.delete(clubRoutes.deletePlayer(id));
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};
+
+export const changeStartingXI = async (data: ChangeXI) => {
+    try {
+        const response = await Api.put(clubRoutes.changeXI(data.p1Id, data.p2Id));
         return response;
     } catch (error) {
         const err: Error = error as Error;

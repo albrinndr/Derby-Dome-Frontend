@@ -14,7 +14,8 @@ const clubRoutes = {
     editManager: '/club/editManager',
     addPlayer: '/club/addPlayer',
     editPlayer: '/club/editPlayer',
-    deletePlayer: (id: string) => `/club/deletePlayer/${id}`
+    deletePlayer: (id: string) => `/club/deletePlayer/${id}`,
+    changeXI: (p1Id: string, p2Id: string) => `/club/changeXI/${p1Id}/${p2Id}`
 };
 
 export default clubRoutes;
