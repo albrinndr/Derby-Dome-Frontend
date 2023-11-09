@@ -27,6 +27,8 @@ import { Toaster } from 'react-hot-toast';
 import ClubProfileHead from './components/club/headers/ClubProfileHead';
 import ClubFixtures from './pages/club/ClubFixtures';
 import ClubTeamManagement from './pages/club/ClubTeamManagement';
+import PaymentSuccess from './pages/club/PaymentSuccess';
+import PaymentFailed from './pages/club/PaymentFailed';
 
 export default function App() {
   return (
@@ -67,6 +69,8 @@ export default function App() {
             <Route path='fixture' element={<ClubFixtures />} />
             <Route path='fixture/newFixture' element={<ClubNewFixture />} />
             <Route path='team' element={<ClubTeamManagement />} />
+            <Route path='paymentSuccess' element={<PaymentSuccess />} />
+            <Route path='paymentFailed' element={<PaymentFailed />} />
           </Route>
         </Route>
         <Route path="*" element={<NotFound />} />

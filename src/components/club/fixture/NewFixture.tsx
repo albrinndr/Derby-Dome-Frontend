@@ -4,8 +4,11 @@ import Calendar from "react-calendar";
 import { getFixtureDateContent, newFixture } from "../../../api/fixture";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import LoadingScreen from "../../common/LoadingScreen";
+import { loadStripe } from '@stripe/stripe-js';
+
+const STRIPE_PK = 'pk_test_51OA5R7SG8cuZuFqKRSKfynnuGfD7Qg99WtVfYlHoalU9GANT4nd0X30UaEKlc1v5tfbaEUXL1KTOvAO7m4HhqOlM00dJNGR0ek';
 
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
@@ -38,8 +41,6 @@ const NewFixture = () => {
     const [clubs, setClubs] = useState([]);
     const [image, setImage] = useState<File | null>(null);
 
-    const navigate = useNavigate();
-
     const { status, mutate } = useMutation({
         mutationFn: getFixtureDateContent,
         onSuccess: (res) => {
@@ -58,15 +59,16 @@ const NewFixture = () => {
     // const secondRef = useRef(true);
     useEffect(() => {
         if (date) {
-            const d = date?.toLocaleString();
-            const newDate = new Date(d);
+            // const d = date?.toLocaleString();
+            const newDate = new Date(`${date}`);
+            const changedDate = new Date(newDate.getTime() + 5 * 60 * 60 * 1000 + 30 * 60 * 1000); // Adding 5 hours and 30 minutes
             // if (firstRef.current) {
             //     mutate(newDate);
             //     firstRef.current = false;
             //     return;
             // }
             newDate.setDate(newDate.getDate() + 1);
-            mutate(newDate);
+            mutate(changedDate);
         }
     }, [date, mutate]);
 
@@ -80,11 +82,20 @@ const NewFixture = () => {
 
     const { status: submitStatus, mutate: formSubmitMutate } = useMutation({
         mutationFn: newFixture,
-        onSuccess: (res) => {
-            if (res) {
-                toast.success('Fixture Scheduled');
-                navigate('/club/fixture');
+        onSuccess: async (res) => {
+            const stripe = await loadStripe(STRIPE_PK);
+            if (res && res.data && stripe) {
+                const result = await stripe.redirectToCheckout({
+                    sessionId: res.data.stripeSessionId
+                });
+                if (result?.error) {
+                    const msg = result.error;
+                    console.log(msg);
+                }
+                // toast.success('Fixture Scheduled');
+                // navigate('/club/fixture');
             }
+            
         }
     });
 
@@ -112,10 +123,11 @@ const NewFixture = () => {
                 fixtureForm.append('awayTeamId', selectedAwayTeam);
             }
             if (date) {
-                const d = date?.toLocaleString();
-                const newDate = new Date(d);
-                newDate.setDate(newDate.getDate() + 1);
-                fixtureForm.append('date', newDate.toISOString());
+                // const d = date?.toLocaleString();
+                const newDate = new Date(`${date}`);
+                const changedDate = new Date(newDate.getTime() + 5 * 60 * 60 * 1000 + 30 * 60 * 1000); // Adding 5 hours and 30 minutes
+                // newDate.setDate(newDate.getDate() + 1);
+                fixtureForm.append('date', changedDate.toISOString());
                 // if (secondRef.current) {
                 // secondRef.current = false;
                 // } else {
@@ -188,7 +200,7 @@ const NewFixture = () => {
                                                         {times.map((time: Time) => (
                                                             <button
                                                                 key={time.time}
-                                                                className={`bg-white border ${time.time === selectedTime ? 'bg-customColor text-white' : 'bg-gray-200 hover:bg-blue-50 text-gray-700'
+                                                                className={`bg-white border ${time.time === selectedTime ? 'bg-green-800 text-white' : 'bg-gray-200 hover:bg-blue-50 text-gray-700'
                                                                     } px-8 py-2 rounded-lg`}
                                                                 onClick={() => handleOptionChange(time.time, time.price)}
                                                             >
