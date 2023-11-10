@@ -17,7 +17,7 @@ const UserHome = () => {
 
   const { isLoading, data: homeData } = useQuery({ queryKey: ['home'], queryFn: getHome });
   return (
-    <div style={{ minHeight: '200vh' }}>
+    <div>
       <NavBar color={!isScrolled} fixed />
       {!isLoading &&
         <>

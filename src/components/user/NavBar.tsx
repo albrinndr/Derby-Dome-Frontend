@@ -48,7 +48,7 @@ const NavBar: React.FC<NavBarProps> = ({ color, fixed }) => {
                             Home
                             <span className={`absolute left-0 right-0 bottom-0 h-px top-7 ${underLineStyle} transition-all`}></span>
                         </Link>
-                        <Link to='#' className={`${itemStyle} text-md font-semibold relative mr-9 group`}>
+                        <Link to='/fixture' className={`${itemStyle} text-md font-semibold relative mr-9 group`}>
                             Fixtures
                             <span className={`absolute left-0 right-0 bottom-0 h-px top-7 ${underLineStyle} transition-all`}></span>
                         </Link>
@@ -74,7 +74,7 @@ const NavBar: React.FC<NavBarProps> = ({ color, fixed }) => {
                                 <span className={`absolute left-0 right-0 bottom-0 h-px top-7 ${underLineStyle} transition-all`}></span>
                             </Link>
                             :
-                            <Link to='/login' className={`${itemStyle} text-md font-semibold  px-4 py-2 rounded-lg  hover:bg-gray-400 hover:bg-opacity-25`}>Log In</Link>
+                            <Link to='/login' className={`${itemStyle} text-md font-semibold  px-4 py-2 rounded-0  hover:bg-gray-400 hover:bg-opacity-25 hover:shadow-inner`}>Log In</Link>
                         }
 
                     </div>
@@ -87,7 +87,7 @@ const NavBar: React.FC<NavBarProps> = ({ color, fixed }) => {
                 {dropMenu && <div className="block md:hidden bg-white  border-t-2 py-2">
                     <div className="flex flex-col p-3">
                         <Link to='/' className="text-gray-800 text-md font-semibold hover:text-purple-600 mb-1">Home</Link>
-                        <Link to='#' className="text-gray-800 text-md font-semibold hover:text-purple-600 mb-1">Fixtures</Link>
+                        <Link to='/fixture' className="text-gray-800 text-md font-semibold hover:text-purple-600 mb-1">Fixtures</Link>
                         <Link to='#' className="text-gray-800 text-md font-semibold hover:text-purple-600 mb-1">Reviews</Link>
                         <Link to='#' className="text-gray-800 text-md font-semibold hover:text-purple-600 mb-1">Community</Link>
                         <Link to='#' className="text-gray-800 text-md font-semibold hover:text-purple-600 mb-1">Search</Link>

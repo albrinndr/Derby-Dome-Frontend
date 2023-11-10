@@ -29,6 +29,7 @@ import ClubFixtures from './pages/club/ClubFixtures';
 import ClubTeamManagement from './pages/club/ClubTeamManagement';
 import PaymentSuccess from './pages/club/PaymentSuccess';
 import PaymentFailed from './pages/club/PaymentFailed';
+import UserFixture from './pages/user/UserFixture';
 
 export default function App() {
   return (
@@ -40,6 +41,7 @@ export default function App() {
           <Route index={true} element={<UserHome />} />
           <Route path="login" element={<LoginPage user='user' />} />
           <Route path="signup" element={<UserSignUp />} />
+          <Route path='fixture' element={<UserFixture />} />
           <Route path='' element={<UserProtect />}>
             <Route path="profile" element={<UserProfile />} />
           </Route>
