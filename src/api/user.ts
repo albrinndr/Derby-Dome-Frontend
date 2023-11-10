@@ -81,9 +81,10 @@ export const updateUserProfile = async (userData: FormData) => {
     }
 };
 
-export const getBanner = async () => {
+
+export const getHome = async () => {
     try {
-        const response = await Api.get(userRoutes.banners);
+        const response = await Api.get(userRoutes.getHome);
         return response;
     } catch (error) {
         const err: Error = error as Error;

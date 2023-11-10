@@ -26,7 +26,7 @@ const NavBar: React.FC<NavBarProps> = ({ color, fixed }) => {
     const handleMenu = () => {
         setDropMenu(prevMenu => !prevMenu);
     };
-    const navBarStyle = !color ? 'bg-white shadow  transition-all transition-all duration-1000 delay-2000 ' : '';
+    const navBarStyle = !color ? 'bg-white shadow  transition-all transition-all duration-1000 delay-2000 ' : 'bg-gray-900 bg-opacity-20';
     const itemStyle = !color ? 'text-gray-800 ' : 'text-white';
     const navPosition = fixed ? 'fixed' : 'sticky';
     const MenuIconType = !color ? MenuIcon : MenuWhite;
@@ -36,7 +36,7 @@ const NavBar: React.FC<NavBarProps> = ({ color, fixed }) => {
     return (
         <div className={` right-0 left-0 top-0 z-50 px-4 md:py-1 md:px-14 ${navBarStyle} ${navPosition}`}>
             <div className="">
-                <div className="flex items-center justify-between py-4">
+                <div className="flex items-center justify-between py-2">
                     <div>
                         <Link to='/'>
                             <img src={MainLogo} alt="" width="100rem" />

@@ -1,14 +1,14 @@
 const userRoutes = {
     signUp: '/user/signUp',
-    verify:'/user/verify',
-    resendOtp:'/user/resendOtp',
-    login:'/user/login',
-    logout:'/user/logout',
+    verify: '/user/verify',
+    resendOtp: '/user/resendOtp',
+    login: '/user/login',
+    logout: '/user/logout',
 
-    getProfile:'/user/profile',
-    updateProfile:'/user/profile',
+    getProfile: '/user/profile',
+    updateProfile: '/user/profile',
 
-    banners:'/user/banner'
+    getHome: '/user/home'
 };
 
 export default userRoutes;

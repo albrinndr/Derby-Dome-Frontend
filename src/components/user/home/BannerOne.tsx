@@ -4,13 +4,12 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
 interface Image {
-    data?: {
+    banners?: {
         image: string;
         text: string;
     }[];
 }
-const BannerOne: React.FC<Image> = ({ data }) => {
-    console.log(data);
+const BannerOne: React.FC<Image> = ({ banners }) => {
     const settings = {
         dots: true,
         infinite: true, // Enables infinite looping
@@ -28,14 +27,14 @@ const BannerOne: React.FC<Image> = ({ data }) => {
     return (
         <div className='overflow-hidden'>
             <Slider {...settings}>
-                {data &&
-                    data.map((item, index) => (
+                {banners &&
+                    banners.map((item, index) => (
                         <div key={index}>
                             <div
                                 className="bg-no-repeat bg-cover bg-center flex items-center justify-center w-full"
                                 style={{
                                     backgroundImage: `url(${item.image || defaultImage})`,
-                                    height: '80vh',
+                                    height: '90vh',
                                     transition: 'background-image 0.5s ease-in-out' // Adjust the height as required
                                 }}
                             >

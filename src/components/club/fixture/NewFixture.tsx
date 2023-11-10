@@ -95,7 +95,7 @@ const NewFixture = () => {
                 // toast.success('Fixture Scheduled');
                 // navigate('/club/fixture');
             }
-            
+
         }
     });
 
@@ -281,6 +281,7 @@ const NewFixture = () => {
                                                 <h1 className="text-lg">Total: ₹ {selectedTimePrice}</h1>
                                             </div>
                                             <div>
+
                                                 <button className={`p-2 w-80 rounded font-semibold mt-4 ${!teamXI ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-500 hover:bg-green-600'
                                                     } text-white`}
                                                     onClick={submitHandler} disabled={!teamXI}
