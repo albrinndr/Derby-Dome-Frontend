@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import NavBar from "../../components/user/NavBar";
-import FixtureFilter from "../../components/user/fixture/FixtureFilter";
 // import fixtureBG from '../../assets/fixture/fixtureBG.png';
 import FixtureHead from "../../components/user/fixture/FixtureHead";
 import fBG2 from '../../assets/fixture/fBG2.png';
+import FixtureContent from "../../components/user/fixture/FixtureContent";
 // import fBGBlue from '../../assets/fixture/fBGBlue.png'
-import FixtureCards from "../../components/user/fixture/FixtureCards";
-import FixturePagination from "../../components/user/fixture/FixturePagination";
 
 const UserFixture = () => {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -22,20 +20,7 @@ const UserFixture = () => {
             <NavBar color={!isScrolled} fixed />
             <div className="mt-12 relative p-4 md:p-14">
                 <FixtureHead />
-                <FixtureFilter />
-                <div>
-                    <FixtureCards />
-                    <FixtureCards />
-                    <FixtureCards />
-                    <FixtureCards />
-                    <FixtureCards />
-                    <FixtureCards />
-                    <FixtureCards />
-                    <FixtureCards />
-                </div>
-                <div className="mt-5">
-                    <FixturePagination />
-                </div>
+                <FixtureContent />
             </div>
         </div>
     );

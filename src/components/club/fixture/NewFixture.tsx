@@ -161,8 +161,9 @@ const NewFixture = () => {
 
     const isLoading = status === "pending";
 
+
     return (
-        <div>
+        <div >
             {submitStatus === "pending" && <LoadingScreen size={35} />}
             <CommonHeader />
             <div className="p-4 md:p-14 flex flex-col lg:flex-row gap-20 justify-center items-center lg:items-start">
@@ -200,7 +201,7 @@ const NewFixture = () => {
                                                         {times.map((time: Time) => (
                                                             <button
                                                                 key={time.time}
-                                                                className={`bg-white border ${time.time === selectedTime ? 'bg-green-800 text-white' : 'bg-gray-200 hover:bg-blue-50 text-gray-700'
+                                                                className={`bg-white border ${time.time === selectedTime ? 'bg-blue-100 text-blue-600' : 'bg-gray-200 hover:bg-blue-50 text-gray-700'
                                                                     } px-8 py-2 rounded-lg`}
                                                                 onClick={() => handleOptionChange(time.time, time.price)}
                                                             >

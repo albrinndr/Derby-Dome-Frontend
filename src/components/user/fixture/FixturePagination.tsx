@@ -1,20 +1,41 @@
 import React from "react";
 import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
 
-const FixturePagination = () => {
+interface FixturePaginationProps {
+    itemsPerPage: number;
+    totalItems: number;
+    paginate: (pageNumber: number) => void;
+    currentPage: number;
+}
+
+const FixturePagination: React.FC<FixturePaginationProps> = ({ itemsPerPage, totalItems, paginate, currentPage }) => {
+    const pageNumbers = [];
+
+    for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage); i++) {
+        pageNumbers.push(i);
+    }
+
     return (
         <div className="flex gap-2 items-center justify-center">
-            <button className="bg-gray-200 text-gray-700 text-sm  p-2 rounded-full" >
+            <button
+                className="bg-gray-200 text-gray-700 text-sm p-2 rounded-full"
+                onClick={() => currentPage > 1 && paginate(currentPage - 1)}
+            >
                 <AiOutlineLeft />
             </button>
-            <button className="bg-green-700 text-white grid place-content-center text-sm  p-2 rounded-full h-8 w-8">
-                1
-            </button>
-            <button className="bg-gray-200 text-gray-700 grid place-content-center text-sm  p-2 rounded-full h-8 w-8">
-                2
-            </button>
-
-            <button className="bg-gray-200 text-gray-700  text-sm  p-2 rounded-full" >
+            {pageNumbers.map((number) => (
+                <button
+                    key={number}
+                    className={`bg-${currentPage === number ? "green-700 text-white" : "gray-200 text-gray-700"} text-sm p-2 rounded-full h-8 w-8`}
+                    onClick={() => paginate(number)}
+                >
+                    {number}
+                </button>
+            ))}
+            <button
+                className="bg-gray-200 text-gray-700 text-sm p-2 rounded-full"
+                onClick={() => currentPage < pageNumbers.length && paginate(currentPage + 1)}
+            >
                 <AiOutlineRight />
             </button>
         </div>

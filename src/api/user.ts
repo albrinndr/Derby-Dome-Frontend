@@ -91,3 +91,13 @@ export const getHome = async () => {
         return errorHandle(err);
     }
 };
+
+export const getFixtures = async () => {
+    try {
+        const response = await Api.get(userRoutes.getFixtures);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TeamFilterIcon from '../../../assets/fixture/team filter icon.svg';
 import TeamDateIcon from '../../../assets/fixture/match filter icon.svg';
 import Calendar from "react-calendar";
@@ -8,13 +8,31 @@ type TileDisabledFunction = ({ date, view }: { date: Date; view: string; }) => b
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 
+interface FixtureFilter {
+    filterTeam: (val: string) => void;
+    filterDate: (val: string) => void;
+    teams: [];
+}
 
-const FixtureFilter = () => {
+const FixtureFilter: React.FC<FixtureFilter> = ({ filterDate, filterTeam, teams }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [isOpen2, setIsOpen2] = useState(false);
     const [selectedItem, setSelectedItem] = useState('All team matches');
     const [date, setDate] = useState<Value>();
-    const options = ['All team matches', 'Option 1', 'Option 2', 'Option 3'];
+
+    useEffect(() => {
+        if (selectedItem === 'All team matches') {
+            filterTeam('');
+        } else {
+            filterTeam(selectedItem);
+        }
+        let newDate = '';
+        if (date) {
+            const d = new Date(`${date}`);
+            newDate = d.toISOString();
+        }
+        filterDate(newDate);
+    }, [date, selectedItem, filterDate, filterTeam]);
 
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
@@ -91,6 +109,9 @@ const FixtureFilter = () => {
                 {isOpen2 && (
                     <div className="absolute w-full right-0 rounded-md bg-white shadow-lg max-h-40 overflow-y-auto">
                         <div className="w-full" onClick={handleOptionClick2}>
+                            <div className="text-end">
+                                <button className="bg-red-500 text-white p-2 " onClick={() => setDate(null)}>Show all dates</button>
+                            </div>
                             <Calendar
                                 onChange={setDate}
                                 value={date}
@@ -137,13 +158,19 @@ const FixtureFilter = () => {
                 {isOpen && (
                     <div className="absolute w-full right-0 rounded-md bg-white shadow-lg max-h-40 overflow-y-auto">
                         <ul className="py-1">
-                            {options.map((option, index) => (
+                            <li
+                                className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                                onClick={() => handleOptionClick('All team matches')}
+                            >
+                                <h1 className="text-semibold text-lg tracking-wider">All team matches</h1>
+                            </li>
+                            {teams.map((option) => (
                                 <li
-                                    key={index}
+                                    key={option[1]}
                                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                                    onClick={() => handleOptionClick(option)}
+                                    onClick={() => handleOptionClick(option[0])}
                                 >
-                                    <h1 className="text-semibold text-lg tracking-wider">{option}</h1>
+                                    <h1 className="text-semibold text-lg tracking-wider">{option[0]}</h1>
                                 </li>
                             ))}
                         </ul>
