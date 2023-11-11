@@ -4,6 +4,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
 import { setClubLogin } from "../../../store/slices/authSlice";
 import toast from "react-hot-toast";
+import Loader from "../../common/Loader";
+import ProfileClubEditSkeleton from "./ProfileClubEditSkeleton";
 
 const ProfileClubEdit = () => {
     const { data: clubData, isLoading } = useQuery({ queryKey: ['clubData'], queryFn: getClubProfile });
@@ -99,7 +101,7 @@ const ProfileClubEdit = () => {
 
     return (
         <div className="px-4 md:px-14 mt-12">
-            {!isLoading && <form onSubmit={submitHandler} className=" p-6 text-center ">
+            {!isLoading ? <form onSubmit={submitHandler} className=" p-6 text-center ">
                 <div className="flex justify-center gap-10 md:gap-20">
                     <div className="hidden sm:block">
                         <img src={clubData?.data.image} alt="" width={150} height={150} />
@@ -213,8 +215,9 @@ const ProfileClubEdit = () => {
                         </button>
                     </div>
                 </div>
-            </form>}
-
+            </form> : <ProfileClubEditSkeleton />
+            }
+            {status === "pending" && <Loader />}
         </div>
     );
 };

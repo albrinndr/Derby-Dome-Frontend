@@ -5,7 +5,6 @@ import { AiOutlineEdit } from 'react-icons/ai';
 import AddPlayer from "./AddPlayer";
 import AddManager from "./AddManager";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import LoadingScreen from "../../common/LoadingScreen";
 import { changeStartingXI, deleteClubPlayer, getClubTeamData } from "../../../api/club";
 import EditManager from "./EditManager";
 import './PlayerTable.module.css';
@@ -14,6 +13,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { openModal as deleteModal } from "../../../store/slices/modalSlice";
 import toast from "react-hot-toast";
 import ConfirmationModal from "../../common/ConfirmationModal";
+import Loader from "../../common/Loader";
+import PlayerTableSkeleton from "./PlayerTableSkeleton";
 
 
 interface Manager {
@@ -114,7 +115,6 @@ const PlayerTable = () => {
     const deleteModalHandler = (id: string) => {
         setPId(id);
         dispatch(deleteModal());
-        loadingHandler(true);
     };
 
     const { mutate: changeXI } = useMutation({
@@ -130,14 +130,16 @@ const PlayerTable = () => {
         const data = { p1Id: selectedCheckbox, p2Id: selectedCheckbox1 };
         changeXI(data);
         loadingHandler(true);
+        setSelectedCheckbox('');
+        setSelectedCheckbox1('');
     };
 
     return (
         <>
-            {showLoading && <LoadingScreen size={34} />}
+            {showLoading && <Loader />}
             <>{isLoading
                 ?
-                <LoadingScreen size={34} />
+                <PlayerTableSkeleton />
                 :
                 <>
                     {openModal && !manager.name && <AddManager modalFn={modalHandler} loadingFn={loadingHandler} refetch={refetch} />}

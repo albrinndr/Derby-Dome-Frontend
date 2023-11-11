@@ -4,9 +4,9 @@ import SearchSection from "../../components/user/Search/SearchSection";
 import SearchMatches from "../../components/user/Search/SearchMatches";
 import { useQuery } from "@tanstack/react-query";
 import { userSearch } from "../../api/user";
-import Loader from "../../components/user/Search/Loader";
 import { SearchClubs } from "../../components/user/Search/SearchClubs";
 import SearchPagination from "../../components/user/Search/SearchPagination";
+import SearchSkeleton from "../../components/user/Search/SearchSkelton";
 
 interface Fixture {
     clubId: {
@@ -84,7 +84,7 @@ const UserSearch = () => {
             <div className="p-4 md:p-14">
                 <SearchSection searchFn={searchHandler} typeFn={typeHandler} />
                 {isLoading ?
-                    <Loader /> :
+                    <SearchSkeleton /> :
                     <>
                         {type === 'Fixtures' ?
                             <>

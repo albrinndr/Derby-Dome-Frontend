@@ -4,6 +4,7 @@ import FixtureCards from "./FixtureCards";
 import FixturePagination from "./FixturePagination";
 import { useQuery } from "@tanstack/react-query";
 import { getFixtures } from "../../../api/user";
+import FixtureCardsSkeleton from "./FixtureSkeleton";
 
 interface Club {
     name: string;
@@ -84,8 +85,8 @@ const FixtureContent = () => {
 
     return (
         <div>
-            {!isLoading && <>
                 <FixtureFilter filterTeam={teamHandler} filterDate={dateHandler} teams={allTeams} />
+            {!isLoading ? <>
                 {fixtureData?.data.fixtures.length &&
                     <div>
                         {
@@ -107,7 +108,13 @@ const FixtureContent = () => {
                         currentPage={currentPage}
                     />
                 </div>
-            </>}
+            </> :
+                <>
+                <FixtureCardsSkeleton />
+                <FixtureCardsSkeleton />
+                <FixtureCardsSkeleton />
+                </>
+            }
         </div >
     );
 };

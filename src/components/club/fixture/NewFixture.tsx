@@ -5,8 +5,8 @@ import { getFixtureDateContent, newFixture } from "../../../api/fixture";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
-import LoadingScreen from "../../common/LoadingScreen";
 import { loadStripe } from '@stripe/stripe-js';
+import Loader from "../../common/Loader";
 
 const STRIPE_PK = 'pk_test_51OA5R7SG8cuZuFqKRSKfynnuGfD7Qg99WtVfYlHoalU9GANT4nd0X30UaEKlc1v5tfbaEUXL1KTOvAO7m4HhqOlM00dJNGR0ek';
 
@@ -164,7 +164,7 @@ const NewFixture = () => {
 
     return (
         <div >
-            {submitStatus === "pending" && <LoadingScreen size={35} />}
+            {submitStatus === "pending" && <Loader/>}
             <CommonHeader />
             <div className="p-4 md:p-14 flex flex-col lg:flex-row gap-20 justify-center items-center lg:items-start">
                 <div className="custom-calendar">
@@ -183,9 +183,7 @@ const NewFixture = () => {
                         :
                         <>
                             {isLoading ?
-                                <div className="md:mt-20">
-                                    <h1>Loading....</h1>
-                                </div>
+                                <Loader/>
                                 :
                                 <>
                                     {showForm ?

@@ -3,8 +3,8 @@ import CommonHeader from "../headers/CommonHeader";
 import FixtureCards from "./FixtureCards";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { cancelFixture, getClubFixtures } from "../../../api/fixture";
-import LoadingScreen from "../../common/LoadingScreen";
 import toast from "react-hot-toast";
+import Loader from "../../common/Loader";
 
 interface Fixture {
   _id: string,
@@ -42,7 +42,7 @@ const AllFixtures = () => {
     <div>
       <CommonHeader />
       <div className="p-4 md:p-14">
-        {isLoading || status == "pending" && <LoadingScreen size={35} />}
+        {isLoading || status == "pending" && <Loader />}
         {!isLoading && clubFixtures?.data && clubFixtures.data.length > 0 ?
           <>
             {

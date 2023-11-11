@@ -3,6 +3,8 @@ import toast from "react-hot-toast";
 import { updateClubBackground } from "../../../api/club";
 import { useDispatch, useSelector } from "react-redux";
 import { setClubLogin } from "../../../store/slices/authSlice";
+import { useMutation } from "@tanstack/react-query";
+import Loader from "../../common/Loader";
 
 interface Background {
     auth: {
@@ -17,6 +19,19 @@ const Background = () => {
     const dispatch = useDispatch();
     const { cLoggedIn } = useSelector((state: Background) => state.auth);
 
+    const { status, mutate } = useMutation({
+        mutationFn: updateClubBackground,
+        onSuccess: (updated) => {
+            if (updated) {
+                const updatedData = {
+                    ...cLoggedIn,
+                    bgImg: updated.data.bgImg
+                };
+                dispatch(setClubLogin(updatedData));
+            }
+        }
+    });
+
 
     const updateBackgroundHandler = async () => {
         if (!image) {
@@ -27,14 +42,7 @@ const Background = () => {
         const banner = new FormData();
         banner.append('image', image);
 
-        const updated = await updateClubBackground(banner);
-        if (updated) {
-            const updatedData = {
-                ...cLoggedIn,
-                bgImg: updated.data.bgImg
-            };
-            dispatch(setClubLogin(updatedData));
-        }
+        mutate(banner);
         setImage(null);
     };
 
@@ -59,6 +67,7 @@ const Background = () => {
                     <button onClick={updateBackgroundHandler} className="p-2 px-4 bg-green-500 hover:bg-green-600 rounded-lg text-white font-semibold">Update background</button>
                 </div>}
             </div>
+            {status === 'pending' && <Loader />}
         </div>
     );
 };
