@@ -101,3 +101,13 @@ export const getFixtures = async () => {
         return errorHandle(err);
     }
 };
+
+export const userSearch = async () => {
+    try {
+        const response = await Api.get(userRoutes.search);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};

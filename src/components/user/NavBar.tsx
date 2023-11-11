@@ -60,7 +60,7 @@ const NavBar: React.FC<NavBarProps> = ({ color, fixed }) => {
                             Community
                             <span className={`absolute left-0 right-0 bottom-0 h-px top-7 ${underLineStyle} transition-all`}></span>
                         </Link>
-                        <Link to='#' className={`${itemStyle} text-md font-semibold relative group`}>
+                        <Link to='/search' className={`${itemStyle} text-md font-semibold relative group`}>
                             Search
                             <span className={`absolute left-0 right-0 bottom-0 h-px top-7 ${underLineStyle} transition-all`}></span>
                         </Link>
@@ -90,7 +90,7 @@ const NavBar: React.FC<NavBarProps> = ({ color, fixed }) => {
                         <Link to='/fixture' className="text-gray-800 text-md font-semibold hover:text-purple-600 mb-1">Fixtures</Link>
                         <Link to='#' className="text-gray-800 text-md font-semibold hover:text-purple-600 mb-1">Reviews</Link>
                         <Link to='#' className="text-gray-800 text-md font-semibold hover:text-purple-600 mb-1">Community</Link>
-                        <Link to='#' className="text-gray-800 text-md font-semibold hover:text-purple-600 mb-1">Search</Link>
+                        <Link to='/search' className="text-gray-800 text-md font-semibold hover:text-purple-600 mb-1">Search</Link>
                         <div className="flex justify-between items-center border-t-2 pt-2">
                             {
                                 uLoggedIn ?

@@ -1,10 +1,5 @@
 import React from "react";
-import MatchDayCard from "../../cards/MatchDayCard";
-
-interface MatchDay {
-    fixtures: Fixture[];
-    price: number;
-}
+import SmallMatchDayCards from "../../cards/SmallMatchDayCards";
 
 interface Fixture {
     _id: string;
@@ -20,13 +15,17 @@ interface Fixture {
     awayTeamLogo: string;
 }
 
-const MatchDayCards: React.FC<MatchDay> = ({ fixtures, price }) => {
+interface SearchMatches {
+    fixtures: Fixture[];
+}
+
+const SearchMatches: React.FC<SearchMatches> = ({ fixtures }) => {
     return (
-        <div className="px-5 md:px-10 lg:px-28">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  gap-10  items-center">
-                {
+        <>
+            {fixtures.length > 0 ?
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-10 p-10 items-center">{
                     fixtures.map((fixture) => (
-                        <MatchDayCard
+                        <SmallMatchDayCards
                             key={fixture._id}
                             image={fixture.poster}
                             homeTeam={fixture.clubId.name}
@@ -34,13 +33,16 @@ const MatchDayCards: React.FC<MatchDay> = ({ fixtures, price }) => {
                             time={fixture.time}
                             date={fixture.date}
                             _id={fixture._id}
-                            price={price}
                         />
                     ))
                 }
-            </div>
-        </div>
+                </div > :
+                <div className="flex justify-center">
+                    No contents available
+                </div>
+            }
+        </>
     );
 };
 
-export default MatchDayCards;
+export default SearchMatches;

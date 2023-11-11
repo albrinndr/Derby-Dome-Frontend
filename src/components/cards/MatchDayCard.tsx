@@ -4,7 +4,6 @@ import CalendarImage from '../../assets/calendar.svg';
 interface Card {
     image?: string;
     _id: string;
-    // title: string;
     date: string;
     time: string;
     homeTeam: string;
@@ -14,9 +13,6 @@ interface Card {
 
 const MatchDayCard: React.FC<Card> = ({ image, homeTeam, awayTeam, date, time, price }) => {
 
-    // const cardBg = {
-    //     backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), url(${image})`,
-    // };
     const originalDate = new Date(date);
     const formattedDate = originalDate.toLocaleDateString("en-US", { month: "long", day: "numeric" });
 
@@ -29,8 +25,8 @@ const MatchDayCard: React.FC<Card> = ({ image, homeTeam, awayTeam, date, time, p
     });
 
     return (
-        <div className="w-full sm:w-auto md:w-full lg:w-full  rounded-lg overflow-hidden"
-            style={{ boxShadow: 'rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px' }}
+        <div className="w-full sm:w-auto md:w-full lg:w-full  rounded-lg overflow-hidden transition-all duration-300 transform hover:scale-105"
+            
         >
             <img
                 src={image}

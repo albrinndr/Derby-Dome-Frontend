@@ -107,7 +107,7 @@ const FixtureFilter: React.FC<FixtureFilter> = ({ filterDate, filterTeam, teams 
                     </svg>
                 </button>
                 {isOpen2 && (
-                    <div className="absolute w-full right-0 rounded-md bg-white shadow-lg max-h-40 overflow-y-auto">
+                    <div className="absolute z-10 w-full right-0 rounded-md bg-white shadow-lg max-h-40 overflow-y-auto">
                         <div className="w-full" onClick={handleOptionClick2}>
                             <div className="text-end">
                                 <button className="bg-red-500 text-white p-2 " onClick={() => setDate(null)}>Show all dates</button>
