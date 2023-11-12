@@ -14,6 +14,7 @@ interface Fixture {
   time: string,
   date: string;
   createdAt: Date;
+  checkDate:Date
 }
 
 const AllFixtures = () => {
@@ -57,6 +58,7 @@ const AllFixtures = () => {
                   id={fixture._id}
                   createdAt={fixture.createdAt}
                   cancelFn={cancelHandler}
+                  checkDate={fixture.checkDate}
                 />
               ))
             }

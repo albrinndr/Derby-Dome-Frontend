@@ -26,7 +26,7 @@ const FixturePagination: React.FC<FixturePaginationProps> = ({ itemsPerPage, tot
             {pageNumbers.map((number) => (
                 <button
                     key={number}
-                    className={`bg-${currentPage === number ? "green-700 text-white" : "gray-200 text-gray-700"} text-sm p-2 rounded-full h-8 w-8`}
+                    className={`bg-${currentPage === number ? "gray-400 text-white" : "gray-200 text-gray-700"} text-sm p-2 rounded-full h-8 w-8`}
                     onClick={() => paginate(number)}
                 >
                     {number}

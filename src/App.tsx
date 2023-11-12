@@ -31,6 +31,7 @@ import PaymentSuccess from './pages/club/PaymentSuccess';
 import PaymentFailed from './pages/club/PaymentFailed';
 import UserFixture from './pages/user/UserFixture';
 import UserSearch from './pages/user/UserSearch';
+import { UserFixtureDetails } from './pages/user/UserFixtureDetails';
 
 export default function App() {
   return (
@@ -44,6 +45,7 @@ export default function App() {
           <Route path="signup" element={<UserSignUp />} />
           <Route path='fixture' element={<UserFixture />} />
           <Route path='search' element={<UserSearch />} />
+          <Route path='fixtureDetails' element={<UserFixtureDetails />} />
           <Route path='' element={<UserProtect />}>
             <Route path="profile" element={<UserProfile />} />
           </Route>

@@ -1,5 +1,6 @@
 import React from "react";
 import CalendarImage from '../../assets/calendar.svg';
+import { Link } from "react-router-dom";
 
 interface Card {
     image?: string;
@@ -11,7 +12,7 @@ interface Card {
     price: number;
 }
 
-const MatchDayCard: React.FC<Card> = ({ image, homeTeam, awayTeam, date, time, price }) => {
+const MatchDayCard: React.FC<Card> = ({ image, homeTeam, awayTeam, date, time, price, _id }) => {
 
     const originalDate = new Date(date);
     const formattedDate = originalDate.toLocaleDateString("en-US", { month: "long", day: "numeric" });
@@ -25,48 +26,40 @@ const MatchDayCard: React.FC<Card> = ({ image, homeTeam, awayTeam, date, time, p
     });
 
     return (
-        <div className="w-full sm:w-auto md:w-full lg:w-full  rounded-lg overflow-hidden transition-all duration-300 transform hover:scale-105"
-            
-        >
-            <img
-                src={image}
-                alt="Football Match Poster"
-                className="w-full h-52 sm:h-60 md:h-60 lg:h-60 object-cover"
-            />
-            {/* <div className="flex justify-between py-10 px-2" style={cardBg}>
-                <div className="h-20 sm:h-32 flex items-center">
-                    <img src={homeTeamLogo} className="object-contain" width={100} height={100} alt="" />
-                </div>
-                <div className="h-20 sm:h-32 flex items-center">
-                    <img src={awayTeamLogo} className="object-contain" width={100} height={100} alt="" />
-                </div>
-            </div> */}
+        <Link to={`/fixtureDetails?id=${_id}`}>
+            <div className="w-full sm:w-auto md:w-full shadow lg:w-full  rounded-lg overflow-hidden transition-all duration-300 transform hover:scale-105"
+            >
+                <img
+                    src={image}
+                    alt="Football Match Poster"
+                    className="w-full h-52 sm:h-60 md:h-60 lg:h-60 object-cover"
+                />
+                <div className=" pb-4">
+                    <div className="p-4 px-7">
+                        <h2 className="text-xl sm:text-lg md:text-xl lg:text-xl font-semibold  mb-2 text-center" style={{ minHeight: '3.5rem' }}>{homeTeam} v {awayTeam}</h2>
+                        <div className="flex mt-4">
+                            <div>
+                                <img src={CalendarImage} alt="" className="w-5 mr-3" />
+                            </div>
+                            <div>
+                                <p className="text-sm sm:text-xs md:text-sm lg:text-sm text-gray-600">{formattedDate}  |  {formattedTime}</p>
+                            </div>
 
-            <div className=" bg-slate-100 pb-4">
-                <div className="p-4 px-7">
-                    <h2 className="text-xl sm:text-lg md:text-xl lg:text-xl font-semibold  mb-2 text-center" style={{ minHeight: '3.5rem' }}>{homeTeam} v {awayTeam}</h2>
-                    <div className="flex mt-4">
+                        </div>
+                    </div>
+                    <div className="flex justify-between bg-green-100 ml-4 mr-4 p-2 pl-2 pr-2 rounded-md">
                         <div>
-                            <img src={CalendarImage} alt="" className="w-5 mr-3" />
+                            <p className="text-xs sm:text-sm md:text-sm lg:text-md ">₹{price} ONWARDS</p>
                         </div>
                         <div>
-                            <p className="text-sm sm:text-xs md:text-sm lg:text-sm text-gray-600">{formattedDate}  |  {formattedTime}</p>
+                            <span className="text-green-500">|</span>
+                            <button className="ml-3 text-xs sm:text-sm md:text-sm lg:text-md ">BUY NOW</button>
                         </div>
+                    </div>
 
-                    </div>
                 </div>
-                <div className="flex justify-between bg-sky-100 ml-4 mr-4 p-2 pl-2 pr-2 rounded-md">
-                    <div>
-                        <p className="text-xs sm:text-sm md:text-sm lg:text-md ">₹{price} ONWARDS</p>
-                    </div>
-                    <div>
-                        <span className="text-blue-500">|</span>
-                        <button className="ml-3 text-xs sm:text-sm md:text-sm lg:text-md ">BUY NOW</button>
-                    </div>
-                </div>
-
             </div>
-        </div>
+        </Link>
     );
 };
 

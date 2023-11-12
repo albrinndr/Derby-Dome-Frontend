@@ -16,8 +16,8 @@ const ClubCard: React.FC<Card> = ({ logo, team, bgImg }) => {
                     src={bgImg}
                     className="w-full h-48 object-cover rounded-lg"
                 />
-                <div className="flex items-center sm:gap-4 absolute -bottom-7 bg-white px-3 py-2 rounded left-5 right-5 shadow justify-center gap-5">
-                    <div className="bg-blue-100 rounded-full">
+                <div className="flex items-center sm:gap-4 absolute -bottom-7 bg-white px-3 py-1 rounded left-5 right-5 shadow justify-center gap-5">
+                    <div className=" rounded-full">
                         <img src={logo} width={45} alt="Club Logo" className="sm:p-2 p-1" />
                     </div>
                     <div>

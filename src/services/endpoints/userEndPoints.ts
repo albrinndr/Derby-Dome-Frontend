@@ -9,8 +9,9 @@ const userRoutes = {
     updateProfile: '/user/profile',
 
     getHome: '/user/home',
-    getFixtures:'/user/fixtures',
-    search:'/user/search'
+    getFixtures: '/user/fixtures',
+    search: '/user/search',
+    fixtureDetails: '/user/fixtureDetails'
 };
 
 export default userRoutes;

@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from 'react-dom';
 import { useDispatch } from "react-redux";
-import { closeModal } from "../../store/slices/modalSlice";
+import { closeModal } from "../../../store/slices/modalSlice";
 
 
 interface ModalContent {
@@ -12,10 +12,10 @@ interface ModalContent {
 
 
 const Backdrop = () => {
-    return <div className="fixed top-0 left-0 z-40 h-screen w-screen bg-black bg-opacity-30  flex items-center justify-center" />;
+    return <div className="fixed top-0 left-0 z-40 h-screen w-screen bg-black bg-opacity-10  flex items-center justify-center" />;
 };
 
-const ConfirmationModal: React.FC<ModalContent> = ({ confirmFn, id, message }) => {
+const CancelConfirmation: React.FC<ModalContent> = ({ confirmFn, id, message }) => {
     const confirmationMessage = message ? message : "Are you sure want to continue?";
 
     const dispatch = useDispatch();
@@ -63,4 +63,4 @@ const ConfirmationModal: React.FC<ModalContent> = ({ confirmFn, id, message }) =
     );
 };
 
-export default ConfirmationModal;
+export default CancelConfirmation;

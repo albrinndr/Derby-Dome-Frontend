@@ -1,5 +1,6 @@
 import React from "react";
 import styles from './FixtureCards.module.css';
+import { Link } from "react-router-dom";
 
 interface Fixture {
     clubId: {
@@ -12,6 +13,7 @@ interface Fixture {
     date: string;
     time: string,
     title: string;
+    _id:string
 }
 interface FixtureData {
     fixture: Fixture;
@@ -69,7 +71,7 @@ const FixtureCards: React.FC<FixtureData> = ({ fixture }) => {
                         <h1>{formattedTime}</h1>
                     </div>
                     <div className="flex items-center mt-5 lg:mt-0 justify-center">
-                        <button className={styles.button_48}><span>BOOK NOW</span></button>
+                       <Link to={`/fixtureDetails?id=${fixture._id}`}> <button className={styles.button_48}><span>BOOK NOW</span></button></Link>
                     </div>
                 </div>
             </div>

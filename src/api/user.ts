@@ -1,3 +1,4 @@
+import { QueryFunctionContext } from "@tanstack/react-query";
 import Api from "../services/axios";
 import userRoutes from "../services/endpoints/userEndPoints";
 import errorHandle from "./error";
@@ -105,6 +106,20 @@ export const getFixtures = async () => {
 export const userSearch = async () => {
     try {
         const response = await Api.get(userRoutes.search);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};
+
+export const fixtureDetails = async ({ queryKey }: QueryFunctionContext<[string, string | null]>) => {
+    try {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const [key, fixtureId] = queryKey;
+        const response = await Api.get(`${userRoutes.fixtureDetails}?id=${fixtureId}`);
+        console.log(response.data);
+
         return response;
     } catch (error) {
         const err: Error = error as Error;

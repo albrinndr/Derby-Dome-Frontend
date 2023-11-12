@@ -1,9 +1,8 @@
 import React from "react";
-// import logo1 from '../../../assets/fixLogo/Chelsea_FC.svg.png';
 import { useDispatch, useSelector } from "react-redux";
 import { openModal } from "../../../store/slices/modalSlice";
-import ConfirmationModal from "../../common/ConfirmationModal";
-// import logo2 from '../../../assets/fixLogo/Netherlands_national_football_team_logo.svg.png';
+// import ConfirmationModal from "../../common/ConfirmationModal";
+import CancelConfirmation from "./CancelConfirm";
 
 interface Fixture {
     title: string,
@@ -14,6 +13,7 @@ interface Fixture {
     id: string;
     cancelFn: (id: string) => void;
     createdAt: Date;
+    checkDate: Date;
 }
 
 interface RootState {
@@ -50,19 +50,18 @@ const FixtureCards: React.FC<Fixture> = (props: Fixture) => {
         dispatch(openModal());
     };
 
-    const currentDate = new Date();
-    currentDate.setDate(currentDate.getDate() + 1);
-
-
-    const showDate = new Date(props.createdAt);
-    showDate.setDate(showDate.getDate() + 2);
+    const today = new Date();
+    const checkDate = new Date(props.checkDate);
+    today.setHours(0, 0, 0, 0);
+    checkDate.setHours(0, 0, 0, 0);
+    // return today > checkDate;
 
     return (
         <>
             <div className="bg-white rounded-xl mb-10 shadow shadow-gray-300 lg:mx-32 relative z-0">
                 <div className="flex justify-between items-center border-b-4 border-customBg px-4 py-2">
                     <h1 className="text-md md:text-lg tracking-widest ">{props.title}</h1>
-                    {currentDate < showDate && <button className="sm:px-4 sm:py-2 py-1 px-2 rounded-lg text-white bg-red-600 hover:bg-red-700"
+                    {today < checkDate && <button className="sm:px-4 sm:py-2 py-1 px-2 rounded-lg text-white bg-red-600 hover:bg-red-700"
                         onClick={cancelModalHandler}
                     >Cancel</button>}
 
@@ -87,7 +86,7 @@ const FixtureCards: React.FC<Fixture> = (props: Fixture) => {
                     <h1 className="text-md font-semibold pb-4">Derby Dome Stadium</h1>
                 </div>
             </div>
-            {showModal && <ConfirmationModal confirmFn={cancelFixture} id={props.id} />}
+            {showModal && <CancelConfirmation confirmFn={cancelFixture} id={props.id} />}
 
         </>
 
