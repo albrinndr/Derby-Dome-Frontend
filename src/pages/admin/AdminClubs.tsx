@@ -1,4 +1,4 @@
-import ClubTable from "../../components/admin/ClubTable";
+import ClubTable from "../../components/admin/allUsers/ClubTable";
 import NavBar from "../../components/admin/NavBar";
 
 const AdminClubs = () => {

@@ -1,4 +1,4 @@
-import UserTable from "../../components/admin/UserTable";
+import UserTable from "../../components/admin/allUsers/UserTable";
 import NavBar from "../../components/admin/NavBar";
 
 const AdminUsers = () => {

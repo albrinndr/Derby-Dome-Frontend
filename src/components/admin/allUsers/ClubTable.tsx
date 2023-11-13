@@ -1,20 +1,21 @@
-import React, { useState, useEffect } from "react";
-import { blockUser, fetchUsers } from "../../api/admin";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { FcGoogle } from 'react-icons/fc';
+import React, { useState, useEffect } from "react";
+import { blockClub, fetchClubs } from "../../../api/admin";
 import { useDispatch, useSelector } from "react-redux";
-import { openModal } from "../../store/slices/modalSlice";
-import ConfirmationModal from "../common/ConfirmationModal";
+import { openModal } from "../../../store/slices/modalSlice";
+import ConfirmationModal from "../../common/ConfirmationModal";
+import toast from "react-hot-toast";
+import TablePagination from "./TablePagination";
+import TableSkeleton from "./TableSkeleton";
 
-type User = {
+type Club = {
     _id: string;
     name: string;
     email: string;
     phone: string;
     isBlocked: boolean;
-    createdAt: string,
-    isGoogle: boolean;
-    profilePic:string
+    createdAt: string;
+    image?: string;
 };
 
 interface ModalState {
@@ -23,61 +24,62 @@ interface ModalState {
     };
 }
 
-const UserTable = () => {
+const ClubTable = () => {
     const [search, setSearch] = useState('');
-    const { data: usersList } = useQuery({ queryKey: ['usersList'], queryFn: fetchUsers });
-    console.log(usersList?.data);
-    const [users, setUsers] = useState<User[]>([]);
+    const { isLoading, data: clubsList, refetch } = useQuery({ queryKey: ['clubsList'], queryFn: fetchClubs });
+
+    const [clubs, setClubs] = useState<Club[]>([]);
 
     useEffect(() => {
-        if (usersList) {
-            setUsers(usersList.data);
+        if (clubsList) {
+            setClubs(clubsList.data);
         }
-    }, [usersList]);
+    }, [clubsList]);
+
+    const filteredClubs = clubs.filter(club => {
+        const clubName = club.name.toLowerCase();
+        const searchValue = search.toLowerCase();
+        return clubName.includes(searchValue);
+    });
 
     const { status, mutate } = useMutation({
-        mutationFn: blockUser,
-        onSuccess: (data, variables) => {
-            const updatedUsers = users.map(user => {
-                if (user._id === variables) {
-                    return {
-                        ...user,
-                        isBlocked: !user.isBlocked,
-                    };
-                }
-                return user;
-            });
-            setUsers(updatedUsers);
+        mutationFn: blockClub,
+        onSuccess: (res) => {
+            if (res && res.data) toast.success('Club status changed!');
+            refetch();
         },
     });
 
-    const filteredUsers = users.filter(user => {
-        const userName = user.name.toLowerCase();
-        const searchValue = search.toLowerCase();
-        return userName.includes(searchValue);
-    });
-
-    const userActionHandler = async (id: string) => {
+    const clubActionHandler = async (id: string) => {
         mutate(id);
     };
 
-    const [userId, setUserId] = useState('');
+    const [clubId, setClubId] = useState('');
     const { showModal } = useSelector((state: ModalState) => state.modal);
     const dispatch = useDispatch();
 
     const modalHandler = (id: string) => {
-        setUserId(id);
+        setClubId(id);
         dispatch(openModal());
     };
 
+    const itemsPerPage = 5;
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const indexOfLastFixture = currentPage * itemsPerPage;
+    const indexOfFirstFixture = indexOfLastFixture - itemsPerPage;
+    const paginatedClubs = filteredClubs.slice(indexOfFirstFixture, indexOfLastFixture);
+
+    const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
     const isDisabled = (status as string) === 'loading' || (status as string) === 'pending';
+
 
     return (
         <div className="container mx-auto px-4 sm:px-8">
             <div className="py-8">
                 <div>
-                    <h2 className="text-2xl font-semibold leading-tight">Users</h2>
+                    <h2 className="text-2xl font-semibold leading-tight">Football Clubs</h2>
                 </div>
                 <div className="my-2 flex sm:flex-row flex-col">
                     <div className="flex flex-row mb-1 sm:mb-0">
@@ -93,7 +95,7 @@ const UserTable = () => {
                             </svg>
                         </span>
                         <input placeholder="Search"
-                            className="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none "
+                            className="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
                             value={search}
                             onChange={(e) => setSearch(e.target.value)} />
                     </div>
@@ -125,50 +127,48 @@ const UserTable = () => {
                                     </th>
                                 </tr>
                             </thead>
-
-                            <tbody>
-                                {
-                                    filteredUsers.map((user: User, i: number) => (
+                            {isLoading ?
+                                <TableSkeleton />
+                                :
+                                <tbody>
+                                    {paginatedClubs.map((club: Club, i: number) => (
                                         <tr key={i}>
                                             <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                 <div className="flex items-center">
                                                     <div className="flex-shrink-0 w-10 h-10">
                                                         <img className="w-full h-full rounded-full"
-                                                            src={user.profilePic}
-                                                            alt="no image" />
+                                                            src={club.image}
+                                                            alt="" />
                                                     </div>
                                                     <div className="ml-3">
                                                         <p className="text-gray-900 whitespace-no-wrap">
-                                                            {user.name}
+                                                            {club.name}
                                                         </p>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                <div className="flex">
-                                                    <p className="text-gray-900 whitespace-no-wrap">{user.email}</p>
-                                                    {user.isGoogle && <p className="mt-1 ml-1"><FcGoogle /></p>}
-                                                </div>
+                                                <p className="text-gray-900 whitespace-no-wrap">{club.email}</p>
                                             </td>
                                             <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                 <p className="text-gray-900 whitespace-no-wrap">
-                                                    {user.phone}
+                                                    {club.phone}
                                                 </p>
                                             </td>
                                             <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                 <p className="text-gray-900 whitespace-no-wrap">
-                                                    {user.createdAt}
+                                                    {club.createdAt}
                                                 </p>
                                             </td>
                                             <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                 {
-                                                    user.isBlocked ?
+                                                    club.isBlocked ?
                                                         <span
                                                             className="relative inline-block px-3 py-1 font-semibold text-red-900 leading-tight"
                                                         >
                                                             <span aria-hidden
                                                                 className="absolute inset-0 bg-red-200 opacity-50 rounded-full"></span>
-                                                            <button className="relative" onClick={() => modalHandler(user._id)}
+                                                            <button className="relative" onClick={() => modalHandler(club._id)}
                                                                 disabled={isDisabled}>Blocked</button>
                                                         </span>
                                                         :
@@ -177,53 +177,37 @@ const UserTable = () => {
                                                         >
                                                             <span aria-hidden
                                                                 className="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
-                                                            <button className="relative" onClick={() => modalHandler(user._id)}
+                                                            <button className="relative" onClick={() => modalHandler(club._id)}
                                                                 disabled={isDisabled}>Active</button>
                                                         </span>
                                                 }
 
                                             </td>
                                         </tr>
-                                    ))
-                                }
-                                {!users.length && <tr className="flex justify-center ">
-                                    <td className="px-5 py-5 text-center border-b border-gray-200  text-sm w-">
-                                        <div className="flex items-center">
+                                    ))}
 
-                                            <div className="ml-3">
-                                                <p className="text-gray-900 whitespace-no-wrap">
-                                                    No users found
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </td>
-
-                                </tr>}
-                            </tbody>
-
+                                </tbody>}
                         </table>
                         <div
                             className="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
-                            <span className="text-xs xs:text-sm text-gray-900">
-                                Showing 1 to 4 of 50 Entries
-                            </span>
                             <div className="inline-flex mt-2 xs:mt-0">
-                                <button
-                                    className="text-sm bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-l">
-                                    Prev
-                                </button>
-                                <button
-                                    className="text-sm bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-r">
-                                    Next
-                                </button>
+                                <TablePagination
+                                    itemsPerPage={itemsPerPage}
+                                    totalItems={filteredClubs.length}
+                                    paginate={paginate}
+                                    currentPage={currentPage}
+                                />
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            {showModal && <ConfirmationModal confirmFn={userActionHandler} id={userId} />}
+            {showModal && <ConfirmationModal confirmFn={clubActionHandler} id={clubId} />}
+
         </div>
     );
 };
 
-export default UserTable;
+export default ClubTable;
+
+

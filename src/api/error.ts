@@ -10,7 +10,18 @@ const errorHandle = (error: Error | AxiosError) => {
     if (axiosError.response?.data) {
         const errorResponse = axiosError.response.data as ErrorResponse;
         if (errorResponse.message) {
-            toast.error(errorResponse.message);
+            if (errorResponse.message === 'You are blocked by admin!') {
+                localStorage.removeItem('uLoggedIn');
+                location.href = '/login';
+                toast.error(errorResponse.message);
+            } else if (errorResponse.message === 'Club have been blocked by admin!') {
+                localStorage.removeItem('cLoggedIn');
+                localStorage.removeItem('clubInfo');
+                location.href = '/club/login';
+                toast.error(errorResponse.message);
+            } else {
+                toast.error(errorResponse.message);
+            }
         } else {
             console.log('Error response has no message');
         }
