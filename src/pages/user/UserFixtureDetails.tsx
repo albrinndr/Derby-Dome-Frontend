@@ -9,7 +9,7 @@ import NotFound from "../NotFound";
 import FixtureDetailsSkeleton from "../../components/user/fixture/fixtureDetails/FixtureDetailsSkeleton";
 
 
-export const UserFixtureDetails = () => {
+const UserFixtureDetails = () => {
     const [isScrolled, setIsScrolled] = useState(false);
 
     window.onscroll = () => {
@@ -47,3 +47,6 @@ export const UserFixtureDetails = () => {
         <NotFound />
     );
 };
+
+export default UserFixtureDetails;
+

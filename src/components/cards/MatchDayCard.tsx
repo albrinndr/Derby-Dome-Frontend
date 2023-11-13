@@ -44,10 +44,9 @@ const MatchDayCard: React.FC<Card> = ({ image, homeTeam, awayTeam, date, time, p
                             <div>
                                 <p className="text-sm sm:text-xs md:text-sm lg:text-sm text-gray-600">{formattedDate}  |  {formattedTime}</p>
                             </div>
-
                         </div>
                     </div>
-                    <div className="flex justify-between bg-green-100 ml-4 mr-4 p-2 pl-2 pr-2 rounded-md">
+                    <div className="flex justify-between bg-green-50 ml-4 mr-4 p-2 pl-2 pr-2 rounded-md">
                         <div>
                             <p className="text-xs sm:text-sm md:text-sm lg:text-md ">₹{price} ONWARDS</p>
                         </div>

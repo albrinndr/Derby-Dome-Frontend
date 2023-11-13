@@ -11,7 +11,8 @@ const userRoutes = {
     getHome: '/user/home',
     getFixtures: '/user/fixtures',
     search: '/user/search',
-    fixtureDetails: '/user/fixtureDetails'
+    fixtureDetails: '/user/fixtureDetails',
+    clubDetails: '/user/clubDetails'
 };
 
 export default userRoutes;
