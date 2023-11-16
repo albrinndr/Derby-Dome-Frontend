@@ -34,7 +34,7 @@ const NavBar: React.FC<NavBarProps> = ({ color, fixed }) => {
     const MainLogo = color ? LogoWhite : Logo;
 
     return (
-        <div className={` right-0 left-0 top-0 z-50 px-4 md:py-1 md:px-14 ${navBarStyle} ${navPosition}`}>
+        <div className={` right-0 left-0 top-0 z-50 px-4 md:py-2 md:px-14 xl:px-28 ${navBarStyle} ${navPosition}`}>
             <div className="">
                 <div className="flex items-center justify-between py-2">
                     <div>

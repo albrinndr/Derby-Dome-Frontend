@@ -76,7 +76,7 @@ const ClubTable = () => {
 
 
     return (
-        <div className="container mx-auto px-4 sm:px-8">
+        <div className="container mx-auto px-4 lg:px-14 ">
             <div className="py-8">
                 <div>
                     <h2 className="text-2xl font-semibold leading-tight">Football Clubs</h2>
@@ -185,6 +185,19 @@ const ClubTable = () => {
                                             </td>
                                         </tr>
                                     ))}
+                                    {!paginatedClubs.length && <tr className="flex justify-center ">
+                                        <td className="px-5 py-5 text-center border-b border-gray-200  text-sm w-">
+                                            <div className="flex items-center">
+
+                                                <div className="ml-3">
+                                                    <p className="text-gray-900 whitespace-no-wrap">
+                                                        No Clubs found
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                    </tr>}
 
                                 </tbody>}
                         </table>

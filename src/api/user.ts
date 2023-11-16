@@ -132,7 +132,6 @@ export const clubDetails = async ({ queryKey }: QueryFunctionContext<[string, st
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const [key, fixtureId] = queryKey;
         const response = await Api.get(`${userRoutes.clubDetails}?id=${fixtureId}`);
-        console.log(response.data);
         return response;
     } catch (error) {
         const err: Error = error as Error;

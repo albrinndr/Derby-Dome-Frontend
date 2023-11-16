@@ -79,7 +79,7 @@ const UserTable = () => {
 
     return (
         <>
-            <div className="container mx-auto px-4 sm:px-8">
+            <div className="container mx-auto px-4 lg:px-14">
                 <div className="py-8">
                     <div>
                         <h2 className="text-2xl font-semibold leading-tight">Users</h2>

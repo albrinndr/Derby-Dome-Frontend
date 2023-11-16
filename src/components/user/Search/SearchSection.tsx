@@ -22,7 +22,7 @@ const SearchSection: React.FC<SearchSection> = ({ typeFn, searchFn }) => {
     return (
         <div className="text-center mt-10 mb-14 md:mb-20 md:mt-24">
             <div>
-                <h1 className="text-gray-600 text-2xl md:text-4xl font-semibold">Find your favorite team's matches</h1>
+                <h1 className="text-gray-600 text-2xl md:text-4xl font-semibold">Find your favorite club or matches</h1>
             </div>
             <div className="mt-8 hidden md:flex justify-center">
                 <div className="shadow-lg p-5 w-2/3 border rounded-lg flex items-center justify-between gap-5">

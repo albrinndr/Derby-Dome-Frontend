@@ -32,20 +32,19 @@ const UserClubView = () => {
             setShowPage(false);
         }
     }, [clubId, clubData, isLoading]);
-    console.log(clubData?.data);
 
 
     return showPage ? (
         <div>
             {isLoading &&
-                <div className="p-4 md:p-14">
+                <div className="px-5 md:px-14 xl:px-28 py-10 sm:py-16">
                     <ClubDetailsSkeleton />
                 </div>
             }
             {clubData && clubData.data && !isLoading && clubData.data.club != null && <>
                 <img src={clubData?.data.club.bgImg} className="absolute top-0 left-0 w-full h-64 object-cover" style={{ minHeight: '19rem' }} alt="Fixture Background" />
                 <NavBar color={!isScrolled} fixed />
-                <div className="mt-52 sm:mt-48 relative p-4 md:p-14">
+                <div className="mt-52 sm:mt-48 relative px-5 md:px-14 xl:px-28 py-10 sm:py-20">
                     <ClubDetails clubData={clubData?.data} />
                 </div>
             </>}

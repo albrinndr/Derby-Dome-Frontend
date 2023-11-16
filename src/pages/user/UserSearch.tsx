@@ -81,7 +81,7 @@ const UserSearch = () => {
     return (
         <div>
             <NavBar />
-            <div className="p-4 md:p-14">
+            <div className="px-5 md:px-14 xl:px-28 py-10 sm:py-16">
                 <SearchSection searchFn={searchHandler} typeFn={typeHandler} />
                 {isLoading ?
                     <SearchSkeleton /> :

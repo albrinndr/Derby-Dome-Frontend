@@ -1,7 +1,12 @@
 import React from "react";
 import NavBar from "../../components/club/navbar/NavBar";
+import { useNavigate } from "react-router-dom";
 
 const PaymentFailed = () => {
+  const navigate = useNavigate()
+  const backBtnHandler =()=>{
+    navigate('/club/fixture/newFixture')
+  }
 
   return (
     <>
@@ -25,9 +30,7 @@ const PaymentFailed = () => {
           </p>
           <button
             className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
-            onClick={() => {
-              // Handle Go back button click here
-            }}
+            onClick={backBtnHandler}
           >
             Go back
           </button>

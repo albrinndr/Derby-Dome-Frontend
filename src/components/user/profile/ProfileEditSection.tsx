@@ -76,7 +76,7 @@ const ProfileEditSection: React.FC<ProfileEditProps> = ({ userDetails }) => {
     const isDisabled = (status as string) === 'loading' || (status as string) === 'pending';
 
     return (
-        <div className="px-4 md:px-14 mt-20">
+        <div className="px-5 md:px-14 xl:px-28 mt-20">
             <form className=" p-6  text-center " onSubmit={submitHandler}>
                 <div className="">
                     <input

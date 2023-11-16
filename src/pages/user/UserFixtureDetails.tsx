@@ -37,7 +37,7 @@ const UserFixtureDetails = () => {
         <div>
             <img src={fBG2} className="absolute top-0 left-0 w-full h-auto object-center" style={{ minHeight: '19rem' }} alt="Fixture Background" />
             <NavBar color={!isScrolled} fixed />
-            <div className="mt-5 relative p-4 md:p-14">
+            <div className="mt-5 relative px-5 md:px-14 xl:px-28 py-28">
                 {!isLoading ? <FixtureDetailsContent fixtureData={fixtureData?.data} /> : <FixtureDetailsSkeleton />}
             </div>
 

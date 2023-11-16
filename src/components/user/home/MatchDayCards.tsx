@@ -22,7 +22,7 @@ interface Fixture {
 
 const MatchDayCards: React.FC<MatchDay> = ({ fixtures, price }) => {
     return (
-        <div className="px-5 md:px-10 lg:px-28">
+        <div className="px-5 md:px-14 xl:px-28">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  gap-10  items-center">
                 {
                     fixtures.map((fixture) => (

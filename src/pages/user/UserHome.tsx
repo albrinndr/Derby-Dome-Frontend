@@ -4,7 +4,10 @@ import BannerOne from "../../components/user/home/BannerOne";
 import MatchDayCards from "../../components/user/home/MatchDayCards";
 import { getHome } from "../../api/user";
 import { useQuery } from "@tanstack/react-query";
-import BannerTwo from "../../components/user/home/BannerTwo";
+import Illustration from "../../components/user/home/Illustration";
+import HomePageClubs from "../../components/user/home/HomePageClubs";
+import FAQSection from "../../components/user/home/FaqSection";
+// import BannerTwo from "../../components/user/home/BannerTwo";
 
 
 const UserHome = () => {
@@ -26,10 +29,15 @@ const UserHome = () => {
           </div>
           {homeData?.data.fixtures &&
             <div className="relative bottom-7">
-              <MatchDayCards fixtures={homeData.data.fixtures} price = {homeData.data.minPrice}/>
+              <MatchDayCards fixtures={homeData.data.fixtures} price={homeData.data.minPrice} />
             </div>
           }
-          <BannerTwo />
+          {/* <BannerTwo /> */}
+          {
+            homeData?.data.clubs.length > 0 && <HomePageClubs clubs={homeData?.data.clubs} />
+          }
+          <Illustration />
+          <FAQSection />
         </>
       }
     </div>

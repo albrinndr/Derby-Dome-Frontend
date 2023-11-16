@@ -18,7 +18,7 @@ const UserFixture = () => {
         <div>
             <img src={fBG2} className="absolute top-0 left-0 w-full h-auto object-center" style={{ minHeight: '19rem' }} alt="Fixture Background" />
             <NavBar color={!isScrolled} fixed />
-            <div className="mt-12 relative p-4 md:p-14">
+            <div className="mt-12 relative px-5 md:px-14 xl:px-28 py-10 sm:py-16">
                 <FixtureHead />
                 <FixtureContent />
             </div>

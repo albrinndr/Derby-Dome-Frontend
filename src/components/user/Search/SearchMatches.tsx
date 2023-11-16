@@ -23,7 +23,7 @@ const SearchMatches: React.FC<SearchMatches> = ({ fixtures }) => {
     return (
         <>
             {fixtures.length > 0 ?
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-10 p-10 items-center">{
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-10  items-center">{
                     fixtures.map((fixture) => (
                         <SmallMatchDayCards
                             key={fixture._id}

@@ -30,7 +30,7 @@ const ProfileHeadSection: React.FC<UserData> = ({ userData, isLoading, profilePi
     const userName = isLoading ? <span className="text-2xl text-gray-600">Loading...</span> : userData;
 
     return (
-        <div className="px-4 md:px-14 pt-10 bg-sky-100 shadow ">
+        <div className="px-5 md:px-14 xl:px-28 pt-10 bg-sky-100 shadow ">
             <div className="flex justify-between">
                 <div className=''>
                     <div className='sm:flex'>

@@ -36,7 +36,7 @@ const MatchDayCard: React.FC<Card> = ({ image, homeTeam, awayTeam, date, time, p
                 />
                 <div className=" pb-4">
                     <div className="p-4 px-7">
-                        <h2 className="text-xl sm:text-lg md:text-xl lg:text-xl font-semibold  mb-2 text-center" style={{ minHeight: '3.5rem' }}>{homeTeam} v {awayTeam}</h2>
+                        <h2 className="text-xl sm:text-lg lg:text-xl font-semibold  mb-2 text-center" style={{ minHeight: '3.5rem' }}>{homeTeam} v {awayTeam}</h2>
                         <div className="flex mt-4">
                             <div>
                                 <img src={CalendarImage} alt="" className="w-5 mr-3" />
@@ -46,12 +46,12 @@ const MatchDayCard: React.FC<Card> = ({ image, homeTeam, awayTeam, date, time, p
                             </div>
                         </div>
                     </div>
-                    <div className="flex justify-between bg-green-50 ml-4 mr-4 p-2 pl-2 pr-2 rounded-md">
+                    <div className="flex justify-between bg-blue-50 ml-4 mr-4 p-2 pl-2 pr-2 rounded-md">
                         <div>
                             <p className="text-xs sm:text-sm md:text-sm lg:text-md ">₹{price} ONWARDS</p>
                         </div>
                         <div>
-                            <span className="text-green-500">|</span>
+                            <span className="text-blue-500">|</span>
                             <button className="ml-3 text-xs sm:text-sm md:text-sm lg:text-md ">BUY NOW</button>
                         </div>
                     </div>

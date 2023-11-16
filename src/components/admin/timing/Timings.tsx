@@ -11,7 +11,7 @@ type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 const Timings = () => {
   const currentDate = new Date();
-  const futureDate = new Date(currentDate.setDate(currentDate.getDate() + 12));
+  const futureDate = new Date(currentDate.setDate(currentDate.getDate() + 17));
 
   const [value, onChange] = useState<Value>(futureDate);
   const [time, setTime] = useState<string>('');
