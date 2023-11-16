@@ -64,7 +64,12 @@ const Login: React.FC<UserType> = ({ type }) => {
             const response = await login({ email, password });
             if (response) {
                 navigate('/');
-                dispatch(setLogin());
+                const data = {
+                    id: response.data.message._id,
+                    name: response.data.message.name,
+                    profilePic: response.data.message.profilePic
+                };
+                dispatch(setLogin(data));
             }
         } else {
             const response = await clubLogin({ email, password });
@@ -93,7 +98,12 @@ const Login: React.FC<UserType> = ({ type }) => {
         const response = await login(data);
         if (response) {
             navigate('/');
-            dispatch(setLogin());
+            const data = {
+                id: response.data.message._id,
+                name: response.data.message.name,
+                profilePic: response.data.message.profilePic
+            };
+            dispatch(setLogin(data));
         }
     };
 

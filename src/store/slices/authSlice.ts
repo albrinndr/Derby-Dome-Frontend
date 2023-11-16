@@ -9,8 +9,11 @@ interface InitialState {
 const storedClubInfo = localStorage.getItem('clubInfo');
 const parsedClubInfo = storedClubInfo ? JSON.parse(storedClubInfo) : null;
 
+const storedUserInfo = localStorage.getItem('uLoggedIn');
+const parsedUserInfo = storedUserInfo ? JSON.parse(storedUserInfo) : null;
+
 const initialState: InitialState = {
-    uLoggedIn: localStorage.getItem('uLoggedIn') ? true : false,
+    uLoggedIn: parsedUserInfo,
     cLoggedIn: parsedClubInfo,
     aLoggedIn: localStorage.getItem('aLoggedIn') ? true : false,
 };
@@ -20,9 +23,9 @@ const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
-        setLogin: (state) => {
+        setLogin: (state,action) => {
             state.uLoggedIn = true;
-            localStorage.setItem('uLoggedIn', 'true');
+            localStorage.setItem('uLoggedIn', JSON.stringify(action.payload));
         },
         userLogout: (state) => {
             state.uLoggedIn = false;
