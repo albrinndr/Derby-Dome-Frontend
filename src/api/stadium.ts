@@ -11,7 +11,8 @@ interface MatchTime {
 
 interface Seat {
     stand: string;
-    price: number;
+    seatName: string;
+    price: string;
 }
 
 export const getBanners = async () => {

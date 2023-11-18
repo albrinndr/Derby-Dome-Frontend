@@ -19,7 +19,6 @@ import ClubNewFixture from './pages/club/ClubNewFixture';
 
 import StadiumBanner from './pages/stadium/StadiumBanner';
 import StadiumTiming from './pages/stadium/StadiumTiming';
-import StadiumSeats from './pages/stadium/StadiumSeats';
 
 import NotFound from './pages/NotFound';
 import LoginPage from './pages/LoginPage';
@@ -34,6 +33,7 @@ import UserSearch from './pages/user/UserSearch';
 import UserFixtureDetails from './pages/user/UserFixtureDetails';
 import UserClubView from './pages/user/UserClubView';
 import Community from './pages/community/Community';
+import AdminStadiumSeatManagement from './pages/admin/AdminStadiumSeatManagement';
 
 export default function App() {
   return (
@@ -49,8 +49,8 @@ export default function App() {
           <Route path='search' element={<UserSearch />} />
           <Route path='fixtureDetails' element={<UserFixtureDetails />} />
           <Route path='clubDetails' element={<UserClubView />} />
-          <Route path='community' element={<Community />} />
           <Route path='' element={<UserProtect />}>
+            <Route path='community' element={<Community />} />
             <Route path="profile" element={<UserProfile />} />
           </Route>
         </Route>
@@ -63,7 +63,7 @@ export default function App() {
             <Route path='stadium' element={<StadiumTiming />} />
             <Route path='stadium/timings' element={<StadiumTiming />} />
             <Route path='stadium/banner' element={<StadiumBanner />} />
-            <Route path='stadium/seats' element={<StadiumSeats />} />
+            <Route path='stadium/seats' element={<AdminStadiumSeatManagement />} />
           </Route>
         </Route>
 
