@@ -5,62 +5,11 @@ import styles from '../fixture/FixtureCards.module.css';
 import toast from "react-hot-toast";
 import { useMutation } from "@tanstack/react-query";
 import { addToCart } from "../../../api/user";
-
-interface SeatData {
-  seats: [{
-    seatNo: { type: number; },
-    status: { type: string; };
-  }],
-  count: number;
-}
-
-interface StandSeats {
-  vip: {
-    A: SeatData;
-    B: SeatData;
-  };
-  premium: {
-    C: number;
-    D: number;
-  };
-  economy: {
-    E: number;
-    F: number;
-  };
-}
-interface FixtureSeat {
-  _id: string;
-  seats: {
-    north: StandSeats;
-    south: StandSeats;
-    east: StandSeats;
-    west: {
-      vip: {
-        A: SeatData[];
-        B: SeatData[];
-      };
-      premium: {
-        C: number;
-        D: number;
-      };
-    };
-  };
-}
-
-interface Seat {
-  stand: string,
-  price: {
-    vip: number;
-    premium: number;
-    economy: number;
-  };
-}
-interface BookingSection {
-  data: { fixture: FixtureSeat; seats: Seat[]; };
-}
+import { BookingSectionI, CartData, FixtureSeat, Seat, StandSeats } from "./BookingSectionInterface";
 
 
-const BookingSection: React.FC<BookingSection> = ({ data }) => {
+
+const BookingSection: React.FC<BookingSectionI> = ({ data }) => {
   const [ticketCount, setTicketCount] = useState(2);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState('');
@@ -125,7 +74,7 @@ const BookingSection: React.FC<BookingSection> = ({ data }) => {
     };
     bookingMutate(bookingData);
   };
-
+  console.log(data.cartData);
 
   return (
     <div>
@@ -182,8 +131,9 @@ const BookingSection: React.FC<BookingSection> = ({ data }) => {
                       if ('economy' in data.fixture.seats[seat.toLowerCase() as keyof FixtureSeat['seats']]) {
                         const seatData = data.fixture.seats[seat.toLowerCase() as keyof FixtureSeat['seats']] as StandSeats;
                         const totalCount = seatData.economy.E + seatData.economy.F;
-
-                        if (totalCount >= ticketCount) {
+                        const sectionData = data.cartData[seat.toLowerCase() as keyof CartData];
+                        const cartSeatCount = sectionData['economy'];
+                        if ((totalCount - cartSeatCount) >= ticketCount) {
                           return (
                             <li
                               key={i}
@@ -205,8 +155,12 @@ const BookingSection: React.FC<BookingSection> = ({ data }) => {
                       if ('premium' in data.fixture.seats[seat.toLowerCase() as keyof FixtureSeat['seats']]) {
                         const seatData = data.fixture.seats[seat.toLowerCase() as keyof FixtureSeat['seats']] as StandSeats;
                         const totalCount = seatData.premium.C + seatData.premium.D;
+                        const sectionData = data.cartData[seat.toLowerCase() as keyof CartData];
+                        const cartSeatCount = sectionData['premium'];
+                        const diff = totalCount - cartSeatCount;
+                        console.log(diff);
 
-                        if (totalCount >= ticketCount) {
+                        if ((totalCount - cartSeatCount) >= ticketCount) {
                           return (
                             <li
                               key={i}
@@ -227,8 +181,10 @@ const BookingSection: React.FC<BookingSection> = ({ data }) => {
                       if ('vip' in data.fixture.seats[seat.toLowerCase() as keyof FixtureSeat['seats']]) {
                         const seatData = data.fixture.seats[seat.toLowerCase() as keyof FixtureSeat['seats']] as StandSeats;
                         const totalCount = seatData.vip.A.count + seatData.vip.B.count;
+                        const sectionData = data.cartData[seat.toLowerCase() as keyof CartData];
+                        const cartSeatCount = sectionData['vip'];
 
-                        if (totalCount >= ticketCount) {
+                        if ((totalCount - cartSeatCount) >= ticketCount) {
                           return (
                             <li
                               key={i}
