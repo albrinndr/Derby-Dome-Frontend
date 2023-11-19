@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import StadiumSeatPrice from "./StadiumSeatPrice";
 import { useQuery } from "@tanstack/react-query";
 import { getAllSeatPrice } from "../../../api/stadium";
+import StadiumSeatPriceSkeleton from "./StadiumSeatPriceSkeleton";
 
 interface Seat {
     stand: string,
@@ -30,12 +31,12 @@ const StadiumManagement = () => {
     return (
         <div className="mt-14 px-4 lg:px-14 mb-32">
             <h1 className="text-3xl text-gray-800 mb-5">Derby Stadium Seat Management</h1>
-            <div className="sm:flex flex-wrap xl:flex-col sm:gap-5 xl:gap-0 justify-center items-center">
-                <StadiumSeatPrice standName="north" seat={standSeats.north && standSeats.north}  refetchFn={refetch}/>
-                <StadiumSeatPrice standName="south" seat={standSeats.south && standSeats.south} refetchFn={refetch}/>
-                <StadiumSeatPrice standName="west" seat={standSeats.west && standSeats.west} refetchFn={refetch}/>
-                <StadiumSeatPrice standName="east" seat={standSeats.east && standSeats.east} refetchFn={refetch}/>
-            </div>
+            {!isLoading ? <div className="sm:flex flex-wrap xl:flex-col sm:gap-5 xl:gap-0 justify-center items-center">
+                <StadiumSeatPrice standName="north" seat={standSeats.north && standSeats.north} refetchFn={refetch} />
+                <StadiumSeatPrice standName="south" seat={standSeats.south && standSeats.south} refetchFn={refetch} />
+                <StadiumSeatPrice standName="east" seat={standSeats.east && standSeats.east} refetchFn={refetch} />
+                <StadiumSeatPrice standName="west" seat={standSeats.west && standSeats.west} refetchFn={refetch} />
+            </div> : <StadiumSeatPriceSkeleton />}
 
         </div>
     );

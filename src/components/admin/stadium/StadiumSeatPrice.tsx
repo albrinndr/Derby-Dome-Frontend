@@ -82,7 +82,7 @@ const StadiumSeatPrice: React.FC<StadiumSeatPrice> = ({ standName, seat, refetch
                     >Update</button>
                 </form>
 
-                {standName != 'east' && <form className="flex gap-4 items-center mt-5 xl:mt-0" onSubmit={(e) => updateHandler(e, 'economy', economy)}>
+                {standName != 'west' && <form className="flex gap-4 items-center mt-5 xl:mt-0" onSubmit={(e) => updateHandler(e, 'economy', economy)}>
                     <h1 className="text-lg w-20 xl:w-auto">Economy Seats (G - H) : </h1>
                     <div className="flex items-center">
                         <h1 className="text-lg bg-gray-200 px-1 h-10 flex items-center rounded-l"><MdCurrencyRupee /></h1>

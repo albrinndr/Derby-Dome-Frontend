@@ -12,6 +12,13 @@ interface userFormData {
     isGoogle?: boolean;
 }
 
+interface BookingData {
+    fixtureId: string;
+    stand: string;
+    section: string;
+    ticketCount: number;
+}
+
 export const signUp = async (userData: userFormData) => {
     try {
         const response = await Api.post(userRoutes.signUp, userData);
@@ -137,4 +144,27 @@ export const clubDetails = async ({ queryKey }: QueryFunctionContext<[string, st
         const err: Error = error as Error;
         return errorHandle(err);
     }
+};
+
+export const getBooking = async ({ queryKey }: QueryFunctionContext<[string, string | null]>) => {
+    try {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const [key, fixtureId] = queryKey;
+        const response = await Api.get(`${userRoutes.booking}?id=${fixtureId}`);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};
+
+export const addToCart = async (data: BookingData) => {
+    try {
+        const response = await Api.post(userRoutes.addToCart, data);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+
 };

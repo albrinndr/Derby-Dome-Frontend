@@ -34,6 +34,7 @@ import UserFixtureDetails from './pages/user/UserFixtureDetails';
 import UserClubView from './pages/user/UserClubView';
 import Community from './pages/community/Community';
 import AdminStadiumSeatManagement from './pages/admin/AdminStadiumSeatManagement';
+import UserBooking from './pages/user/UserBooking';
 
 export default function App() {
   return (
@@ -52,6 +53,7 @@ export default function App() {
           <Route path='' element={<UserProtect />}>
             <Route path='community' element={<Community />} />
             <Route path="profile" element={<UserProfile />} />
+            <Route path="booking" element={<UserBooking />} />
           </Route>
         </Route>
 

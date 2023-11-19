@@ -12,7 +12,11 @@ const userRoutes = {
     getFixtures: '/user/fixtures',
     search: '/user/search',
     fixtureDetails: '/user/fixtureDetails',
-    clubDetails: '/user/clubDetails'
+    clubDetails: '/user/clubDetails',
+
+    booking: '/user/booking',
+
+    addToCart:'/user/addToCart'
 };
 
 export default userRoutes;

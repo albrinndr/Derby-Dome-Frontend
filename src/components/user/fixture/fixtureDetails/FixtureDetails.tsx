@@ -1,5 +1,6 @@
 import React from "react";
 import styles from '../FixtureCards.module.css';
+import { Link } from "react-router-dom";
 
 interface Fixture {
     clubId: {
@@ -67,7 +68,8 @@ const FixtureDetails: React.FC<FixtureDetails> = ({ fixture }) => {
                     </div>
                 </div>
                 <div className="mt-4">
-                    <button className={`${styles.button_48} w-full`}><span>BOOK NOW</span></button>
+                    <Link to={`/booking?id=${fixture._id}`}><button className={`${styles.button_48} w-full`}><span>BOOK NOW</span></button>
+                    </Link>
                 </div>
             </div>
             <div className="bg-white px-3 py-5 rounded shadow lg:w-2/3">
