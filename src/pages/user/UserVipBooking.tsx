@@ -5,12 +5,11 @@ import { useLocation } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getBooking } from "../../api/user";
 import NotFound from "../NotFound";
-import BookingSection from "../../components/user/booking/BookingSection";
 import FixtureDetailsHead from "../../components/user/fixture/fixtureDetails/FixtureDetailsHead";
+import VipBooking from "../../components/user/booking/VipBooking";
 
-const UserBooking = () => {
+const UserVipBooking = () => {
     const [isScrolled, setIsScrolled] = useState(false);
-
     window.onscroll = () => {
         setIsScrolled(window.pageYOffset === 0 ? false : true);
         return () => (window.onscroll = null);
@@ -20,8 +19,10 @@ const UserBooking = () => {
     const [showPage, setShowPage] = useState(true);
     const queryParams = new URLSearchParams(location.search);
     const fixtureId = queryParams.get("id");
+    const stand = queryParams.get('stand');
+    const section = queryParams.get('section');
 
-    const { refetch, isLoading, data: bookingData } = useQuery({
+    const { isLoading, data: bookingData } = useQuery({
         queryKey: ["bookingData", fixtureId],
         queryFn: getBooking,
     });
@@ -30,18 +31,28 @@ const UserBooking = () => {
         if (!fixtureId || (bookingData?.data.fixture === null && !isLoading)) {
             setShowPage(false);
         }
-    }, [fixtureId, bookingData, isLoading]);
+        const standArr = ["north", "south", "east", "west"];
+
+        if (stand && !standArr.includes(stand)) setShowPage(false);
+        if (section && section !== 'vip') setShowPage(false);
+    }, [fixtureId, bookingData, isLoading, stand, section]);
+
 
     return showPage ? (
         <div>
             <img src={fBG2} className="absolute top-0 left-0 w-full h-auto object-center" style={{ minHeight: '19rem' }} alt="Fixture Background" />
             <NavBar color={!isScrolled} fixed />
             <div className="mt-5 relative px-5 md:px-14 xl:px-28 py-28">
-                {!isLoading && bookingData && bookingData.data && <div>
+                {!isLoading && bookingData && bookingData.data && stand && section && <div>
                     <div>
-                        <FixtureDetailsHead home={bookingData?.data.fixture.clubId.name} away={bookingData?.data.fixture.awayTeam} />
+                        <FixtureDetailsHead home={"Manchester United"} away={"Calicut FC"} />
                     </div>
-                    <BookingSection data={bookingData.data} refetchFn={refetch}/>
+                    <VipBooking seatData={bookingData.data.fixture.seats[stand][section]}
+                        id={bookingData.data.fixture._id}
+                        stand={stand}
+                        section={section}
+                        cartSeats={bookingData.data.vipCartSeats[stand]}
+                    />
                 </div>}
 
             </div>
@@ -53,4 +64,4 @@ const UserBooking = () => {
     );
 };
 
-export default UserBooking;
+export default UserVipBooking;

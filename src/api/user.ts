@@ -17,6 +17,7 @@ interface BookingData {
     stand: string;
     section: string;
     ticketCount: number;
+    type: string;
 }
 
 export const signUp = async (userData: userFormData) => {

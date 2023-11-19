@@ -35,6 +35,7 @@ import UserClubView from './pages/user/UserClubView';
 import Community from './pages/community/Community';
 import AdminStadiumSeatManagement from './pages/admin/AdminStadiumSeatManagement';
 import UserBooking from './pages/user/UserBooking';
+import UserVipBooking from './pages/user/UserVipBooking';
 
 export default function App() {
   return (
@@ -54,6 +55,7 @@ export default function App() {
             <Route path='community' element={<Community />} />
             <Route path="profile" element={<UserProfile />} />
             <Route path="booking" element={<UserBooking />} />
+            <Route path="bookingVip" element={<UserVipBooking />} />
           </Route>
         </Route>
 

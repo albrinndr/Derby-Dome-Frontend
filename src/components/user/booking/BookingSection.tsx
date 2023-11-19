@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import stadiumImg from '../../../assets/stadium/stadium.png';
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styles from '../fixture/FixtureCards.module.css';
 import toast from "react-hot-toast";
 import { useMutation } from "@tanstack/react-query";
@@ -9,7 +9,7 @@ import { BookingSectionI, CartData, FixtureSeat, Seat, StandSeats } from "./Book
 
 
 
-const BookingSection: React.FC<BookingSectionI> = ({ data }) => {
+const BookingSection: React.FC<BookingSectionI> = ({ data, refetchFn }) => {
   const [ticketCount, setTicketCount] = useState(2);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState('');
@@ -56,7 +56,6 @@ const BookingSection: React.FC<BookingSectionI> = ({ data }) => {
     onSuccess: ((res) => {
       if (res) {
         toast.success("Added to cart");
-        console.log(res.data);
       }
     })
   });
@@ -70,11 +69,18 @@ const BookingSection: React.FC<BookingSectionI> = ({ data }) => {
       fixtureId: data.fixture._id,
       stand: selectedStand,
       section: selectedSection,
-      ticketCount: ticketCount
+      ticketCount: ticketCount,
+      type: 'normal'
     };
     bookingMutate(bookingData);
+    refetchFn();
   };
-  console.log(data.cartData);
+
+  const navigate = useNavigate();
+  const vipNavigate = () => {
+    refetchFn();
+    navigate(`/bookingVip?id=${data.fixture._id}&stand=${selectedStand}&section=${selectedSection}`);
+  };
 
   return (
     <div>
@@ -157,8 +163,6 @@ const BookingSection: React.FC<BookingSectionI> = ({ data }) => {
                         const totalCount = seatData.premium.C + seatData.premium.D;
                         const sectionData = data.cartData[seat.toLowerCase() as keyof CartData];
                         const cartSeatCount = sectionData['premium'];
-                        const diff = totalCount - cartSeatCount;
-                        console.log(diff);
 
                         if ((totalCount - cartSeatCount) >= ticketCount) {
                           return (
@@ -183,7 +187,7 @@ const BookingSection: React.FC<BookingSectionI> = ({ data }) => {
                         const totalCount = seatData.vip.A.count + seatData.vip.B.count;
                         const sectionData = data.cartData[seat.toLowerCase() as keyof CartData];
                         const cartSeatCount = sectionData['vip'];
-
+                        
                         if ((totalCount - cartSeatCount) >= ticketCount) {
                           return (
                             <li
@@ -207,7 +211,7 @@ const BookingSection: React.FC<BookingSectionI> = ({ data }) => {
             <div className="flex items-center mt-12 justify-center">
               {selectedSection !== 'vip' && <button className={`${styles.button_48} w-full`} onClick={submitHandler}><span>CONFIRM</span></button>
               }
-              {selectedSection === 'vip' && <Link to={`/vip`} className={`${styles.button_48} w-full`} onClick={submitHandler}><span>CONFIRM</span></Link>
+              {selectedSection === 'vip' && <button onClick={vipNavigate} className={`${styles.button_48} w-full`}><span>CONFIRM</span></button>
               }
             </div>
           </div>

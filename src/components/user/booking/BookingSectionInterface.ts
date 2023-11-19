@@ -57,4 +57,5 @@ export interface CartData {
 }
 export interface BookingSectionI {
     data: { fixture: FixtureSeat; seats: Seat[]; cartData: CartData; };
+    refetchFn: () => void;
 }
