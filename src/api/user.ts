@@ -20,6 +20,20 @@ interface BookingData {
     type: string;
 }
 
+interface Ticket {
+    fixtureId: string;
+    stand: string;
+    section: string;
+    ticketCount: number;
+    seats: [{
+        row: string;
+        userSeats: number[];
+    }];
+    price: number;
+    paymentType: string;
+    coupon: boolean;
+}
+
 export const signUp = async (userData: userFormData) => {
     try {
         const response = await Api.post(userRoutes.signUp, userData);
@@ -173,6 +187,17 @@ export const addToCart = async (data: BookingData) => {
 export const getCheckoutData = async () => {
     try {
         const response = await Api.get(userRoutes.getCheckout);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+
+};
+
+export const addNewTicket = async (ticketData: Ticket) => {
+    try {
+        const response = await Api.post(userRoutes.addTicket, ticketData);
         return response;
     } catch (error) {
         const err: Error = error as Error;

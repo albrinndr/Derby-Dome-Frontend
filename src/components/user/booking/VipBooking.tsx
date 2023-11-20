@@ -26,8 +26,8 @@ interface VipBooking {
 }
 
 const VipBooking: React.FC<VipBooking> = ({ seatData, id, stand, section, cartSeats }) => {
-    const rowA = Array.from({ length: seatData.A.count }, (_, index) => index + 1);
-    const rowB = Array.from({ length: seatData.B.count }, (_, index) => index + 1);
+    const rowA = Array.from({ length: 50 }, (_, index) => index + 1);
+    const rowB = Array.from({ length: 50 }, (_, index) => index + 1);
 
     const rowASeats = seatData.A.seats;
     const rowBSeats = seatData.B.seats;

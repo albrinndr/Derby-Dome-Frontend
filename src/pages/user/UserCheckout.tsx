@@ -9,7 +9,7 @@ interface CheckoutData {
         price: number;
         section: string;
         stand: string;
-        ticketCount: string;
+        ticketCount: number;
         seats: [{ row: string; userSeats: number[]; }];
     };
     fixture: {

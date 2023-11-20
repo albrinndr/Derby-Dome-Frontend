@@ -1,5 +1,7 @@
+import { useMutation } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
+import { addNewTicket } from "../../../api/user";
 
 interface Checkout {
     data: {
@@ -8,7 +10,7 @@ interface Checkout {
             price: number;
             section: string;
             stand: string;
-            ticketCount: string;
+            ticketCount: number;
             seats: [{ row: string; userSeats: number[]; }];
         };
         fixture: {
@@ -20,13 +22,14 @@ interface Checkout {
         };
     };
     refetchFn: () => void;
-    wallet?: string;
+    wallet: number;
 }
 
 const Checkout: React.FC<Checkout> = ({ data, refetchFn, wallet }) => {
     const [paymentMethod, setPaymentMethod] = useState('');
     const [timer, setTimer] = useState('00:00');
     const [remainingTime, setRemainingTime] = useState(0);
+
 
     const createdAt = new Date(data.cart.createdAt);
     const currentDate = new Date();
@@ -61,14 +64,6 @@ const Checkout: React.FC<Checkout> = ({ data, refetchFn, wallet }) => {
 
 
 
-    const submitHandler = () => {
-        if (!paymentMethod) {
-            toast.error('Select a payment method');
-            return;
-        }
-        console.log(paymentMethod);
-
-    };
 
     const userSeats = data.cart.seats;
     const formattedArray = userSeats.flatMap(({ row, userSeats }) =>
@@ -79,7 +74,7 @@ const Checkout: React.FC<Checkout> = ({ data, refetchFn, wallet }) => {
     const dateString = data.fixture.date;
     const date = new Date(dateString);
     const monthAndDay = date.toLocaleDateString('en-US', {
-        month: 'short', // or 'long' for full month name
+        month: 'short',
         day: 'numeric',
     });
     const year = date.getUTCFullYear();
@@ -91,6 +86,36 @@ const Checkout: React.FC<Checkout> = ({ data, refetchFn, wallet }) => {
         minute: "2-digit",
         hour12: true,
     });
+
+
+    //------------------payment and submitting---------------------------
+
+    const { mutate: ticketMutate } = useMutation({
+        mutationFn: addNewTicket,
+        onSuccess: ((res) => {
+            if (res) console.log(res.data);
+
+        })
+    });
+
+    const submitHandler = () => {
+        if (!paymentMethod) {
+            toast.error('Select a payment method');
+            return;
+        }
+        const ticketData = {
+            fixtureId: data.fixture._id,
+            stand: data.cart.stand,
+            section: data.cart.section,
+            ticketCount: data.cart.ticketCount,
+            seats: data.cart.seats,
+            price: data.cart.price,
+            paymentType: paymentMethod,
+            coupon: false
+        };
+        ticketMutate(ticketData)
+
+    };
 
     return (
         <div>
@@ -137,7 +162,8 @@ const Checkout: React.FC<Checkout> = ({ data, refetchFn, wallet }) => {
                         <div className="sm:flex gap-5 flex-wrap sm:gap-10 justify-center p-3">
                             <label className="flex items-center text-lg">
                                 <input type="radio" name="paymentOption" className="form-radio h-4 w-4 text-indigo-600"
-                                    onChange={() => setPaymentMethod('wallet')} />
+                                    onChange={() => setPaymentMethod('wallet')}
+                                    disabled={wallet < data.cart.price} />
                                 <span className="ml-2 text-gray-700">Wallet ( Balance: ₹{wallet} )</span>
                             </label>
                             <label className="flex items-center text-lg">
