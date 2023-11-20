@@ -1,8 +1,65 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 
-const Checkout = () => {
+interface Checkout {
+    data: {
+        cart: {
+            createdAt: string;
+            price: number;
+            section: string;
+            stand: string;
+            ticketCount: string;
+            seats: [{ row: string; userSeats: number[]; }];
+        };
+        fixture: {
+            _id: string;
+            awayTeam: string;
+            clubId: { name: string; };
+            date: string;
+            time: string;
+        };
+    };
+    refetchFn: () => void;
+    wallet?: string;
+}
+
+const Checkout: React.FC<Checkout> = ({ data, refetchFn, wallet }) => {
     const [paymentMethod, setPaymentMethod] = useState('');
+    const [timer, setTimer] = useState('00:00');
+    const [remainingTime, setRemainingTime] = useState(0);
+
+    const createdAt = new Date(data.cart.createdAt);
+    const currentDate = new Date();
+
+    const differenceInSeconds: number = Math.floor((currentDate.getTime() - createdAt.getTime()) / 1000);
+    const initialRemainingTime: number = 600 - differenceInSeconds;
+
+    useEffect(() => {
+        setRemainingTime(initialRemainingTime);
+
+        if (initialRemainingTime <= 0) {
+            refetchFn();
+            return;
+        }
+
+        const countdown = setInterval(() => {
+            const minutes: number = Math.floor(remainingTime / 60);
+            const seconds: number = remainingTime % 60;
+
+            setTimer(`${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`);
+
+            if (remainingTime <= 0) {
+                clearInterval(countdown);
+                refetchFn();
+            } else {
+                setRemainingTime((prevTime) => prevTime - 1);
+            }
+        }, 1000);
+
+        return () => clearInterval(countdown);
+    }, [initialRemainingTime, remainingTime, refetchFn]);
+
+
 
     const submitHandler = () => {
         if (!paymentMethod) {
@@ -12,17 +69,43 @@ const Checkout = () => {
         console.log(paymentMethod);
 
     };
+
+    const userSeats = data.cart.seats;
+    const formattedArray = userSeats.flatMap(({ row, userSeats }) =>
+        userSeats.map(seat => `${row}${seat}`)
+    );
+    const formattedSeats = formattedArray.join(', ');
+
+    const dateString = data.fixture.date;
+    const date = new Date(dateString);
+    const monthAndDay = date.toLocaleDateString('en-US', {
+        month: 'short', // or 'long' for full month name
+        day: 'numeric',
+    });
+    const year = date.getUTCFullYear();
+
+    const originalTime: string = data.fixture.time;
+    const [hours, minutes] = originalTime.split(":");
+    const formattedTime = new Date(0, 0, 0, parseInt(hours, 10), parseInt(minutes, 10)).toLocaleTimeString("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+    });
+
     return (
         <div>
             <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 text-center">Confirm your tickets and pay</h1>
             <div className=" w-full  mt-10  flex justify-center" >
                 <div className=" border rounded shadow p-3 sm:p-5 " style={{ width: '60rem' }}>
-                    <div>
-                        <h1 className="sm:text-lg font-semibold border-b border-b-gray-400 border-dotted  mb-3">MATCH DETAILS</h1>
+                    <div >
+                        <div className="border-b border-b-gray-400 border-dotted  mb-3 flex justify-between items-center py-2">
+                            <h1 className="sm:text-lg font-semibold ">MATCH DETAILS</h1>
+                            <h1 className="sm:text-lg border py-2 px-4 w-fit text-rose-600">{timer}</h1>
+                        </div>
                         <div className="bg-slate-100 p-3">
-                            <h1 className="text-xl font-semibold tracking-wider mb-2">Manchester United vs Alabama FC</h1>
-                            <h1 className="mb-1">Time: 08:00 PM</h1>
-                            <h1>Date: November 10 2023</h1>
+                            <h1 className="text-xl font-semibold tracking-wider mb-2">{data.fixture.clubId.name} vs {data.fixture.awayTeam}</h1>
+                            <h1 className="mb-1">Time: {formattedTime}</h1>
+                            <h1>Date: {monthAndDay} {year}</h1>
                         </div>
                     </div>
                     <div className="mt-10">
@@ -39,10 +122,10 @@ const Checkout = () => {
                                 <tbody>
                                     <tr className="bg-slate-100">
                                         <td className="py-4 px-4">
-                                            <h1 className="text-lg">North Stand ( A1, A2, A5, A9, A10, A1, A2, A5, A9, A10 )</h1>
+                                            <h1 className="text-lg">{data.cart.stand} Stand ( {formattedSeats} )</h1>
                                         </td>
-                                        <td className="align-top py-4 px-6">5</td>
-                                        <td className="align-top text-right py-4 px-4 font-bold">₹1500</td>
+                                        <td className="align-top py-4 px-6">{data.cart.ticketCount}</td>
+                                        <td className="align-top text-right py-4 px-4 font-bold">₹{data.cart.price}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -55,7 +138,7 @@ const Checkout = () => {
                             <label className="flex items-center text-lg">
                                 <input type="radio" name="paymentOption" className="form-radio h-4 w-4 text-indigo-600"
                                     onChange={() => setPaymentMethod('wallet')} />
-                                <span className="ml-2 text-gray-700">Wallet ( Balance: ₹50000 )</span>
+                                <span className="ml-2 text-gray-700">Wallet ( Balance: ₹{wallet} )</span>
                             </label>
                             <label className="flex items-center text-lg">
                                 <input type="radio" name="paymentOption" className="form-radio h-4 w-4 text-indigo-600"

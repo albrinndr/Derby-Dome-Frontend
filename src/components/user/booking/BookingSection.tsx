@@ -51,14 +51,21 @@ const BookingSection: React.FC<BookingSectionI> = ({ data, refetchFn }) => {
 
   // Booking
 
+
+  const navigate = useNavigate();
   const { mutate: bookingMutate } = useMutation({
     mutationFn: addToCart,
     onSuccess: ((res) => {
       if (res) {
-        toast.success("Added to cart");
+        navigate('/checkout');
+      } else {
+        toast.error('An error occurred!');
       }
+      refetchFn();
     })
   });
+
+
 
   const submitHandler = () => {
     if (selectedItem === '') {
@@ -73,10 +80,8 @@ const BookingSection: React.FC<BookingSectionI> = ({ data, refetchFn }) => {
       type: 'normal'
     };
     bookingMutate(bookingData);
-    refetchFn();
   };
 
-  const navigate = useNavigate();
   const vipNavigate = () => {
     refetchFn();
     navigate(`/bookingVip?id=${data.fixture._id}&stand=${selectedStand}&section=${selectedSection}`);
@@ -187,7 +192,7 @@ const BookingSection: React.FC<BookingSectionI> = ({ data, refetchFn }) => {
                         const totalCount = seatData.vip.A.count + seatData.vip.B.count;
                         const sectionData = data.cartData[seat.toLowerCase() as keyof CartData];
                         const cartSeatCount = sectionData['vip'];
-                        
+
                         if ((totalCount - cartSeatCount) >= ticketCount) {
                           return (
                             <li

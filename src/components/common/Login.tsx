@@ -67,7 +67,8 @@ const Login: React.FC<UserType> = ({ type }) => {
                 const data = {
                     id: response.data.message._id,
                     name: response.data.message.name,
-                    profilePic: response.data.message.profilePic
+                    profilePic: response.data.message.profilePic,
+                    wallet: response.data.message.wallet
                 };
                 dispatch(setLogin(data));
             }
@@ -101,7 +102,8 @@ const Login: React.FC<UserType> = ({ type }) => {
             const data = {
                 id: response.data.message._id,
                 name: response.data.message.name,
-                profilePic: response.data.message.profilePic
+                profilePic: response.data.message.profilePic,
+                wallet: response.data.message.wallet
             };
             dispatch(setLogin(data));
         }

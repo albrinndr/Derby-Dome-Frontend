@@ -9,9 +9,10 @@ interface UserData {
     userData?: string;
     isLoading?: boolean;
     profilePic?: string;
+    wallet?: string;
 }
 
-const ProfileHeadSection: React.FC<UserData> = ({ userData, isLoading, profilePic }) => {
+const ProfileHeadSection: React.FC<UserData> = ({ userData, isLoading, profilePic, wallet }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -37,7 +38,7 @@ const ProfileHeadSection: React.FC<UserData> = ({ userData, isLoading, profilePi
                         <img className='rounded-full mr-2' width={60} height={60} src={profilePic} alt="" />
                         <h1 className="text-2xl sm:text-4xl md:text-6xl font-semibold subpixel-antialiased text-blue-950">HI, {userName}</h1>
                     </div>
-                    <h3 className="mt-3 text-gray-600 sm:text-sm md:text-base lg:text-lg">WALLET: 4000 points left to spend</h3>
+                    <h3 className="mt-3 text-gray-600 sm:text-sm md:text-base lg:text-lg">WALLET: {wallet}</h3>
                 </div>
                 <div>
                     <button onClick={logoutHandler} className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded ">

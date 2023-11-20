@@ -169,3 +169,14 @@ export const addToCart = async (data: BookingData) => {
     }
 
 };
+
+export const getCheckoutData = async () => {
+    try {
+        const response = await Api.get(userRoutes.getCheckout);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+
+};

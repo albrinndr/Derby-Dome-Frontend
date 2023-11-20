@@ -3,6 +3,7 @@ import styles from '../fixture/FixtureCards.module.css';
 import toast from "react-hot-toast";
 import { useMutation } from "@tanstack/react-query";
 import { addToCart } from "../../../api/user";
+import { useNavigate } from "react-router-dom";
 
 interface VipBooking {
     seatData: {
@@ -34,6 +35,8 @@ const VipBooking: React.FC<VipBooking> = ({ seatData, id, stand, section, cartSe
     const [selectedSeatsA, setSelectedSeatsA] = useState<number[]>([]);
     const [selectedSeatsB, setSelectedSeatsB] = useState<number[]>([]);
 
+    const navigate = useNavigate();
+
     const handleSeatClickA = (seat: number) => {
         if (selectedSeatsA.length + selectedSeatsB.length >= 10) {
             toast.error('Only 10 seats can be selected!');
@@ -63,9 +66,9 @@ const VipBooking: React.FC<VipBooking> = ({ seatData, id, stand, section, cartSe
         mutationFn: addToCart,
         onSuccess: ((res) => {
             if (res) {
-                console.log(res.data);
-
-                toast.success("Added to cart");
+                navigate('/checkout');
+            } else {
+                toast.error('An error occurred!');
             }
         })
     });
@@ -119,11 +122,11 @@ const VipBooking: React.FC<VipBooking> = ({ seatData, id, stand, section, cartSe
                                 className={`flex items-center justify-center md:w-10 md:h-10 w-8 h-8 bg-gray-300 rounded-lg cursor-pointer ${selectedSeatsA.includes(index + 1) ? 'bg-green-500 text-white' : ''
                                     }`}
                                 onClick={() => {
-                                    if (!rowASeats.includes(index + 1) && !cartSeats.A.includes(index+1)) {
+                                    if (!rowASeats.includes(index + 1) && !cartSeats.A.includes(index + 1)) {
                                         handleSeatClickA(index + 1);
                                     }
                                 }}
-                                style={{ opacity: rowASeats.includes(index + 1) ||cartSeats.A.includes(index+1)  ? 0.5 : 1, pointerEvents: rowASeats.includes(index + 1)||cartSeats.A.includes(index+1) ? 'none' : 'auto' }}
+                                style={{ opacity: rowASeats.includes(index + 1) || cartSeats.A.includes(index + 1) ? 0.5 : 1, pointerEvents: rowASeats.includes(index + 1) || cartSeats.A.includes(index + 1) ? 'none' : 'auto' }}
                             >
                                 {index + 1}
                             </div>
@@ -142,11 +145,11 @@ const VipBooking: React.FC<VipBooking> = ({ seatData, id, stand, section, cartSe
                                 className={`flex items-center justify-center md:w-10 md:h-10  w-8 h-8  bg-gray-300 rounded-lg cursor-pointer ${selectedSeatsB.includes(index + 1) ? 'bg-green-500 text-white' : ''
                                     }`}
                                 onClick={() => {
-                                    if (!rowBSeats.includes(index + 1) && !cartSeats.B.includes(index+1)) {
+                                    if (!rowBSeats.includes(index + 1) && !cartSeats.B.includes(index + 1)) {
                                         handleSeatClickB(index + 1);
                                     }
                                 }}
-                                style={{ opacity: rowBSeats.includes(index + 1)||cartSeats.B.includes(index+1) ? 0.5 : 1, pointerEvents: rowBSeats.includes(index + 1)||cartSeats.B.includes(index+1) ? 'none' : 'auto' }}
+                                style={{ opacity: rowBSeats.includes(index + 1) || cartSeats.B.includes(index + 1) ? 0.5 : 1, pointerEvents: rowBSeats.includes(index + 1) || cartSeats.B.includes(index + 1) ? 'none' : 'auto' }}
                             >
                                 {index + 1}
                             </div>

@@ -16,7 +16,8 @@ const userRoutes = {
 
     booking: '/user/booking',
 
-    addToCart:'/user/addToCart'
+    addToCart: '/user/addToCart',
+    getCheckout: '/user/checkout'
 };
 
 export default userRoutes;
