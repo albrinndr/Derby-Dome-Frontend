@@ -4,11 +4,19 @@ import UserHome from './pages/user/UserHome';
 import UserSignUp from './pages/user/UserSignUp';
 import UserProfile from './pages/user/UserProfile';
 import UserProtect from './components/user/UserProtect';
+import UserFixture from './pages/user/UserFixture';
+import UserSearch from './pages/user/UserSearch';
+import UserFixtureDetails from './pages/user/UserFixtureDetails';
+import UserClubView from './pages/user/UserClubView';
+import UserBooking from './pages/user/UserBooking';
+import UserVipBooking from './pages/user/UserVipBooking';
+import UserCheckout from './pages/user/UserCheckout';
 
 import AdminLogin from './pages/admin/AdminLogin';
 import AdminUsers from './pages/admin/AdminUsers';
 import AdminClubs from './pages/admin/AdminClubs';
 import AdminProtect from './components/admin/AdminProtect';
+import AdminStadiumSeatManagement from './pages/admin/AdminStadiumSeatManagement';
 
 import ClubSignUp from './pages/club/ClubSignUp';
 import ClubProfile from './pages/club/ClubProfile';
@@ -16,6 +24,11 @@ import ClubProtect from './components/club/ClubProtect';
 import ClubProfileEdit from './pages/club/ClubProfileEdit';
 import ClubBackground from './pages/club/ClubBackground';
 import ClubNewFixture from './pages/club/ClubNewFixture';
+import ClubFixtures from './pages/club/ClubFixtures';
+import ClubProfileHead from './components/club/headers/ClubProfileHead';
+import ClubTeamManagement from './pages/club/ClubTeamManagement';
+import PaymentSuccess from './pages/club/PaymentSuccess';
+import PaymentFailed from './pages/club/PaymentFailed';
 
 import StadiumBanner from './pages/stadium/StadiumBanner';
 import StadiumTiming from './pages/stadium/StadiumTiming';
@@ -23,19 +36,7 @@ import StadiumTiming from './pages/stadium/StadiumTiming';
 import NotFound from './pages/NotFound';
 import LoginPage from './pages/LoginPage';
 import { Toaster } from 'react-hot-toast';
-import ClubProfileHead from './components/club/headers/ClubProfileHead';
-import ClubFixtures from './pages/club/ClubFixtures';
-import ClubTeamManagement from './pages/club/ClubTeamManagement';
-import PaymentSuccess from './pages/club/PaymentSuccess';
-import PaymentFailed from './pages/club/PaymentFailed';
-import UserFixture from './pages/user/UserFixture';
-import UserSearch from './pages/user/UserSearch';
-import UserFixtureDetails from './pages/user/UserFixtureDetails';
-import UserClubView from './pages/user/UserClubView';
 import Community from './pages/community/Community';
-import AdminStadiumSeatManagement from './pages/admin/AdminStadiumSeatManagement';
-import UserBooking from './pages/user/UserBooking';
-import UserVipBooking from './pages/user/UserVipBooking';
 
 export default function App() {
   return (
@@ -56,6 +57,7 @@ export default function App() {
             <Route path="profile" element={<UserProfile />} />
             <Route path="booking" element={<UserBooking />} />
             <Route path="bookingVip" element={<UserVipBooking />} />
+            <Route path="checkout" element={<UserCheckout />} />
           </Route>
         </Route>
 
