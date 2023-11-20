@@ -2,6 +2,9 @@ import { useMutation } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { addNewTicket } from "../../../api/user";
+import { loadStripe } from '@stripe/stripe-js';
+import { useNavigate } from "react-router-dom";
+const STRIPE_PK = 'pk_test_51OA5R7SG8cuZuFqKRSKfynnuGfD7Qg99WtVfYlHoalU9GANT4nd0X30UaEKlc1v5tfbaEUXL1KTOvAO7m4HhqOlM00dJNGR0ek';
 
 interface Checkout {
     data: {
@@ -89,13 +92,25 @@ const Checkout: React.FC<Checkout> = ({ data, refetchFn, wallet }) => {
 
 
     //------------------payment and submitting---------------------------
+    const navigate = useNavigate();
 
     const { mutate: ticketMutate } = useMutation({
         mutationFn: addNewTicket,
-        onSuccess: ((res) => {
-            if (res) console.log(res.data);
-
-        })
+        onSuccess: async (res) => {
+            const stripe = await loadStripe(STRIPE_PK);
+            if (res && res.data && stripe && paymentMethod === 'online') {
+                const result = await stripe.redirectToCheckout({
+                    sessionId: res.data.stripeSessionId
+                });
+                if (result?.error) {
+                    const msg = result.error;
+                    console.log(msg);
+                }
+            } else if (res && res.data && paymentMethod === 'wallet') {
+                toast.success('Payment Success');
+                navigate('/paymentSuccess');
+            }
+        }
     });
 
     const submitHandler = () => {
@@ -113,7 +128,7 @@ const Checkout: React.FC<Checkout> = ({ data, refetchFn, wallet }) => {
             paymentType: paymentMethod,
             coupon: false
         };
-        ticketMutate(ticketData)
+        ticketMutate(ticketData);
 
     };
 

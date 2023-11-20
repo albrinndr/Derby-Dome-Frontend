@@ -109,7 +109,7 @@ const VipBooking: React.FC<VipBooking> = ({ seatData, id, stand, section, cartSe
     return (
         <div className="bg-white border rounded-lg p-5">
             <div>
-                <h1 className="text-2xl text-center">Choose your favorite spot</h1>
+                <h1 className="text-2xl text-center">Choose your favorite spot - {stand.toUpperCase()} Stand</h1>
             </div>
             <div className="mt-5">
                 <div>

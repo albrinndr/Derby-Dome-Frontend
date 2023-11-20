@@ -59,6 +59,9 @@ export default function App() {
             <Route path="bookingVip" element={<UserVipBooking />} />
             <Route path="checkout" element={<UserCheckout />} />
           </Route>
+
+          <Route path='paymentSuccess' element={<PaymentSuccess />} />
+          <Route path='paymentFailed' element={<PaymentFailed />} />
         </Route>
 
         <Route path='/admin'>
@@ -85,9 +88,8 @@ export default function App() {
             <Route path='fixture' element={<ClubFixtures />} />
             <Route path='fixture/newFixture' element={<ClubNewFixture />} />
             <Route path='team' element={<ClubTeamManagement />} />
-            <Route path='paymentSuccess' element={<PaymentSuccess />} />
-            <Route path='paymentFailed' element={<PaymentFailed />} />
           </Route>
+          
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
