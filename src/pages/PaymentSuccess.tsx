@@ -1,11 +1,21 @@
-import React from "react";
-import NavBar from "../../components/club/navbar/NavBar";
+import NavBar from "../components/club/navbar/NavBar";
+import NavBarUser from "../components/user/NavBar";
+import NotFound from "./NotFound";
 
 const PaymentSuccess = () => {
-  return (
+  const user = localStorage.getItem('uLoggedIn');
+  const club = localStorage.getItem('clubInfo');
+  const hidePage = !user && !club;
+
+  return hidePage ? (
+    <NotFound />
+  ) : (
     <>
-      <NavBar />
-      <div className="flex flex-col items-center justify-center  h-screen bg-gradient-to-r from-green-400 to-blue-500">
+      {club && <NavBar color />}
+      {user && <NavBarUser />}
+
+      {/* <div className="flex flex-col items-center justify-center  h-screen bg-gradient-to-r from-green-400 to-blue-500"> */}
+      <div className="flex flex-col items-center justify-center  h-screen bg-gray-200">
         <div className="bg-white p-10 rounded-lg shadow-lg m-4">
           <svg
             xmlns="http://www.w3.org/2000/svg"

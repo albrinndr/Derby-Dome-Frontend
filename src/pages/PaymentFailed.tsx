@@ -1,16 +1,25 @@
-import React from "react";
-import NavBar from "../../components/club/navbar/NavBar";
+import NavBar from "../components/club/navbar/NavBar";
+import NavBarUser from "../components/user/NavBar";
 import { useNavigate } from "react-router-dom";
+import NotFound from "./NotFound";
 
 const PaymentFailed = () => {
-  const navigate = useNavigate()
-  const backBtnHandler =()=>{
-    navigate('/club/fixture/newFixture')
-  }
+  const user = localStorage.getItem('uLoggedIn');
+  const club = localStorage.getItem('clubInfo');
+  const hidePage = !user && !club;
+  const navigate = useNavigate();
+  const backBtnHandler = () => {
+    if (user) {
+      navigate('/checkout');
+    } else if (club) {
+      navigate('/club/fixture/newFixture');
+    }
+  };
 
-  return (
+  return hidePage ? (<NotFound />) : (
     <>
-      <NavBar color />
+      {club && <NavBar color />}
+      {user && <NavBarUser />}
 
       <div className="flex flex-col items-center justify-center h-screen bg-gray-200">
         <div className="bg-white p-8 m-4 rounded-lg shadow-lg">

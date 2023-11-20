@@ -27,8 +27,8 @@ import ClubNewFixture from './pages/club/ClubNewFixture';
 import ClubFixtures from './pages/club/ClubFixtures';
 import ClubProfileHead from './components/club/headers/ClubProfileHead';
 import ClubTeamManagement from './pages/club/ClubTeamManagement';
-import PaymentSuccess from './pages/club/PaymentSuccess';
-import PaymentFailed from './pages/club/PaymentFailed';
+import PaymentSuccess from './pages/PaymentSuccess';
+import PaymentFailed from './pages/PaymentFailed';
 
 import StadiumBanner from './pages/stadium/StadiumBanner';
 import StadiumTiming from './pages/stadium/StadiumTiming';
@@ -89,7 +89,7 @@ export default function App() {
             <Route path='fixture/newFixture' element={<ClubNewFixture />} />
             <Route path='team' element={<ClubTeamManagement />} />
           </Route>
-          
+
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
