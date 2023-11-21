@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useState, FormEvent, useEffect } from "react";
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { updateUserProfile } from "../../../api/user";
+import { updateUserProfile } from "../../../../api/user";
 import toast from "react-hot-toast";
 
 interface UserDetails {
@@ -76,7 +76,8 @@ const ProfileEditSection: React.FC<ProfileEditProps> = ({ userDetails }) => {
     const isDisabled = (status as string) === 'loading' || (status as string) === 'pending';
 
     return (
-        <div className="px-5 md:px-14 xl:px-28 mt-20">
+        <div className=" bg-white rounded shadow pt-5">
+            <h1 className="text-2xl font-semibold text-center text-gray-800">Edit Profile</h1>
             <form className=" p-6  text-center " onSubmit={submitHandler}>
                 <div className="">
                     <input
