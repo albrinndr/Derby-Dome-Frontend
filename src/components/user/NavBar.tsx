@@ -1,10 +1,14 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import Logo from '../../assets/logo.svg';
 import LogoWhite from '../../assets/logo-white.svg';
 import MenuIcon from '../../assets/menu.svg';
 import MenuWhite from '../../assets/menu-white.svg';
+import { useQueryClient } from '@tanstack/react-query';
+import { logout } from '../../api/user';
+import toast from 'react-hot-toast';
+import { userLogout } from '../../store/slices/authSlice';
 
 
 interface NavBarProps {
@@ -32,6 +36,23 @@ const NavBar: React.FC<NavBarProps> = ({ color, fixed }) => {
     const MenuIconType = !color ? MenuIcon : MenuWhite;
     const underLineStyle = !color ? 'group-hover:bg-gray-800' : 'group-hover:bg-white';
     const MainLogo = color ? LogoWhite : Logo;
+
+    //logout handler
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const queryClient = useQueryClient();
+
+    const logoutHandler = async () => {
+        queryClient.invalidateQueries({ queryKey: ['userData'] });
+        const response = await logout();
+        if (response) {
+            toast.success(response.data.message);
+            dispatch(userLogout());
+            navigate('/login');
+        }
+
+    };
 
     return (
         <div className={` right-0 left-0 top-0 z-50 px-4 md:py-2 md:px-14 xl:px-28 ${navBarStyle} ${navPosition}`}>
@@ -99,6 +120,12 @@ const NavBar: React.FC<NavBarProps> = ({ color, fixed }) => {
                                     <Link to='/login' className="text-gray-800 text-md font-semibold border px-4 py-1 rounded-lg hover:bg-gray-400 hover:bg-opacity-25">Log In</Link>
                             }
                         </div>
+
+                        {
+                            uLoggedIn && <div className="flex justify-between items-center pt-4">
+                                <button className="bg-red-600 py-1 px-4 rounded-lg bg-opacity-80 hover:bg-opacity-95 text-white" onClick={logoutHandler}>Logout</button>
+                            </div>
+                        }
                     </div>
                 </div>}
             </div>

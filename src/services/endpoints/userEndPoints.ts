@@ -19,7 +19,8 @@ const userRoutes = {
     addToCart: '/user/addToCart',
     getCheckout: '/user/checkout',
 
-    addTicket:'/user/ticket'
+    addTicket: '/user/ticket',
+    getTickets: '/user/myTickets'
 };
 
 export default userRoutes;

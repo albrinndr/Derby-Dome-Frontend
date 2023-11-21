@@ -205,3 +205,14 @@ export const addNewTicket = async (ticketData: Ticket) => {
     }
 
 };
+
+export const getTickets = async () => {
+    try {
+        const response = await Api.get(userRoutes.getTickets);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+
+};

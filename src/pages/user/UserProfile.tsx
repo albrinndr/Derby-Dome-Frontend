@@ -5,6 +5,7 @@ import NavBar from "../../components/user/NavBar";
 import ProfileHead from "../../components/user/profile/ProfileHead";
 import ProfileMenu from "../../components/user/profile/ProfileMenu";
 import ProfileEditSection from "../../components/user/profile/edit/ProfileEditSection";
+import Tickets from "../../components/user/tickets/Tickets";
 
 const UserProfile = () => {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -33,8 +34,9 @@ const UserProfile = () => {
                 </div>
                 <div className="bg-gray-50 pb-20 lg:pt-10 pt-7 px-5 md:px-14 xl:px-28 lg:flex gap-10">
                     <ProfileMenu />
-                    <div className="mt-5 lg:mt-0">
-                        <ProfileEditSection userDetails={userDetails} />
+                    <div className="mt-5 lg:mt-0 flex-1">
+                        {/* <ProfileEditSection userDetails={userDetails} /> */}
+                        <Tickets />
                     </div>
                 </div>
             </div>}
