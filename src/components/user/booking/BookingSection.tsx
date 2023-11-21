@@ -7,8 +7,6 @@ import { useMutation } from "@tanstack/react-query";
 import { addToCart } from "../../../api/user";
 import { BookingSectionI, CartData, FixtureSeat, Seat, StandSeats } from "./BookingSectionInterface";
 
-
-
 const BookingSection: React.FC<BookingSectionI> = ({ data, refetchFn }) => {
   const [ticketCount, setTicketCount] = useState(2);
   const [isOpen, setIsOpen] = useState(false);
@@ -141,7 +139,7 @@ const BookingSection: React.FC<BookingSectionI> = ({ data, refetchFn }) => {
                     economy.map((seat, i) => {
                       if ('economy' in data.fixture.seats[seat.toLowerCase() as keyof FixtureSeat['seats']]) {
                         const seatData = data.fixture.seats[seat.toLowerCase() as keyof FixtureSeat['seats']] as StandSeats;
-                        const totalCount = seatData.economy.E + seatData.economy.F;
+                        const totalCount = seatData.economy.E.count + seatData.economy.F.count;
                         const sectionData = data.cartData[seat.toLowerCase() as keyof CartData];
                         const cartSeatCount = sectionData['economy'];
                         if ((totalCount - cartSeatCount) >= ticketCount) {
@@ -165,7 +163,7 @@ const BookingSection: React.FC<BookingSectionI> = ({ data, refetchFn }) => {
                     premium.map((seat, i) => {
                       if ('premium' in data.fixture.seats[seat.toLowerCase() as keyof FixtureSeat['seats']]) {
                         const seatData = data.fixture.seats[seat.toLowerCase() as keyof FixtureSeat['seats']] as StandSeats;
-                        const totalCount = seatData.premium.C + seatData.premium.D;
+                        const totalCount = seatData.premium.C.count + seatData.premium.D.count;
                         const sectionData = data.cartData[seat.toLowerCase() as keyof CartData];
                         const cartSeatCount = sectionData['premium'];
 

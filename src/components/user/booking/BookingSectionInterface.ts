@@ -1,9 +1,6 @@
 
 export interface SeatData {
-    seats: [{
-        seatNo: { type: number; },
-        status: { type: string; };
-    }],
+    seats: number[],
     count: number;
 }
 
@@ -13,12 +10,12 @@ export interface StandSeats {
         B: SeatData;
     };
     premium: {
-        C: number;
-        D: number;
+        C: SeatData;
+        D: SeatData;
     };
     economy: {
-        E: number;
-        F: number;
+        E: SeatData;
+        F: SeatData;
     };
 }
 export interface FixtureSeat {
@@ -33,8 +30,8 @@ export interface FixtureSeat {
                 B: SeatData[];
             };
             premium: {
-                C: number;
-                D: number;
+                C: StandSeats;
+                D: StandSeats;
             };
         };
     };
