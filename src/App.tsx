@@ -1,13 +1,18 @@
 import './App.css';
+import React, { lazy, Suspense } from 'react';
+
 import { Route, Routes } from 'react-router-dom';
 import UserHome from './pages/user/UserHome';
 import UserSignUp from './pages/user/UserSignUp';
-import UserProfile from './pages/user/UserProfile';
+const UserProfile = lazy(() => import('./pages/user/UserProfile'));
+
 import UserProtect from './components/user/UserProtect';
 import UserFixture from './pages/user/UserFixture';
 import UserSearch from './pages/user/UserSearch';
 import UserFixtureDetails from './pages/user/UserFixtureDetails';
-import UserClubView from './pages/user/UserClubView';
+const UserClubView = lazy(() => import('./pages/user/UserClubView'));
+
+// import UserClubView from './pages/user/UserClubView';
 import UserBooking from './pages/user/UserBooking';
 import UserVipBooking from './pages/user/UserVipBooking';
 import UserCheckout from './pages/user/UserCheckout';
@@ -37,6 +42,7 @@ import NotFound from './pages/NotFound';
 import LoginPage from './pages/LoginPage';
 import { Toaster } from 'react-hot-toast';
 import Community from './pages/community/Community';
+import LazyUserSkeleton from './components/LazySkeleton/LazyUserSkeleton';
 
 export default function App() {
   return (
@@ -51,10 +57,18 @@ export default function App() {
           <Route path='fixture' element={<UserFixture />} />
           <Route path='search' element={<UserSearch />} />
           <Route path='fixtureDetails' element={<UserFixtureDetails />} />
-          <Route path='clubDetails' element={<UserClubView />} />
+          <Route path='clubDetails' element={
+            <Suspense fallback={<LazyUserSkeleton />}>
+              <UserClubView />
+            </Suspense>
+          } />
           <Route path='' element={<UserProtect />}>
             <Route path='community' element={<Community />} />
-            <Route path="profile" element={<UserProfile />} />
+            <Route path="profile" element={
+              <Suspense fallback={<LazyUserSkeleton />}>
+                <UserProfile />
+              </Suspense>
+            } />
             <Route path="booking" element={<UserBooking />} />
             <Route path="bookingVip" element={<UserVipBooking />} />
             <Route path="checkout" element={<UserCheckout />} />

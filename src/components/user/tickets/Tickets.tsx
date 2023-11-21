@@ -3,7 +3,8 @@ import { getTickets } from "../../../api/user";
 import SingleTicket from "./SingleTicket";
 import Pagination from "../Pagination";
 import { useState } from "react";
-import React from 'react'
+import React from 'react';
+import TicketsSkeleton from "./TicketsSkeleton";
 
 interface TicketI {
     _id: string;
@@ -31,7 +32,7 @@ interface FixtureI {
 interface TicketsI {
     uRefetchFn: () => void;
 }
-const Tickets:React.FC<TicketsI> = ({uRefetchFn}) => {
+const Tickets: React.FC<TicketsI> = ({ uRefetchFn }) => {
     const { isLoading, data: ticketData, refetch } = useQuery({ queryKey: ['myTickets'], queryFn: getTickets });
 
     let tickets: [] = [];
@@ -59,7 +60,7 @@ const Tickets:React.FC<TicketsI> = ({uRefetchFn}) => {
         <div className=" bg-white rounded shadow w-full pt-8 px-7 pb-10">
             <h1 className="text-2xl font-semibold text-center text-gray-800">Upcoming Matches Tickets</h1>
 
-            {isLoading ? <div className="grid place-content-center mt-20">Loading...</div> :
+            {isLoading ? <TicketsSkeleton /> :
                 <div>
                     {
                         tickets.length && ticketFixtures.length ?
@@ -68,7 +69,7 @@ const Tickets:React.FC<TicketsI> = ({uRefetchFn}) => {
                                     {
                                         currentFixtures.map((ticket: TicketI, i) => {
                                             const fixtures = ticketFixtures.find((fixture: FixtureI) => fixture._id === ticket.fixtureId);
-                                            return <SingleTicket key={i} fixtureDetails={fixtures} ticket={ticket} refetchFn={refetch} uRefetchFn={uRefetchFn}/>;
+                                            return <SingleTicket key={i} fixtureDetails={fixtures} ticket={ticket} refetchFn={refetch} uRefetchFn={uRefetchFn} />;
                                         }
                                         )
                                     }

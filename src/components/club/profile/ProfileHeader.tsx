@@ -18,9 +18,6 @@ const ProfileHeader = () => {
             case 'BACKGROUND':
                 navigate('/club/profile/background');
                 break;
-            case 'WALLET':
-                navigate('/club/profile/wallet');
-                break;
             default:
                 break;
         }
@@ -35,8 +32,6 @@ const ProfileHeader = () => {
                     <Link to="/club/profile/edit" className="text-gray-800 font-semibold">EDIT</Link>
                     <h1 className="text-gray-800 font-semibold">|</h1>
                     <Link to="/club/profile/background" className="text-gray-800 font-semibold">BACKGROUND</Link>
-                    <h1 className="text-gray-800 font-semibold">|</h1>
-                    <Link to="#" className="text-gray-800 font-semibold">WALLET</Link>
                 </div>
             </div>
             <div className="px-4 md:px-14 sm:hidden">
@@ -51,7 +46,6 @@ const ProfileHeader = () => {
                         <option value="MY CLUB">MY CLUB</option>
                         <option value="EDIT">EDIT</option>
                         <option value="BACKGROUND">BACKGROUND</option>
-                        <option value="WALLET">WALLET</option>
                     </select>
                 </div>
             </div>

@@ -1,20 +1,28 @@
 import React, { useState } from "react";
 
-const ProfileMenu = () => {
-    const [selectedOption, setSelectedOption] = useState("MY CLUB");
+interface Menu {
+    changeFn: (val: string) => void;
+}
+const ProfileMenu: React.FC<Menu> = ({ changeFn }) => {
+    const [selectedOption, setSelectedOption] = useState("Tickets");
     const [showOptions, setShowOptions] = useState(false);
 
+
+    const optionHandler = (val: string) => {
+        changeFn(val);
+    };
+
     const options = [
-        { label: "MY CLUB", value: "MY CLUB" },
-        { label: "EDIT", value: "EDIT" },
-        { label: "BACKGROUND", value: "BACKGROUND" },
-        { label: "WALLET", value: "WALLET" },
+        { label: "TICKETS", value: "tickets" },
+        { label: "EDIT PROFILE", value: "edit" },
+        { label: "BOOKINGS", value: "bookings" },
+        { label: "FOLLOWINGS", value: "following" },
     ];
     return (
         <div>
             <div className="bg-white shadow rounded w-44 text-center h-fit hidden lg:block">
                 <div className="pt-2 px-5">
-                    <div className="py-3 border-b hover:bg-gray-100 transition-all duration-100  cursor-pointer">
+                    <div className="py-3 border-b hover:bg-gray-100 transition-all duration-100  cursor-pointer" onClick={() => optionHandler('tickets')}>
                         <h1 className="text-lg">
                             Tickets
                         </h1>
@@ -24,7 +32,7 @@ const ProfileMenu = () => {
                             Bookings
                         </h1>
                     </div>
-                    <div className="py-3 border-b hover:bg-gray-100 transition-all duration-100  cursor-pointer">
+                    <div className="py-3 border-b hover:bg-gray-100 transition-all duration-100  cursor-pointer" onClick={() => optionHandler('edit')}>
                         <h1 className="text-lg">
                             Edit Profile
                         </h1>
@@ -42,7 +50,7 @@ const ProfileMenu = () => {
                         className="cursor-pointer rounded p-2 bg-white shadow focus:outline-none text-center"
                         onClick={() => setShowOptions(!showOptions)}
                     >
-                        {selectedOption}
+                        <p className="uppercase">{selectedOption}</p>
                     </div>
                     {showOptions && (
                         <div className="absolute bg-white mt-2 py-1 w-full border border-gray-300 rounded shadow-lg text-center">
@@ -52,6 +60,7 @@ const ProfileMenu = () => {
                                     className="cursor-pointer px-4 py-2 hover:bg-gray-100"
                                     onClick={() => {
                                         setSelectedOption(option.value);
+                                        optionHandler(option.value);
                                         setShowOptions(false);
                                     }}
                                 >
