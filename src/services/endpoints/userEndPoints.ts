@@ -20,7 +20,8 @@ const userRoutes = {
     getCheckout: '/user/checkout',
 
     addTicket: '/user/ticket',
-    getTickets: '/user/myTickets'
+    getTickets: '/user/myTickets',
+    cancelTicket:'/user/cancelTicket'
 };
 
 export default userRoutes;

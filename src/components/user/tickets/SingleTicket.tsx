@@ -1,6 +1,14 @@
+import { useMutation } from "@tanstack/react-query";
 import React from "react";
+import { cancelTicket } from "../../../api/user";
+import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { openModal } from "../../../store/slices/modalSlice";
+import ConfirmationModal from "../../common/ConfirmationModal";
+import Loader from "../../common/Loader";
 
 interface TicketI {
+    _id: string;
     userId: string;
     fixtureId: string;
     stand: string;
@@ -11,6 +19,7 @@ interface TicketI {
         userSeats: number[];
     }
     ];
+    isCancelled: boolean;
 }
 
 interface FixtureDetails {
@@ -24,9 +33,17 @@ interface FixtureDetails {
 interface Ticket {
     ticket: TicketI;
     fixtureDetails?: FixtureDetails;
+    refetchFn: () => void;
+    uRefetchFn: () => void;
 }
 
-const SingleTicket: React.FC<Ticket> = ({ ticket, fixtureDetails }) => {
+interface ModalState {
+    modal: {
+        showModal: boolean;
+    };
+}
+
+const SingleTicket: React.FC<Ticket> = ({ ticket, fixtureDetails, refetchFn, uRefetchFn }) => {
 
     //convert data
     const dateString = fixtureDetails?.date as string;
@@ -47,12 +64,49 @@ const SingleTicket: React.FC<Ticket> = ({ ticket, fixtureDetails }) => {
         minute: "2-digit",
         hour12: true,
     });
+
+    //seat converting
+    const userSeats = ticket.seats;
+    const formattedArray = userSeats.flatMap(({ row, userSeats }) =>
+        userSeats.map(seat => `${row}${seat}`)
+    );
+    const formattedSeats = formattedArray.join(', ');
+
+    //validating the dates for 3 days before the match for cancellation
+    const currentDate = new Date();
+    const currentDateMilliseconds = currentDate.getTime();
+    const fixtureDate = fixtureDetails?.date ? new Date(fixtureDetails.date) : new Date();
+
+    const fixtureDateMilliseconds = fixtureDate.getTime();
+    const millisecondsInThreeDays = 3 * 24 * 60 * 60 * 1000;
+    const differenceInMilliseconds = fixtureDateMilliseconds - currentDateMilliseconds;
+
+    //fixture cancellation handling
+    const { status, mutate: cancelTicketMutate } = useMutation({
+        mutationFn: cancelTicket,
+        onSuccess: ((res) => {
+            if (res && res.data) {
+                refetchFn();
+                uRefetchFn();
+                toast.success('Ticket cancelled!');
+            }
+        })
+    });
+
+    const { showModal } = useSelector((state: ModalState) => state.modal);
+    const dispatch = useDispatch();
+
+    const cancelBtnHandler = () => {
+        dispatch(openModal());
+    };
+
+
     return (
         <div className="w-full  shadow border  mt-10">
             {/* details section */}
-            <div className="flex justify-end border-b p-2">
-                <button className="bg-red-600 bg-opacity-80 hover:bg-opacity-95 sm:px-4 sm:py-2 px-3 py-1 rounded text-white">Cancel</button>
-            </div>
+            {differenceInMilliseconds >= millisecondsInThreeDays && <div className="flex justify-end border-b p-2">
+                <button className="bg-red-600 bg-opacity-80 hover:bg-opacity-95 sm:px-4 sm:py-2 px-3 py-1 rounded text-white" onClick={cancelBtnHandler}>Cancel</button>
+            </div>}
             <div className="md:flex justify-between gap-5">
                 <div className=" flex-1 border-b sm:border-r sm:border-b-0 border-dotted border-gray-400">
                     <div className="p-5">
@@ -75,7 +129,7 @@ const SingleTicket: React.FC<Ticket> = ({ ticket, fixtureDetails }) => {
                             </div>
 
                             <div className="mt-1">
-                                <h1>Seats: (A1, A2, A3, A4)</h1>
+                                <h1>Seats: ({formattedSeats})</h1>
                                 <h1 className="text-lg font-semibold text-center mt-1">₹{ticket.price}</h1>
                             </div>
                         </div>
@@ -97,6 +151,8 @@ const SingleTicket: React.FC<Ticket> = ({ ticket, fixtureDetails }) => {
                     </div>
                 </div>
             </div>
+            {showModal && <ConfirmationModal confirmFn={cancelTicketMutate} id={ticket._id} />}
+            {status === 'pending' && <Loader />}
         </div>
     );
 };

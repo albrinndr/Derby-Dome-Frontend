@@ -3,8 +3,10 @@ import { getTickets } from "../../../api/user";
 import SingleTicket from "./SingleTicket";
 import Pagination from "../Pagination";
 import { useState } from "react";
+import React from 'react'
 
 interface TicketI {
+    _id: string;
     userId: string;
     fixtureId: string;
     stand: string;
@@ -15,6 +17,7 @@ interface TicketI {
         userSeats: number[];
     }
     ];
+    isCancelled: boolean;
 }
 
 interface FixtureI {
@@ -25,14 +28,18 @@ interface FixtureI {
     awayTeam: string;
 }
 
-const Tickets = () => {
-    const { isLoading, data: ticketData } = useQuery({ queryKey: ['myTickets'], queryFn: getTickets });
+interface TicketsI {
+    uRefetchFn: () => void;
+}
+const Tickets:React.FC<TicketsI> = ({uRefetchFn}) => {
+    const { isLoading, data: ticketData, refetch } = useQuery({ queryKey: ['myTickets'], queryFn: getTickets });
 
     let tickets: [] = [];
     let ticketFixtures: [] = [];
 
     if (ticketData && ticketData.data) {
-        tickets = ticketData?.data.tickets;
+        tickets = ticketData?.data.tickets.filter((ticket: TicketI) => ticket.isCancelled === false);
+
         ticketFixtures = ticketData?.data.ticketFixtures;
     }
 
@@ -55,13 +62,13 @@ const Tickets = () => {
             {isLoading ? <div className="grid place-content-center mt-20">Loading...</div> :
                 <div>
                     {
-                        tickets && ticketFixtures ?
+                        tickets.length && ticketFixtures.length ?
                             <div>
                                 <div>
                                     {
                                         currentFixtures.map((ticket: TicketI, i) => {
                                             const fixtures = ticketFixtures.find((fixture: FixtureI) => fixture._id === ticket.fixtureId);
-                                            return <SingleTicket key={i} fixtureDetails={fixtures} ticket={ticket} />;
+                                            return <SingleTicket key={i} fixtureDetails={fixtures} ticket={ticket} refetchFn={refetch} uRefetchFn={uRefetchFn}/>;
                                         }
                                         )
                                     }

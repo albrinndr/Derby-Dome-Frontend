@@ -26,9 +26,10 @@ interface Checkout {
     };
     refetchFn: () => void;
     wallet: number;
+    userRefetch: () => void;
 }
 
-const Checkout: React.FC<Checkout> = ({ data, refetchFn, wallet }) => {
+const Checkout: React.FC<Checkout> = ({ data, refetchFn, wallet, userRefetch }) => {
     const [paymentMethod, setPaymentMethod] = useState('');
     const [timer, setTimer] = useState('00:00');
     const [remainingTime, setRemainingTime] = useState(0);
@@ -108,6 +109,7 @@ const Checkout: React.FC<Checkout> = ({ data, refetchFn, wallet }) => {
                 }
             } else if (res && res.data && paymentMethod === 'wallet') {
                 toast.success('Payment Success');
+                userRefetch();
                 navigate('/paymentSuccess');
             }
         }

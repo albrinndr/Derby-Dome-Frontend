@@ -216,3 +216,14 @@ export const getTickets = async () => {
     }
 
 };
+
+export const cancelTicket = async (ticketId: string) => {
+    try {
+        const response = await Api.put(userRoutes.cancelTicket, { ticketId });
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+
+};

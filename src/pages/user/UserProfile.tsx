@@ -4,7 +4,7 @@ import { getUserProfile } from "../../api/user";
 import NavBar from "../../components/user/NavBar";
 import ProfileHead from "../../components/user/profile/ProfileHead";
 import ProfileMenu from "../../components/user/profile/ProfileMenu";
-import ProfileEditSection from "../../components/user/profile/edit/ProfileEditSection";
+// import ProfileEditSection from "../../components/user/profile/edit/ProfileEditSection";
 import Tickets from "../../components/user/tickets/Tickets";
 
 const UserProfile = () => {
@@ -15,7 +15,7 @@ const UserProfile = () => {
         return () => (window.onscroll = null);
     };
 
-    const { data: userData, isLoading } = useQuery({ queryKey: ['userData'], queryFn: getUserProfile });
+    const { data: userData, isLoading,refetch } = useQuery({ queryKey: ['userData'], queryFn: getUserProfile });
     const userDetails = {
         name: userData?.data.name,
         email: userData?.data.email,
@@ -36,7 +36,7 @@ const UserProfile = () => {
                     <ProfileMenu />
                     <div className="mt-5 lg:mt-0 flex-1">
                         {/* <ProfileEditSection userDetails={userDetails} /> */}
-                        <Tickets />
+                        <Tickets uRefetchFn={refetch}/>
                     </div>
                 </div>
             </div>}
