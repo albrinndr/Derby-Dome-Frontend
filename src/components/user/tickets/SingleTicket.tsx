@@ -1,11 +1,12 @@
 import { useMutation } from "@tanstack/react-query";
-import React from "react";
+import React, { useState } from "react";
 import { cancelTicket } from "../../../api/user";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { openModal } from "../../../store/slices/modalSlice";
-import ConfirmationModal from "../../common/ConfirmationModal";
+// import ConfirmationModal from "../../common/ConfirmationModal";
 import Loader from "../../common/Loader";
+import CancelConfirmation from "../../club/fixture/CancelConfirm";
 
 interface TicketI {
     _id: string;
@@ -44,7 +45,7 @@ interface ModalState {
 }
 
 const SingleTicket: React.FC<Ticket> = ({ ticket, fixtureDetails, refetchFn, uRefetchFn }) => {
-
+    const [showTicket, setShowTicket] = useState(true);
     //convert data
     const dateString = fixtureDetails?.date as string;
     const date = new Date(dateString);
@@ -86,6 +87,7 @@ const SingleTicket: React.FC<Ticket> = ({ ticket, fixtureDetails, refetchFn, uRe
         mutationFn: cancelTicket,
         onSuccess: ((res) => {
             if (res && res.data) {
+                setShowTicket(false)
                 refetchFn();
                 uRefetchFn();
                 toast.success('Ticket cancelled!');
@@ -101,7 +103,7 @@ const SingleTicket: React.FC<Ticket> = ({ ticket, fixtureDetails, refetchFn, uRe
     };
 
 
-    return (
+    return showTicket && (
         <div className="w-full  shadow border  mt-10">
             {/* details section */}
             {differenceInMilliseconds >= millisecondsInThreeDays && <div className="flex justify-end border-b p-2">
@@ -151,7 +153,7 @@ const SingleTicket: React.FC<Ticket> = ({ ticket, fixtureDetails, refetchFn, uRe
                     </div>
                 </div>
             </div>
-            {showModal && <ConfirmationModal confirmFn={cancelTicketMutate} id={ticket._id} />}
+            {showModal && <CancelConfirmation confirmFn={cancelTicketMutate} id={ticket._id} />}
             {status === 'pending' && <Loader />}
         </div>
     );
