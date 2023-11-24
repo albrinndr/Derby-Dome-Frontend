@@ -39,7 +39,7 @@ const Tickets: React.FC<TicketsI> = ({ uRefetchFn }) => {
     let ticketFixtures: [] = [];
 
     if (ticketData && ticketData.data) {
-        tickets = ticketData?.data.tickets.filter((ticket: TicketI) => ticket.isCancelled === false);
+        tickets = ticketData.data.tickets.filter((ticket: TicketI) => ticket.isCancelled === false);
 
         ticketFixtures = ticketData?.data.ticketFixtures;
     }

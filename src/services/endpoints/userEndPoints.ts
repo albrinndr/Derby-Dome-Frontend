@@ -21,7 +21,9 @@ const userRoutes = {
 
     addTicket: '/user/ticket',
     getTickets: '/user/myTickets',
-    cancelTicket:'/user/cancelTicket'
+    cancelTicket:'/user/cancelTicket',
+
+    validateCoupon:'/user/validateCoupon'
 };
 
 export default userRoutes;

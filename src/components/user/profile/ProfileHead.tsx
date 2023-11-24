@@ -19,7 +19,8 @@ interface ProfileHead {
 
 const ProfileHead: React.FC<ProfileHead> = ({ userDetails }) => {
     const divStyle = {
-        backgroundImage: `url(${profileBG})`,
+        backgroundImage: profileBG?`url(${profileBG})`:"url('https://cdn.pixabay.com/photo/2016/11/18/23/38/child-1837375_640.png')",
+        
         backgroundSize: "cover",
         backgroundPosition: "center",
     };

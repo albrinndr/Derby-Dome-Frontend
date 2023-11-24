@@ -31,7 +31,12 @@ interface Ticket {
     }];
     price: number;
     paymentType: string;
-    coupon: boolean;
+    coupon: boolean | string;
+}
+
+interface ApplyCoupon {
+    coupon: string;
+    price: number;
 }
 
 export const signUp = async (userData: userFormData) => {
@@ -220,6 +225,17 @@ export const getTickets = async () => {
 export const cancelTicket = async (ticketId: string) => {
     try {
         const response = await Api.put(userRoutes.cancelTicket, { ticketId });
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+
+};
+
+export const validateCoupon = async (data:ApplyCoupon) => {
+    try {
+        const response = await Api.post(userRoutes.validateCoupon,data);
         return response;
     } catch (error) {
         const err: Error = error as Error;

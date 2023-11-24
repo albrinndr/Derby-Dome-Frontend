@@ -1,9 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
-import { addNewTicket } from "../../../api/user";
+import { addNewTicket, validateCoupon } from "../../../api/user";
 import { loadStripe } from '@stripe/stripe-js';
 import { useNavigate } from "react-router-dom";
+import Loader from "../../common/Loader";
 const STRIPE_PK = 'pk_test_51OA5R7SG8cuZuFqKRSKfynnuGfD7Qg99WtVfYlHoalU9GANT4nd0X30UaEKlc1v5tfbaEUXL1KTOvAO7m4HhqOlM00dJNGR0ek';
 
 interface Checkout {
@@ -23,16 +24,22 @@ interface Checkout {
             date: string;
             time: string;
         };
+        coupons: {
+            name: string;
+        }[];
     };
     refetchFn: () => void;
     wallet: number;
     userRefetch: () => void;
+    showCoupon: () => void;
 }
 
-const Checkout: React.FC<Checkout> = ({ data, refetchFn, wallet, userRefetch }) => {
+const Checkout: React.FC<Checkout> = ({ data, refetchFn, wallet, userRefetch, showCoupon }) => {
     const [paymentMethod, setPaymentMethod] = useState('');
     const [timer, setTimer] = useState('00:00');
     const [remainingTime, setRemainingTime] = useState(0);
+
+
 
 
     const createdAt = new Date(data.cart.createdAt);
@@ -68,7 +75,6 @@ const Checkout: React.FC<Checkout> = ({ data, refetchFn, wallet, userRefetch }) 
 
 
 
-
     const userSeats = data.cart.seats;
     const formattedArray = userSeats.flatMap(({ row, userSeats }) =>
         userSeats.map(seat => `${row}${seat}`)
@@ -91,6 +97,46 @@ const Checkout: React.FC<Checkout> = ({ data, refetchFn, wallet, userRefetch }) 
         hour12: true,
     });
 
+    //----------coupon Handler ----------------------------
+    const [checkCoupon, setCheckCoupon] = useState('');
+    const [couponApplied, setCouponApplied] = useState('');
+    const [disableCoupon, setDisableCoupon] = useState(false);
+
+    const [couponDiscount, setCouponDiscount] = useState(0);
+
+    const { status, mutate: applyCouponMutate } = useMutation({
+        mutationFn: validateCoupon,
+        onSuccess: ((res) => {
+            if (res && res.data) {
+                toast.success('Coupon Applied');
+                setCouponApplied(checkCoupon);
+                setDisableCoupon(true);
+                setCouponDiscount(res.data.discount);
+                data.cart.price = data.cart.price - res.data.discount;
+            }
+        })
+    });
+
+    const applyCoupon = () => {
+        if (checkCoupon.trim().length < 1) {
+            toast.error('Enter coupon code');
+            return;
+        }
+        const couponData = {
+            coupon: checkCoupon.toUpperCase(),
+            price: data.cart.price
+        };
+        applyCouponMutate(couponData);
+
+    };
+
+    const removeCoupon = () => {
+        setCouponApplied('');
+        setCheckCoupon('');
+        setDisableCoupon(false);
+        data.cart.price = data.cart.price + couponDiscount;
+        if (paymentMethod === "wallet") setPaymentMethod('');
+    };
 
     //------------------payment and submitting---------------------------
     const navigate = useNavigate();
@@ -128,7 +174,7 @@ const Checkout: React.FC<Checkout> = ({ data, refetchFn, wallet, userRefetch }) 
             seats: data.cart.seats,
             price: data.cart.price,
             paymentType: paymentMethod,
-            coupon: false
+            coupon: couponApplied ? couponApplied : false
         };
         ticketMutate(ticketData);
 
@@ -174,8 +220,25 @@ const Checkout: React.FC<Checkout> = ({ data, refetchFn, wallet, userRefetch }) 
 
                         </div>
                     </div>
+
                     <div className="mt-10">
                         <h1 className="sm:text-lg font-semibold border-b border-b-gray-400 border-dotted  my-5">PAYMENT</h1>
+                        <div className="mt-10  mb-5 flex flex-col items-center">
+                            <div className="flex justify-center items-center">
+                                <div className="flex justify-center">
+                                    <input id="coupon" type="text" className="border uppercase outline-none pl-2 py-2" placeholder="Coupon code" readOnly={disableCoupon}
+                                        value={checkCoupon} onChange={(e) => setCheckCoupon(e.target.value)} />
+                                </div>
+                                <div>
+                                    {!disableCoupon && <button className="bg-rose-500 px-4 py-2 hover:bg-rose-500 text-white"
+                                        onClick={applyCoupon}>Apply</button>}
+                                    {disableCoupon && <button className="bg-red-400 px-2 py-2 hover:bg-red-500 text-white" onClick={removeCoupon}>Remove</button>}
+                                </div>
+                            </div>
+                            {data.coupons && data.coupons.length > 0 && <div onClick={() => showCoupon()} className="cursor-pointer flex justify-start mt-2">
+                                <p className="text-blue-700 font-semibold">find coupons</p>
+                            </div>}
+                        </div>
                         <div className="sm:flex gap-5 flex-wrap sm:gap-10 justify-center p-3">
                             <label className="flex items-center text-lg">
                                 <input type="radio" name="paymentOption" className="form-radio h-4 w-4 text-indigo-600"
@@ -199,6 +262,7 @@ const Checkout: React.FC<Checkout> = ({ data, refetchFn, wallet, userRefetch }) 
                     </div>
                 </div>
             </div>
+            {status === 'pending' && <Loader />}
         </div>
 
     );
