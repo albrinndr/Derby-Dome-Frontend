@@ -7,6 +7,7 @@ import StadiumTiming from "../pages/stadium/StadiumTiming";
 import StadiumBanner from "../pages/stadium/StadiumBanner";
 import AdminStadiumSeatManagement from "../pages/admin/AdminStadiumSeatManagement";
 import NotFound from "../pages/NotFound";
+import AdminCoupons from "../pages/admin/AdminCoupons";
 
 const AdminRoutes = () => {
     return (
@@ -20,6 +21,7 @@ const AdminRoutes = () => {
                 <Route path='stadium/timings' element={<StadiumTiming />} />
                 <Route path='stadium/banner' element={<StadiumBanner />} />
                 <Route path='stadium/seats' element={<AdminStadiumSeatManagement />} />
+                <Route path='coupon' element={<AdminCoupons />} />
             </Route>
             <Route path='*' element={<NotFound />} />
 

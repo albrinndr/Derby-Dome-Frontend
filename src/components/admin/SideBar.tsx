@@ -18,7 +18,7 @@ const SideBar = () => {
         { name: "Dashboard", link: "#", icon: MdOutlineDashboard },
         { name: "Users", link: "/admin/users", icon: AiOutlineUser },
         { name: "Clubs", link: "/admin/clubs", icon: GiSoccerBall },
-        { name: "Coupons", link: "#", icon: RiCoupon3Line, margin: true },
+        { name: "Coupons", link: "/admin/coupon", icon: RiCoupon3Line, margin: true },
         { name: "Tickets", link: "#", icon: BsTicketPerforated },
         { name: "Stadium", link: "/admin/stadium", icon: MdOutlineStadium },
         { name: "Logout", link: "#", icon: BiLogOutCircle, margin: true },
