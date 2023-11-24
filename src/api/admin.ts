@@ -8,6 +8,17 @@ interface LoginData {
     password: string;
 }
 
+interface Coupon {
+    id?: string;
+    name: string,
+    desc: string;
+    minPrice: string;
+    discount: string;
+    startingDate: string;
+    endingDate: string;
+    users?: string[];
+}
+
 export const adminLogin = async (adminData: LoginData) => {
     try {
         const response = await Api.post(adminRoutes.login, adminData);
@@ -61,6 +72,46 @@ export const fetchClubs = async () => {
 export const blockClub = async (id: string) => {
     try {
         const response = await Api.put(adminRoutes.blockClubs(id));
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};
+
+export const addCoupon = async (data: Coupon) => {
+    try {
+        const response = await Api.post(adminRoutes.addCoupon, data);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};
+
+export const getCoupons = async () => {
+    try {
+        const response = await Api.get(adminRoutes.getCoupons);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};
+
+export const editCoupon = async (data: Coupon) => {
+    try {
+        const response = await Api.put(adminRoutes.editCoupon, data);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};
+
+export const deleteCoupon = async (id: string) => {
+    try {
+        const response = await Api.delete(adminRoutes.deleteCoupon(id));
         return response;
     } catch (error) {
         const err: Error = error as Error;

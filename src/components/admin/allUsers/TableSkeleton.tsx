@@ -6,22 +6,22 @@ const TableSkeleton = () => {
     return (
         <tbody>
             <tr>
-                <td colSpan={4} className="my-5">
+                <td colSpan={4} className="my-5  w-full">
                     <Skeleton />
                 </td>
             </tr>
             <tr>
-                <td colSpan={4} className="my-5">
+                <td colSpan={4} className="my-5  w-full">
                     <Skeleton />
                 </td>
             </tr>
             <tr>
-                <td colSpan={4} className="my-5">
+                <td colSpan={4} className="my-5 w-full">
                     <Skeleton />
                 </td>
             </tr>
             <tr>
-                <td colSpan={4} className="my-5">
+                <td colSpan={4} className="my-5 w-full">
                     <Skeleton />
                 </td>
             </tr>

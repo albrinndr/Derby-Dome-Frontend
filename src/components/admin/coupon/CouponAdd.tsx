@@ -1,12 +1,17 @@
+import { useMutation } from "@tanstack/react-query";
 import React, { FormEvent, useState } from "react";
 import toast from "react-hot-toast";
 import { FaChevronDown } from "react-icons/fa";
 import { FaChevronUp } from "react-icons/fa";
 import { MdCurrencyRupee } from "react-icons/md";
+import { addCoupon } from "../../../api/admin";
+import Loader from "../../common/Loader";
 
+interface CouponAddI {
+  refetchFn: () => void;
+}
 
-
-const CouponAdd = () => {
+const CouponAdd: React.FC<CouponAddI> = ({ refetchFn }) => {
   const [name, setName] = useState('');
   const [desc, setDesc] = useState('');
   const [discount, setDiscount] = useState('');
@@ -28,6 +33,16 @@ const CouponAdd = () => {
     setShowAddCoupon(!showAddCoupon);
   };
 
+  const { status, mutate: couponMutate } = useMutation({
+    mutationFn: addCoupon,
+    onSuccess: ((res) => {
+      if (res) {
+        toast.success('Coupon Added');
+        refetchFn();
+      }
+    })
+  });
+
   const submitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (name.trim().length < 1) {
@@ -46,16 +61,26 @@ const CouponAdd = () => {
       toast.error('Select ending date');
       return;
     }
-    console.log(name);
-    console.log(desc);
-    console.log(minPrice);
-    console.log(discount);
-    console.log(startingDate);
-    console.log(endingDate);
+    const data = {
+      name: name.toUpperCase(),
+      desc,
+      minPrice,
+      discount,
+      startingDate,
+      endingDate
+    };
+    couponMutate(data);
+    setName('');
+    setDesc('');
+    setMinPrice('');
+    setDiscount('');
+    setStartingDate('');
+    setEndingDate('');
   };
 
   return (
     <div>
+      {status === 'pending' && <Loader />}
       <div className="flex justify-end">
         <button className="px-4 py-2 bg-white shadow  hover:text-gray-700 text-gray-800 rounded w-full "
           onClick={showCouponHandler}>
@@ -70,13 +95,13 @@ const CouponAdd = () => {
           <div className="flex md:flex-row flex-col flex-wrap justify-center xl:justify-evenly gap-5 items-center">
             <div className="flex items-center gap-3">
               <label htmlFor="name">Coupon name: </label>
-              <input type="text" id="name" className="border border-gray-300 outline-none  h-10 rounded"
+              <input type="text" id="name" className="border pl-4 border-gray-300 outline-none  h-10 rounded"
                 value={name}
                 onChange={(e) => setName(e.target.value)} />
             </div>
             <div className="flex items-center gap-2">
               <label htmlFor="desc">Description: </label>
-              <textarea id="desc" className="border border-gray-300 outline-none  w-52 rounded"
+              <textarea id="desc" className="border pl-4 border-gray-300 outline-none  w-52 rounded"
                 value={desc} onChange={(e) => setDesc(e.target.value)} />
 
             </div>
@@ -84,7 +109,7 @@ const CouponAdd = () => {
               <label htmlFor="discount">Discount: </label>
               <div className="flex items-center">
                 <h1 className="text-lg bg-gray-200 px-1 h-10 flex items-center rounded-l"><MdCurrencyRupee /></h1>
-                <input type="number" min={1} className="border w-20 h-10 rounded-r focus:outline-none pl-1"
+                <input type="number" min={1} className="border pl-4 w-20 h-10 rounded-r focus:outline-none pl-1"
                   value={discount} onChange={(e) => setDiscount(e.target.value)} />
               </div>
             </div>
@@ -92,7 +117,7 @@ const CouponAdd = () => {
               <label htmlFor="discount">Min Price: </label>
               <div className="flex items-center">
                 <h1 className="text-lg bg-gray-200 px-1 h-10 flex items-center rounded-l"><MdCurrencyRupee /></h1>
-                <input type="number" min={1} className="border w-20 h-10 rounded-r focus:outline-none pl-1"
+                <input type="number" min={1} className="border pl-4 w-20 h-10 rounded-r focus:outline-none pl-1"
                   value={minPrice} onChange={(e) => setMinPrice(e.target.value)} />
               </div>
             </div>
