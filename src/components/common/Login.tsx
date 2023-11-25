@@ -187,23 +187,23 @@ const Login: React.FC<UserType> = ({ type }) => {
                             >
                                 Sign in
                             </button>
-                        </div>
-                        {user == 'user' &&
-                            <div className='flex justify-center mt-3'>
-                                <GoogleLogin onSuccess={credentialResponse => { gLogin(credentialResponse); }} onError={() => { console.log('Login Failed'); }} />
+                        </div></form>
+                    {user == 'user' &&
+                        <div className='flex justify-center mt-3'>
+                            <GoogleLogin onSuccess={credentialResponse => { gLogin(credentialResponse); }} onError={() => { console.log('Login Failed'); }} />
 
-                            </div>
-                        }
-
-                        <div className='text-center m-2'>
-                            <span className="text-gray-600 text-sm">
-                                Not a member?
-                            </span>
-                            <Link to={signUpBtn} className="text-gray-700 text-sm font-semibold">
-                                Join now!
-                            </Link>
                         </div>
-                    </form>
+                    }
+
+                    <div className='text-center m-2'>
+                        <span className="text-gray-600 text-sm">
+                            Not a member?
+                        </span>
+                        <Link to={signUpBtn} className="text-gray-700 text-sm font-semibold">
+                            Join now!
+                        </Link>
+                    </div>
+
                 </div>
             </div>
         </div>

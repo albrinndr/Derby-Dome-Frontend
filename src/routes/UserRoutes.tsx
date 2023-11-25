@@ -15,6 +15,7 @@ import UserCheckout from "../pages/user/UserCheckout";
 import PaymentSuccess from "../pages/PaymentSuccess";
 import PaymentFailed from "../pages/PaymentFailed";
 import NotFound from "../pages/NotFound";
+import UserReview from "../pages/user/UserReview";
 const UserProfile = lazy(() => import('../pages/user/UserProfile'));
 const UserClubView = lazy(() => import('../pages/user/UserClubView'));
 
@@ -33,6 +34,7 @@ const UserRoutes = () => {
                     <UserClubView />
                 </Suspense>
             } />
+            <Route path="/review" element={<UserReview />} />
             <Route path='' element={<UserProtect />}>
                 <Route path='community' element={<Community />} />
                 <Route path="profile" element={

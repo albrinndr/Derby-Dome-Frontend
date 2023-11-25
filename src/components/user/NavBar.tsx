@@ -73,7 +73,7 @@ const NavBar: React.FC<NavBarProps> = ({ color, fixed }) => {
                             Fixtures
                             <span className={`absolute left-0 right-0 bottom-0 h-px top-7 ${underLineStyle} transition-all`}></span>
                         </Link>
-                        <Link to='#' className={`${itemStyle} text-md font-semibold relative mr-9 group`}>
+                        <Link to='/review' className={`${itemStyle} text-md font-semibold relative mr-9 group`}>
                             Reviews
                             <span className={`absolute left-0 right-0 bottom-0 h-px top-7 ${underLineStyle} transition-all`}></span>
                         </Link>
@@ -109,7 +109,7 @@ const NavBar: React.FC<NavBarProps> = ({ color, fixed }) => {
                     <div className="flex flex-col p-3">
                         <Link to='/' className="text-gray-800 text-md font-semibold hover:text-purple-600 mb-1">Home</Link>
                         <Link to='/fixture' className="text-gray-800 text-md font-semibold hover:text-purple-600 mb-1">Fixtures</Link>
-                        <Link to='#' className="text-gray-800 text-md font-semibold hover:text-purple-600 mb-1">Reviews</Link>
+                        <Link to='/review' className="text-gray-800 text-md font-semibold hover:text-purple-600 mb-1">Reviews</Link>
                         {uLoggedIn && <Link to='/community' className="text-gray-800 text-md font-semibold hover:text-purple-600 mb-1">Community</Link>}
                         <Link to='/search' className="text-gray-800 text-md font-semibold hover:text-purple-600 mb-1">Search</Link>
                         <div className="flex justify-between items-center border-t-2 pt-2">

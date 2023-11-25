@@ -39,6 +39,11 @@ interface ApplyCoupon {
     price: number;
 }
 
+interface Review {
+    rating: number;
+    review: string;
+}
+
 export const signUp = async (userData: userFormData) => {
     try {
         const response = await Api.post(userRoutes.signUp, userData);
@@ -233,9 +238,52 @@ export const cancelTicket = async (ticketId: string) => {
 
 };
 
-export const validateCoupon = async (data:ApplyCoupon) => {
+export const validateCoupon = async (data: ApplyCoupon) => {
     try {
-        const response = await Api.post(userRoutes.validateCoupon,data);
+        const response = await Api.post(userRoutes.validateCoupon, data);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+
+};
+export const addUpdateReview = async (data: Review) => {
+    try {
+        const response = await Api.post(userRoutes.review, data);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+
+};
+
+export const deleteReview = async () => {
+    try {
+        const response = await Api.delete(userRoutes.review);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+
+};
+
+export const allReviews = async () => {
+    try {
+        const response = await Api.get(userRoutes.review);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+
+};
+
+export const userReview = async () => {
+    try {
+        const response = await Api.get(userRoutes.userReview);
         return response;
     } catch (error) {
         const err: Error = error as Error;
