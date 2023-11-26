@@ -291,3 +291,13 @@ export const userReview = async () => {
     }
 
 };
+
+export const followClub = async (clubId: string) => {
+    try {
+        const response = await Api.post(userRoutes.followClub(clubId));
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};

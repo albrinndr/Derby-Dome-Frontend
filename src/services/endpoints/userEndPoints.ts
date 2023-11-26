@@ -26,7 +26,9 @@ const userRoutes = {
     validateCoupon: '/user/validateCoupon',
 
     review: '/user/review',
-    userReview:'/user/userReview'
+    userReview: '/user/userReview',
+
+    followClub: (clubId: string) => `/user/followClub?clubId=${clubId}`
 };
 
 export default userRoutes;
