@@ -26,7 +26,7 @@ function FAQSection() {
                         <button className="flex items-center justify-between w-full px-8 py-4" onClick={toggleAccordion}>
                             <h1 className="font-semibold text-gray-700 text-lg">How can I purchase tickets?</h1>
 
-                            <span className="text-gray-400 bg-gray-200 rounded-full">
+                            <span className="text-gray-400  rounded-full">
                                 {isOpen ? (
 
                                     <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 transition-transform duration-300 transform rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -53,7 +53,7 @@ function FAQSection() {
                             <button className="flex items-center justify-between w-full px-8 py-4" onClick={toggleAccordion1}>
                                 <h1 className="font-semibold text-gray-700 text-lg">Do I need to print my tickets?</h1>
 
-                                <span className="text-gray-400 bg-gray-200 rounded-full">
+                                <span className="text-gray-400  rounded-full">
                                     {isOpen1 ? (
 
                                         <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 transition-transform duration-300 transform rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -81,7 +81,7 @@ function FAQSection() {
                             <button className="flex items-center justify-between w-full px-8 py-4" onClick={toggleAccordion2}>
                                 <h1 className="font-semibold text-gray-700 text-lg">Is my payment information secure?</h1>
 
-                                <span className="text-gray-400 bg-gray-200 rounded-full">
+                                <span className="text-gray-400  rounded-full">
                                     {isOpen2 ? (
 
                                         <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 transition-transform duration-300 transform rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
