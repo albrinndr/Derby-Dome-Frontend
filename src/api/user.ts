@@ -301,3 +301,31 @@ export const followClub = async (clubId: string) => {
         return errorHandle(err);
     }
 };
+
+export const getNotifications = async () => {
+    try {
+        const response = await Api.get(userRoutes.notifications);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};
+export const notificationCount = async () => {
+    try {
+        const response = await Api.get(userRoutes.notificationCount);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};
+export const readNotification = async () => {
+    try {
+        const response = await Api.put(userRoutes.readNotification);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};

@@ -65,7 +65,9 @@ const ClubDetails: React.FC<ClubDetails> = ({ clubData }) => {
   });
 
   const followHandler = () => {
-    if (!user) navigate('/login');
+    if (!user) {
+      return navigate('/login');
+    }
     followMutate(clubData.club._id);
   };
 

@@ -19,10 +19,11 @@ const UserHome = () => {
   };
 
   const { isLoading, data: homeData } = useQuery({ queryKey: ['home'], queryFn: getHome });
+  
   return (
     <div>
       <NavBar color={!isScrolled} fixed />
-      {!isLoading &&
+      {isLoading ? <div> loading....</div> :
         <>
           <div className="relative z-0 ">
             <BannerOne banners={homeData?.data.banners} />

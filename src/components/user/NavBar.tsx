@@ -1,12 +1,12 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Logo from '../../assets/logo.svg';
 import LogoWhite from '../../assets/logo-white.svg';
 import MenuIcon from '../../assets/menu.svg';
 import MenuWhite from '../../assets/menu-white.svg';
-import { useQueryClient } from '@tanstack/react-query';
-import { logout } from '../../api/user';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { logout, notificationCount } from '../../api/user';
 import toast from 'react-hot-toast';
 import { userLogout } from '../../store/slices/authSlice';
 import { CgProfile } from "react-icons/cg";
@@ -61,6 +61,24 @@ const NavBar: React.FC<NavBarProps> = ({ color, fixed }) => {
 
     const [notificationSidebar, setNotificationSidebar] = useState(false);
 
+    //notification count
+    const [notiCount, setNotiCount] = useState(0);
+    const { data: notiCountData,refetch } = useQuery(
+        {
+            queryKey: ['notificationCount'],
+            queryFn: notificationCount,
+            enabled: !!uLoggedIn,
+
+        }
+    );
+    useEffect(() => {
+        if (uLoggedIn && notiCountData && notiCountData.data) {
+            setNotiCount(notiCountData.data);
+        }
+    }, [uLoggedIn, notiCountData]);
+
+
+
     return (
         <div className={` right-0 left-0 top-0 z-50 px-4 md:py-1 md:px-14 xl:px-28 ${navBarStyle} ${navPosition}`}>
             <div className="">
@@ -112,17 +130,24 @@ const NavBar: React.FC<NavBarProps> = ({ color, fixed }) => {
                                     ></path>
                                     <circle cx="16" cy="4" r="4" fill="red" /> 
                                 </svg> */}
-                                <svg
-                                    className={`w-6 h-6 ${itemStyle}`}
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        d="M12 22C10.8954 22 10 21.1046 10 20H14C14 21.1046 13.1046 22 12 22ZM20 19H4V17L6 16V10.5C6 7.038 7.421 4.793 10 4.18V2H13C12.3479 2.86394 11.9967 3.91762 12 5C12 5.25138 12.0187 5.50241 12.056 5.751H12C10.7799 5.67197 9.60301 6.21765 8.875 7.2C8.25255 8.18456 7.94714 9.33638 8 10.5V17H16V10.5C16 10.289 15.993 10.086 15.979 9.9C16.6405 10.0366 17.3226 10.039 17.985 9.907C17.996 10.118 18 10.319 18 10.507V16L20 17V19ZM17 8C16.3958 8.00073 15.8055 7.81839 15.307 7.477C14.1288 6.67158 13.6811 5.14761 14.2365 3.8329C14.7919 2.5182 16.1966 1.77678 17.5954 2.06004C18.9942 2.34329 19.9998 3.5728 20 5C20 6.65685 18.6569 8 17 8Z"
-                                        fill="currentColor"
-                                    ></path>
-                                </svg>
+                                <div className='relative'>
+                                    <svg onClick={() => setNotiCount(0)}
+                                        className={`w-7 h-7 ${itemStyle}`}
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            d="M12 22C10.8954 22 10 21.1046 10 20H14C14 21.1046 13.1046 22 12 22ZM20 19H4V17L6 16V10.5C6 7.038 7.421 4.793 10 4.18V2H13C12.3479 2.86394 11.9967 3.91762 12 5C12 5.25138 12.0187 5.50241 12.056 5.751H12C10.7799 5.67197 9.60301 6.21765 8.875 7.2C8.25255 8.18456 7.94714 9.33638 8 10.5V17H16V10.5C16 10.289 15.993 10.086 15.979 9.9C16.6405 10.0366 17.3226 10.039 17.985 9.907C17.996 10.118 18 10.319 18 10.507V16L20 17V19ZM17 8C16.3958 8.00073 15.8055 7.81839 15.307 7.477C14.1288 6.67158 13.6811 5.14761 14.2365 3.8329C14.7919 2.5182 16.1966 1.77678 17.5954 2.06004C18.9942 2.34329 19.9998 3.5728 20 5C20 6.65685 18.6569 8 17 8Z"
+                                            fill="currentColor"
+                                        ></path>
+                                    </svg>
+                                    {notiCount !== 0 && <div className='w-fit absolute top-0 right-0'>
+                                        <div className="rounded-full bg-red-600 text-white h-5 w-5 flex p-1 justify-center items-center" style={{ borderRadius: '50%' }}>
+                                            <span>{notiCount}</span>
+                                        </div>
+                                    </div>}
+                                </div>
                             </button>
                         </div>}
 
@@ -168,7 +193,8 @@ const NavBar: React.FC<NavBarProps> = ({ color, fixed }) => {
                     </div>
                 </div>}
             </div>
-            {notificationSidebar && <Notification closeFn={() => setNotificationSidebar(!notificationSidebar)} color={color} open={notificationSidebar} />}
+            {notificationSidebar && <Notification closeFn={() => setNotificationSidebar(!notificationSidebar)} color={color} open={notificationSidebar}
+           refetchFn={refetch} />}
         </div>
     );
 };

@@ -1,12 +1,36 @@
-import React, { CSSProperties } from "react";
+import { useQuery } from "@tanstack/react-query";
+import React, { CSSProperties, useEffect } from "react";
+import { getNotifications, readNotification } from "../../../api/user";
+import { Link } from "react-router-dom";
+import NotificationSkeleton from "./NotificationSkeleton";
 
 interface NotificationI {
     closeFn: () => void;
     color?: boolean;
     open: boolean;
+    refetchFn: () => void;
 }
 
-const Notification: React.FC<NotificationI> = ({ closeFn, color, open }) => {
+interface SingleNotification {
+    clubName: string;
+    clubImage: string;
+    notification: {
+        date: string;
+        fixtureId: string;
+        isRead: string[];
+        message: string;
+    };
+    userId: string;
+}
+
+const formatNotificationTime = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+};
+
+const Notification: React.FC<NotificationI> = ({ closeFn, color, open, refetchFn }) => {
+    const { isLoading, data: notificationData } = useQuery({ queryKey: ['notifications'], queryFn: getNotifications });
+
     const closeBtnStyle = color ? 'bg-white' : 'bg-gray-200';
 
     const sidebarStyles: CSSProperties = {
@@ -16,6 +40,18 @@ const Notification: React.FC<NotificationI> = ({ closeFn, color, open }) => {
         transition: "transform 0.3s cubic-bezier(0.65, 0.05, 0.36, 1)",
         transform: open ? "translateX(0)" : "translateX(-100%)",
     };
+
+
+    //notification read and count
+    const updateNotificationRead = async () => {
+        const res = await readNotification();
+        if (res) {
+            refetchFn();
+        }
+    };
+    useEffect(() => {
+        updateNotificationRead();
+    }, []);
     return (
         <div
             id="docs-sidebar"
@@ -52,71 +88,37 @@ const Notification: React.FC<NotificationI> = ({ closeFn, color, open }) => {
 
             {/* notification card */}
             <div className=" px-3 h-full overflow-auto">
-                <div className="flex items-center p-4 bg-white bg-opacity-70 rounded-lg shadow-xl mx-auto max-w-sm relative m-4">
-                    <span className="text-xs font-bold uppercase px-2 mt-2 mr-2 text-green-900 bg-green-400 border rounded-full absolute top-0 right-0">New</span>
-                    <span className="text-xs font-semibold uppercase m-1 py-1 mr-3 text-gray-500 absolute bottom-0 right-0">4:36 PM</span>
+                {!isLoading ? <>
+                    {notificationData && notificationData.data && notificationData.data.length > 0 ?
+                        <>
+                            {notificationData.data.map((notif: SingleNotification, i: number) => (
+                                < Link to={`/fixtureDetails?id=${notif.notification.fixtureId}`} key={i} className="flex sm:items-center p-4 bg-white bg-opacity-70 rounded-lg shadow-xl mx-auto max-w-sm relative m-4" >
+                                    {!notif.notification.isRead.includes(notif.userId) && <span className="text-xs font-bold uppercase px-2 mt-2 mr-2 text-green-900 bg-green-400 border rounded-full absolute top-0 right-0">New</span>}
+                                    <span className="text-xs font-semibold uppercase m-1 py-1 mr-3 text-gray-500 absolute bottom-0 right-0">{formatNotificationTime(notif.notification.date)}</span>
 
-                    <input type="checkbox" className="mr-2" />
-                    <img className="h-12 w-12 hidden sm:block rounded-full" alt="John Doe's avatar"
-                        src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&faces=1&faceindex=1&facepad=2.5&w=500&h=500&q=80" />
+                                    {/* <input type="checkbox" className="mr-2" /> */}
+                                    < img className="h-12 w-12 rounded-full" alt="John Doe's avatar"
+                                        src={notif.clubImage} />
+                                    <div className="ml-2 cursor-pointer pb-2 pt-3 ">
+                                        <h4 className="text-lg font-semibold leading-tight text-gray-900">{notif.clubName}</h4>
+                                        <p className="text-sm text-gray-600">{notif.notification.message}</p>
+                                    </div>
+                                </Link>
+                            ))}
+                        </> :
 
-                    <div className="ml-2 cursor-pointer pb-2 pt-3 ">
-                        <h4 className="text-lg font-semibold leading-tight text-gray-900">Manchester United</h4>
-                        <p className="text-sm text-gray-600">Book your tickets for match against kerala FC</p>
-                    </div>
-                </div>
-                <div className="flex items-center p-4 bg-white bg-opacity-70 rounded-lg shadow-xl mx-auto max-w-sm relative m-4">
-                    <span className="text-xs font-bold uppercase px-2 mt-2 mr-2 text-green-900 bg-green-400 border rounded-full absolute top-0 right-0">New</span>
-                    <span className="text-xs font-semibold uppercase m-1 py-1 mr-3 text-gray-500 absolute bottom-0 right-0">4:36 PM</span>
-
-                    <input type="checkbox" className="mr-2" />
-                    <img className="h-12 w-12 hidden sm:block rounded-full" alt="John Doe's avatar"
-                        src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&faces=1&faceindex=1&facepad=2.5&w=500&h=500&q=80" />
-
-                    <div className="ml-2 cursor-pointer pb-2 pt-3 ">
-                        <h4 className="text-lg font-semibold leading-tight text-gray-900">Manchester United</h4>
-                        <p className="text-sm text-gray-600">Book your tickets for match against kerala FC</p>
-                    </div>
-                </div>
-                <div className="flex items-center p-4 bg-white bg-opacity-70 rounded-lg shadow-xl mx-auto max-w-sm relative m-4">
-                    <span className="text-xs font-bold uppercase px-2 mt-2 mr-2 text-green-900 bg-green-400 border rounded-full absolute top-0 right-0">New</span>
-                    <span className="text-xs font-semibold uppercase m-1 py-1 mr-3 text-gray-500 absolute bottom-0 right-0">4:36 PM</span>
-
-                    <input type="checkbox" className="mr-2" />
-                    <img className="h-12 w-12 hidden sm:block rounded-full" alt="John Doe's avatar"
-                        src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&faces=1&faceindex=1&facepad=2.5&w=500&h=500&q=80" />
-
-                    <div className="ml-2 cursor-pointer pb-2 pt-3 ">
-                        <h4 className="text-lg font-semibold leading-tight text-gray-900">Manchester United</h4>
-                        <p className="text-sm text-gray-600">Book your tickets for match against kerala FC</p>
-                    </div>
-                </div>
-                <div className="flex items-center p-4 bg-white bg-opacity-70 rounded-lg shadow-xl mx-auto max-w-sm relative m-4">
-                    <span className="text-xs font-bold uppercase px-2 mt-2 mr-2 text-green-900 bg-green-400 border rounded-full absolute top-0 right-0">New</span>
-                    <span className="text-xs font-semibold uppercase m-1 py-1 mr-3 text-gray-500 absolute bottom-0 right-0">4:36 PM</span>
-
-                    <input type="checkbox" className="mr-2" />
-                    <img className="h-12 w-12 hidden sm:block rounded-full" alt="John Doe's avatar"
-                        src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&faces=1&faceindex=1&facepad=2.5&w=500&h=500&q=80" />
-
-                    <div className="ml-2 cursor-pointer pb-2 pt-3 ">
-                        <h4 className="text-lg font-semibold leading-tight text-gray-900">Manchester United</h4>
-                        <p className="text-sm text-gray-600">Book your tickets for match against kerala FC</p>
-                    </div>
-                </div>
-                <div className="flex items-center p-4 bg-white rounded-lg shadow-xl mx-auto max-w-sm relative m-4">
-                    <span className="text-xs font-bold uppercase px-2 mt-2 mr-2 text-green-900 bg-green-400 border rounded-full absolute top-0 right-0">New</span>
-                    <span className="text-xs font-semibold uppercase m-1 py-1 mr-3 text-gray-500 absolute bottom-0 right-0">4:36 PM</span>
-
-                    <input type="checkbox" className="mr-2" />
-                    <img className="h-12 w-12 hidden sm:block rounded-full" alt="John Doe's avatar"
-                        src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&faces=1&faceindex=1&facepad=2.5&w=500&h=500&q=80" />
-
-                    <div className="ml-2 cursor-pointer pb-2 pt-3 ">
-                        <h4 className="text-lg font-semibold leading-tight text-gray-900">Manchester United</h4>
-                        <p className="text-sm text-gray-600">Book your tickets for match against kerala FC</p>
-                    </div>
-                </div>
+                        <div className="flex sm:items-center p-4 justify-center bg-white bg-opacity-70 rounded-lg shadow-xl mx-auto max-w-sm relative m-4">
+                            <h1>No new notifications</h1>
+                        </div>
+                    }
+                </>
+                    :
+                    <>
+                        <NotificationSkeleton />
+                        <NotificationSkeleton />
+                        <NotificationSkeleton />
+                    </>
+                }
             </div>
             {/* notification card end */}
             {/* <div className=" px-3  w-full">
@@ -127,7 +129,7 @@ const Notification: React.FC<NotificationI> = ({ closeFn, color, open }) => {
             </div> */}
 
 
-        </div>
+        </div >
     );
 };
 

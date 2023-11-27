@@ -28,7 +28,10 @@ const userRoutes = {
     review: '/user/review',
     userReview: '/user/userReview',
 
-    followClub: (clubId: string) => `/user/followClub?clubId=${clubId}`
+    followClub: (clubId: string) => `/user/followClub?clubId=${clubId}`,
+    notifications: '/user/notifications',
+    notificationCount: '/user/notificationCount',
+    readNotification: '/user/readNotification'
 };
 
 export default userRoutes;
