@@ -45,7 +45,7 @@ const Login = () => {
         }
         const response = await adminLogin(formData);
         if (response) {
-            navigate('/admin/users')
+            navigate('/admin')
             dispatch(setAdminLogin());
         }
     };

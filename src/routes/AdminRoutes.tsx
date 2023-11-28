@@ -8,13 +8,14 @@ import StadiumBanner from "../pages/stadium/StadiumBanner";
 import AdminStadiumSeatManagement from "../pages/admin/AdminStadiumSeatManagement";
 import NotFound from "../pages/NotFound";
 import AdminCoupons from "../pages/admin/AdminCoupons";
+import AdminDashboard from "../pages/admin/AdminDashboard";
 
 const AdminRoutes = () => {
     return (
         <Routes>
             <Route path='login' element={<AdminLogin />} />
             <Route element={<AdminProtect />}>
-                <Route path='' element={<AdminUsers />} />
+                <Route path='' element={<AdminDashboard />} />
                 <Route path='users' element={<AdminUsers />} />
                 <Route path='clubs' element={<AdminClubs />} />
                 <Route path='stadium' element={<StadiumTiming />} />

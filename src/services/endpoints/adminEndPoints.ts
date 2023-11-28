@@ -11,10 +11,11 @@ const adminRoutes = {
     addCoupon: '/admin/coupon',
     getCoupons: '/admin/coupons',
     editCoupon: '/admin/editCoupon',
-    deleteCoupon: (id: string) => `/admin/coupon/${id}`
+    deleteCoupon: (id: string) => `/admin/coupon/${id}`,
 
-
-
+    dashboardSales: '/admin/dashboardSlotSales',
+    dashboardStaticContent: '/admin/dashboardStaticContent',
+    dashboardTicketContent: '/admin/dashboardTicketContend'
 };
 
 export default adminRoutes;

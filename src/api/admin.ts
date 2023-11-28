@@ -2,6 +2,7 @@
 import Api from "../services/axios";
 import errorHandle from "./error";
 import adminRoutes from "../services/endpoints/adminEndPoints";
+import { QueryFunctionContext } from "@tanstack/react-query";
 
 interface LoginData {
     email: string,
@@ -112,6 +113,41 @@ export const editCoupon = async (data: Coupon) => {
 export const deleteCoupon = async (id: string) => {
     try {
         const response = await Api.delete(adminRoutes.deleteCoupon(id));
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};
+
+export const dashboardSales = async ({ queryKey }: QueryFunctionContext<[string, string | null]>) => {
+    try {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const [key, year] = queryKey;
+        const response = await Api.get(`${adminRoutes.dashboardSales}?year=${year}`);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};
+
+export const dashboardChartAndStaticContent = async () => {
+    try {
+        const response = await Api.get(adminRoutes.dashboardStaticContent);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};
+
+
+export const dashboardTicketSales = async ({ queryKey }: QueryFunctionContext<[string, string | null]>) => {
+    try {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const [key, year] = queryKey;
+        const response = await Api.get(`${adminRoutes.dashboardTicketContent}?year=${year}`);
         return response;
     } catch (error) {
         const err: Error = error as Error;

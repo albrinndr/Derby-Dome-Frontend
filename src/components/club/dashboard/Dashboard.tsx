@@ -116,7 +116,7 @@ const Dashboard = () => {
                     <div className=''>
                         <h1 className='text-xl text-center mb-3'>Expense - Profit Statistics</h1>
                         <div className='flex gap-4 mb-5'>
-                            <select value={year} onChange={(e) => setYear(e.target.value)} className=' border w-full focus:outline-none shadow py-2 px-4 rounded'>
+                            <select value={year} onChange={(e) => setYear(e.target.value)} className=' border w-full focus:outline-none shadow py-2 px-4 rounded text-center'>
                                 {years.map((year: string, i) => (
                                     <option value={year} key={i}>{year}</option>
                                 ))}

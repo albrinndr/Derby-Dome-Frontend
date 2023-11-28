@@ -3,7 +3,7 @@ import NavBar from "../../components/admin/nav/NavBarStadium";
 
 const StadiumBanner = () => {
     return (
-        <div className="  bg-slate-50 w-screen">
+        <div className="  bg-gradient-to-r from-rose-50 to-teal-50 w-screen">
             <NavBar />
             <Banner />
         </div>

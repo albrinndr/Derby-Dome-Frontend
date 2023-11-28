@@ -15,7 +15,7 @@ import toast from "react-hot-toast";
 
 const SideBar = () => {
     const menus = [
-        { name: "Dashboard", link: "#", icon: MdOutlineDashboard },
+        { name: "Dashboard", link: "/admin", icon: MdOutlineDashboard },
         { name: "Users", link: "/admin/users", icon: AiOutlineUser },
         { name: "Clubs", link: "/admin/clubs", icon: GiSoccerBall },
         { name: "Coupons", link: "/admin/coupon", icon: RiCoupon3Line, margin: true },
