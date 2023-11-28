@@ -2,11 +2,8 @@ import { useMutation } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { cancelTicket } from "../../../api/user";
 import toast from "react-hot-toast";
-import { useDispatch, useSelector } from "react-redux";
-import { openModal } from "../../../store/slices/modalSlice";
-// import ConfirmationModal from "../../common/ConfirmationModal";
 import Loader from "../../common/Loader";
-import CancelConfirmation from "../../club/fixture/CancelConfirm";
+import TicketCancelConfirmation from "./TicketCancelModal";
 
 interface TicketI {
     _id: string;
@@ -38,11 +35,6 @@ interface Ticket {
     uRefetchFn: () => void;
 }
 
-interface ModalState {
-    modal: {
-        showModal: boolean;
-    };
-}
 
 const SingleTicket: React.FC<Ticket> = ({ ticket, fixtureDetails, refetchFn, uRefetchFn }) => {
     const [showTicket, setShowTicket] = useState(true);
@@ -87,7 +79,7 @@ const SingleTicket: React.FC<Ticket> = ({ ticket, fixtureDetails, refetchFn, uRe
         mutationFn: cancelTicket,
         onSuccess: ((res) => {
             if (res && res.data) {
-                setShowTicket(false)
+                setShowTicket(false);
                 refetchFn();
                 uRefetchFn();
                 toast.success('Ticket cancelled!');
@@ -95,11 +87,11 @@ const SingleTicket: React.FC<Ticket> = ({ ticket, fixtureDetails, refetchFn, uRe
         })
     });
 
-    const { showModal } = useSelector((state: ModalState) => state.modal);
-    const dispatch = useDispatch();
+
+    const [showCancelModal, setShowCancelModal] = useState(false);
 
     const cancelBtnHandler = () => {
-        dispatch(openModal());
+        setShowCancelModal(true);
     };
 
 
@@ -153,7 +145,7 @@ const SingleTicket: React.FC<Ticket> = ({ ticket, fixtureDetails, refetchFn, uRe
                     </div>
                 </div>
             </div>
-            {showModal && <CancelConfirmation confirmFn={cancelTicketMutate} id={ticket._id} />}
+            {showCancelModal && <TicketCancelConfirmation confirmFn={cancelTicketMutate} id={ticket._id} closeFn={() => setShowCancelModal(false)} />}
             {status === 'pending' && <Loader />}
         </div>
     );

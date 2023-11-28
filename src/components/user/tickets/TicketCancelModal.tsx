@@ -10,11 +10,14 @@ interface ModalContent {
 
 
 const Backdrop = () => {
-    return <div className="fixed top-0 left-0 z-40 h-screen w-screen bg-black bg-opacity-10  flex items-center justify-center" />;
+    return <div className="fixed top-0 left-0 z-40 h-screen w-screen bg-black bg-opacity-20  flex items-center justify-center" />;
 };
 
-const CancelConfirmation: React.FC<ModalContent> = ({ confirmFn, id, message, closeFn }) => {
+const TicketCancelConfirmation: React.FC<ModalContent> = ({ confirmFn, id, message, closeFn }) => {
+    console.log(id);
+
     const confirmationMessage = message ? message : "Are you sure want to continue?";
+
 
     const closeHandler = () => {
         closeFn();
@@ -59,4 +62,4 @@ const CancelConfirmation: React.FC<ModalContent> = ({ confirmFn, id, message, cl
     );
 };
 
-export default CancelConfirmation;
+export default TicketCancelConfirmation;

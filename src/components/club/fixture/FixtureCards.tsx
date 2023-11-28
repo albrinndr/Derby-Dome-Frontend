@@ -1,7 +1,5 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { openModal } from "../../../store/slices/modalSlice";
-// import ConfirmationModal from "../../common/ConfirmationModal";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import CancelConfirmation from "./CancelConfirm";
 
 interface Fixture {
@@ -25,14 +23,9 @@ interface RootState {
     };
 }
 
-interface ModalState {
-    modal: {
-        showModal: boolean;
-    };
-}
-
 
 const FixtureCards: React.FC<Fixture> = (props: Fixture) => {
+    const [showCancelModal, setShowCancelModal] = useState(false);
     const date = new Date(props.date as string);
     const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
     const formattedDate = date.toLocaleDateString('en-US', options);
@@ -43,11 +36,9 @@ const FixtureCards: React.FC<Fixture> = (props: Fixture) => {
         props.cancelFn(id);
     };
 
-    const { showModal } = useSelector((state: ModalState) => state.modal);
-    const dispatch = useDispatch();
 
     const cancelModalHandler = () => {
-        dispatch(openModal());
+        setShowCancelModal(true);
     };
 
     const today = new Date();
@@ -86,7 +77,7 @@ const FixtureCards: React.FC<Fixture> = (props: Fixture) => {
                     <h1 className="text-md font-semibold pb-4">Derby Dome Stadium</h1>
                 </div>
             </div>
-            {showModal && <CancelConfirmation confirmFn={cancelFixture} id={props.id} />}
+            {showCancelModal && <CancelConfirmation confirmFn={cancelFixture} id={props.id} closeFn={() => setShowCancelModal(false)} />}
 
         </>
 

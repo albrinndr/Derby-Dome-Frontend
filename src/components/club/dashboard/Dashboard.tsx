@@ -179,7 +179,7 @@ const Dashboard = () => {
                 </div>
                 {!otherLoading ? <>
                     {fixtures.length > 0 ?
-                        <table className='w-full table-auto'>
+                        <div>
                             {
                                 fixtures.map((fixture: Fixture) => (
                                     <MatchTicketStats key={fixture._id}
@@ -192,7 +192,7 @@ const Dashboard = () => {
                                 ))
                             }
 
-                        </table>
+                        </div>
                         :
                         <div className='mt-8 border p-3 text-center px-10 gap-5'>
                             <h1>No fixtures available</h1>
