@@ -53,13 +53,15 @@ const NavBarFull: React.FC<ImageData> = ({ dashboard, color, fixed }) => {
         backgroundImage: `url(${mainImage})`,
         height: '100%',
     };
+    const imgStyle = dashboard ? 'w-20 mt-5' : 'w-14';
+    const textStyle = dashboard ? 'md:text-6xl ml-5 mt-5' : 'md:text-4xl';
     return (
         <>
             <NavBar color={color} fixed={fixed} />
             <div style={divStyle} className={`pt-20 px-4 md:px-14 flex justify-between  ${dashBoardStyle}`}>
                 <div className="flex items-center ">
-                    <img className="w-14 h-auto mr-3" src={clubImage} alt="" />
-                    <h1 className="text-white  text-2xl md:text-4xl font-semibold">{clubName}</h1>
+                    <img className={`${imgStyle} h-auto mr-3`} src={clubImage} alt="" />
+                    <h1 className={`text-white  text-3xl ${textStyle} font-semibold`}>{clubName}</h1>
                 </div>
                 <div className="hidden md:block">
                     <button onClick={logoutHandler} className="p-2 bg-opacity-40 hover:bg-red-600  text-white bg-gray-400 rounded">LOG OUT</button>

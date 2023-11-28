@@ -10,6 +10,7 @@ import ClubFixtures from "../pages/club/ClubFixtures";
 import ClubNewFixture from "../pages/club/ClubNewFixture";
 import ClubTeamManagement from "../pages/club/ClubTeamManagement";
 import NotFound from "../pages/NotFound";
+import ClubDashboard from "../pages/club/ClubDashboard";
 
 const ClubRoutes = () => {
   return (
@@ -17,7 +18,7 @@ const ClubRoutes = () => {
       <Route path='login' element={<LoginPage user='club' />} />
       <Route path='signup' element={<ClubSignUp />} />
       <Route element={<ClubProtect />}>
-        <Route path='' element={<ClubFixtures />} />
+        <Route path='' element={<ClubDashboard />} />
         <Route element={<ClubProfileHead />}>
           <Route path='profile' element={<ClubProfile />} />
           <Route path='profile/edit' element={<ClubProfileEdit />} />

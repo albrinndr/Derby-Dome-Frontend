@@ -45,7 +45,7 @@ const Login: React.FC<UserType> = ({ type }) => {
         if (uLoggedIn) {
             navigate('/');
         } else if (cLoggedIn) {
-            navigate('/club/profile');
+            navigate('/club');
         }
     }, [navigate, uLoggedIn, cLoggedIn]);
 

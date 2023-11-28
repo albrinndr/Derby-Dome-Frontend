@@ -1,4 +1,4 @@
-import Login from "../../components/club/Login";
+import Login from "../../components/common/Login";
 import NavBar from "../../components/user/NavBar";
 import React, { useState } from "react";
 

@@ -2,6 +2,7 @@ import toast from "react-hot-toast";
 import Api from "../services/axios";
 import clubRoutes from "../services/endpoints/clubEndPoints";
 import errorHandle from "./error";
+import { QueryFunctionContext } from "@tanstack/react-query";
 
 interface ClubFormData {
     email: string,
@@ -157,6 +158,28 @@ export const deleteClubPlayer = async (id: string) => {
 export const changeStartingXI = async (data: ChangeXI) => {
     try {
         const response = await Api.put(clubRoutes.changeXI(data.p1Id, data.p2Id));
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};
+
+export const clubDashboard = async ({ queryKey }: QueryFunctionContext<[string, string | null]>) => {
+    try {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const [key, year] = queryKey;
+        const response = await Api.get(`${clubRoutes.dashboard}?year=${year}`);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};
+
+export const clubDashboard2Content = async () => {
+    try {
+        const response = await Api.get(clubRoutes.dashboard2);
         return response;
     } catch (error) {
         const err: Error = error as Error;

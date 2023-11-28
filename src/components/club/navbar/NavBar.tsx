@@ -51,10 +51,10 @@ const NavBar: React.FC<NavBarProps> = ({ color, fixed }) => {
                         </div>
 
                         <div className="hidden md:flex md:items-center">
-                            <a href="#" className={`${itemStyle} text-md font-semibold relative mr-9 group`}>
+                            <Link to="/club" className={`${itemStyle} text-md font-semibold relative mr-9 group`}>
                                 Dashboard
                                 <span className={`absolute left-0 right-0 bottom-0 h-px top-7 ${underLineStyle} transition-all`}></span>
-                            </a>
+                            </Link>
                             <Link to="/club/fixture" className={`${itemStyle} text-md font-semibold relative mr-9 group`}>
                                 Fixtures
                                 <span className={`absolute left-0 right-0 bottom-0 h-px top-7 ${underLineStyle} transition-all`}></span>
