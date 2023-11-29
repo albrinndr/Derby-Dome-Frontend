@@ -16,6 +16,7 @@ import PaymentSuccess from "../pages/PaymentSuccess";
 import PaymentFailed from "../pages/PaymentFailed";
 import NotFound from "../pages/NotFound";
 import UserReview from "../pages/user/UserReview";
+import ForgotPasswordPage from "../pages/ForgotPasswordPage";
 const UserProfile = lazy(() => import('../pages/user/UserProfile'));
 const UserClubView = lazy(() => import('../pages/user/UserClubView'));
 
@@ -25,6 +26,7 @@ const UserRoutes = () => {
         <Routes>
             <Route index={true} element={<UserHome />} />
             <Route path="login" element={<LoginPage user='user' />} />
+            <Route path="forgotPassword" element={<ForgotPasswordPage user='User' />} />
             <Route path="signup" element={<UserSignUp />} />
             <Route path='fixture' element={<UserFixture />} />
             <Route path='search' element={<UserSearch />} />

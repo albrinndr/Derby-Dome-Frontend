@@ -327,3 +327,34 @@ export const readNotification = async () => {
         return errorHandle(err);
     }
 };
+
+export const userForgotPassword = async (email: string) => {
+    try {
+        const response = await Api.post(userRoutes.forgotPassword, { email });
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};
+
+
+export const userForgotOtpVerify = async (otp: string) => {
+    try {
+        const response = await Api.post(userRoutes.forgotOtpValidate, { otp });
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};
+
+export const userForgotPasswordChange = async (password: string) => {
+    try {
+        const response = await Api.put(userRoutes.forgotPasswordChange, { password });
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};

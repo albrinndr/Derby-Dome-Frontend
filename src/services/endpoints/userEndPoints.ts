@@ -31,7 +31,11 @@ const userRoutes = {
     followClub: (clubId: string) => `/user/followClub?clubId=${clubId}`,
     notifications: '/user/notifications',
     notificationCount: '/user/notificationCount',
-    readNotification: '/user/readNotification'
+    readNotification: '/user/readNotification',
+
+    forgotPassword: '/user/forgotPassword',
+    forgotOtpValidate:'/user/validateForgotOtp',
+    forgotPasswordChange:'/user/forgotPassword'
 };
 
 export default userRoutes;

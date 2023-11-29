@@ -105,16 +105,20 @@ const ClubDetails: React.FC<ClubDetails> = ({ clubData }) => {
         </div>
       </div>
 
-      {clubData.fixtures.length > 0 && < div className="mt-10 shadow-lg border p-4 rounded-lg">
+      < div className="mt-10 shadow-lg border p-4 rounded-lg">
         <h1 className="text-xl border-b pb-2 font-semibold text-center">Upcoming matches</h1>
-        <div className="mt-5">
+        {clubData.fixtures.length > 0 ? <div className="mt-5">
           {
             clubData.fixtures.map((fixture: Fixture) => (
               <FixtureCards fixture={fixture} key={fixture._id} />
             ))
           }
-        </div>
-      </div>}
+        </div> :
+          <div className="mt-2 py-2 text-center">
+            <h1>No matches available!</h1>
+          </div>
+        }
+      </div>
       {status === 'pending' && <Loader />}
     </div >
 

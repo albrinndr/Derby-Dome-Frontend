@@ -173,12 +173,11 @@ const Login: React.FC<UserType> = ({ type }) => {
                                 value={password}
                                 onChange={inputHandler}
                             />
-                            <a
+                            <Link to={user == "user" ? '/forgotPassword' : '/club/forgotPassword'}
                                 className="inline-block align-baseline text-sm text-gray-600 hover:text-gray-800"
-                                href="#"
                             >
                                 Forgot Password?
-                            </a>
+                            </Link>
                         </div>
                         <div className="flex w-full mt-8">
                             <button

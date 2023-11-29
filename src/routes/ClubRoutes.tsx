@@ -11,12 +11,14 @@ import ClubNewFixture from "../pages/club/ClubNewFixture";
 import ClubTeamManagement from "../pages/club/ClubTeamManagement";
 import NotFound from "../pages/NotFound";
 import ClubDashboard from "../pages/club/ClubDashboard";
+import ForgotPasswordPage from "../pages/ForgotPasswordPage";
 
 const ClubRoutes = () => {
   return (
     <Routes>
       <Route path='login' element={<LoginPage user='club' />} />
       <Route path='signup' element={<ClubSignUp />} />
+      <Route path='forgotPassword' element={<ForgotPasswordPage user="Club" />} />
       <Route element={<ClubProtect />}>
         <Route path='' element={<ClubDashboard />} />
         <Route element={<ClubProfileHead />}>

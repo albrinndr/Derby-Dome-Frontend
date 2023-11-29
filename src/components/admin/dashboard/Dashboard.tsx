@@ -24,7 +24,7 @@ const Dashboard = () => {
   const length = 12;
   let salesArr = Array(length).fill(0);
   let years = ['2023'];
-  
+
 
   if (dashboardData && dashboardData.data && !isLoading) {
     salesArr = dashboardData.data.profits;
@@ -62,9 +62,9 @@ const Dashboard = () => {
     data2[1].value = dashboardStatic.data.sectionData.premium;
     data2[2].value = dashboardStatic.data.sectionData.vip;
 
-    ticketsSold = dashboardStatic.data.tickets;
+    ticketsSold = dashboardStatic.data.sectionData.economy + dashboardStatic.data.sectionData.premium + dashboardStatic.data.sectionData.vip;
     totalClubs = dashboardStatic.data.clubs;
-    totalUsers = dashboardStatic.data.tickets;
+    totalUsers = dashboardStatic.data.users;
     salesCount = dashboardStatic.data.totalSales;
   }
 

@@ -32,7 +32,7 @@ const DashboardPart2 = () => {
 
     const data = months.map((month, index) => ({
         name: month,
-        Profit: ticketArr ? ticketArr[index] : 0,
+        Count: ticketArr ? ticketArr[index] : 0,
     }));
 
     return (
@@ -54,7 +54,7 @@ const DashboardPart2 = () => {
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Bar dataKey="Profit" fill="#8884d8" />
+                    <Bar dataKey="Count" fill="#8884d8" />
                 </BarChart>
             </div>
             <div className="hidden xl:block">
@@ -64,7 +64,7 @@ const DashboardPart2 = () => {
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Bar dataKey="Profit" fill="#8884d8" />
+                    <Bar dataKey="Count" fill="#8884d8" />
                 </BarChart>
             </div>
         </div>
