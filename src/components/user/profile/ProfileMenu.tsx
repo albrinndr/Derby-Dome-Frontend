@@ -27,7 +27,7 @@ const ProfileMenu: React.FC<Menu> = ({ changeFn }) => {
                             Tickets
                         </h1>
                     </div>
-                    <div className="py-3 border-b hover:bg-gray-100 transition-all duration-100  cursor-pointer">
+                    <div className="py-3 border-b hover:bg-gray-100 transition-all duration-100  cursor-pointer" onClick={() => optionHandler('bookings')}>
                         <h1 className="text-lg">
                             Bookings
                         </h1>

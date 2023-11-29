@@ -7,6 +7,7 @@ import ProfileMenu from "../../components/user/profile/ProfileMenu";
 import ProfileEditSection from "../../components/user/profile/edit/ProfileEditSection";
 import Tickets from "../../components/user/tickets/Tickets";
 import ProfileSkeleton from "../../components/user/profile/ProfileSkeleton";
+import AllTickets from "../../components/user/allUserTicketBookings/AllTickets";
 
 const UserProfile = () => {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -43,6 +44,7 @@ const UserProfile = () => {
                     <div className="mt-5 lg:mt-0 flex-1">
                         {com === 'edit' && <ProfileEditSection userDetails={userDetails} />}
                         {com === 'tickets' && <Tickets uRefetchFn={refetch} />}
+                        {com === 'bookings' && <AllTickets uRefetchFn={refetch} />}
                     </div>
                 </div>
             </div> :

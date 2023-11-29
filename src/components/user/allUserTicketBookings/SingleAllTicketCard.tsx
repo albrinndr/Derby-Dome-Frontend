@@ -1,14 +1,10 @@
-import { useMutation } from "@tanstack/react-query";
-import React, { useState } from "react";
-import { cancelTicket } from "../../../api/user";
-import toast from "react-hot-toast";
+import React from "react";
 import Loader from "../../common/Loader";
-import TicketCancelConfirmation from "./TicketCancelModal";
 
 interface TicketI {
     _id: string;
     userId: string;
-    fixtureId: {_id:string;date: Date;}
+    fixtureId: { _id: string; date: Date; };
     stand: string;
     price: number;
     qrCode: string;
@@ -18,6 +14,7 @@ interface TicketI {
     }
     ];
     isCancelled: boolean;
+    createdAt: string;
 }
 
 interface FixtureDetails {
@@ -35,10 +32,15 @@ interface Ticket {
     uRefetchFn: () => void;
 }
 
+function formatDate(date: Date) {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear().toString();
+    return `${day}-${month}-${year}`;
+}
 
-const SingleTicket: React.FC<Ticket> = ({ ticket, fixtureDetails, refetchFn, uRefetchFn }) => {
-    const [showTicket, setShowTicket] = useState(true);
-    //convert data
+const SingleAllTicketCard: React.FC<Ticket> = ({ ticket, fixtureDetails }) => {
+    //convert date
     const dateString = fixtureDetails?.date as string;
     const date = new Date(dateString);
     const day = date.toLocaleDateString('en-US', { weekday: 'long' });
@@ -65,42 +67,15 @@ const SingleTicket: React.FC<Ticket> = ({ ticket, fixtureDetails, refetchFn, uRe
     );
     const formattedSeats = formattedArray.join(', ');
 
-    //validating the dates for 3 days before the match for cancellation
-    const currentDate = new Date();
-    const currentDateMilliseconds = currentDate.getTime();
-    const fixtureDate = fixtureDetails?.date ? new Date(fixtureDetails.date) : new Date();
 
-    const fixtureDateMilliseconds = fixtureDate.getTime();
-    const millisecondsInThreeDays = 3 * 24 * 60 * 60 * 1000;
-    const differenceInMilliseconds = fixtureDateMilliseconds - currentDateMilliseconds;
+    //created Date
+    const createdAt = new Date(ticket.createdAt);
+    const createdAtFormatted = formatDate(createdAt);
 
-    //fixture cancellation handling
-    const { status, mutate: cancelTicketMutate } = useMutation({
-        mutationFn: cancelTicket,
-        onSuccess: ((res) => {
-            if (res && res.data) {
-                setShowTicket(false);
-                refetchFn();
-                uRefetchFn();
-                toast.success('Ticket cancelled!');
-            }
-        })
-    });
-
-
-    const [showCancelModal, setShowCancelModal] = useState(false);
-
-    const cancelBtnHandler = () => {
-        setShowCancelModal(true);
-    };
-
-
-    return showTicket && (
+    return (
         <div className="w-full  shadow border  mt-10">
             {/* details section */}
-            {differenceInMilliseconds >= millisecondsInThreeDays && <div className="flex justify-end border-b p-2">
-                <button className="bg-red-600 bg-opacity-80 hover:bg-opacity-95 sm:px-4 sm:py-2 px-3 py-1 rounded text-white" onClick={cancelBtnHandler}>Cancel</button>
-            </div>}
+            {ticket.isCancelled && <h1 className="text-red-800 font-bold w-full bg-red-100 px-5 py-2">CANCELLED</h1>}
             <div className="md:flex justify-between gap-5">
                 <div className=" flex-1 border-b sm:border-r sm:border-b-0 border-dotted border-gray-400">
                     <div className="p-5">
@@ -127,8 +102,10 @@ const SingleTicket: React.FC<Ticket> = ({ ticket, fixtureDetails, refetchFn, uRe
                                 <h1 className="text-lg font-semibold text-center mt-1">₹{ticket.price}</h1>
                             </div>
                         </div>
-                        <div className="mt-4 border-t">
+                        <div className="mt-4 border-t flex justify-between">
                             <h1 className="text-center pt-2"> Venue: Derby Dome Stadium</h1>
+                            <h1 className="text-center pt-2">Booked at: {createdAtFormatted}</h1>
+
                         </div>
                     </div>
                 </div>
@@ -145,10 +122,9 @@ const SingleTicket: React.FC<Ticket> = ({ ticket, fixtureDetails, refetchFn, uRe
                     </div>
                 </div>
             </div>
-            {showCancelModal && <TicketCancelConfirmation confirmFn={cancelTicketMutate} id={ticket._id} closeFn={() => setShowCancelModal(false)} />}
             {status === 'pending' && <Loader />}
         </div>
     );
 };
 
-export default SingleTicket;
+export default SingleAllTicketCard;

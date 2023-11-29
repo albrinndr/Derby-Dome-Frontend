@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getTickets } from "../../../api/user";
-import SingleTicket from "./SingleTicket";
+import SingleAllTicketCard from "./SingleAllTicketCard";
 import Pagination from "../Pagination";
 import { useState } from "react";
 import React from 'react';
@@ -19,6 +19,7 @@ interface TicketI {
     }
     ];
     isCancelled: boolean;
+    createdAt: string;
 }
 
 interface FixtureI {
@@ -32,14 +33,14 @@ interface FixtureI {
 interface TicketsI {
     uRefetchFn: () => void;
 }
-const Tickets: React.FC<TicketsI> = ({ uRefetchFn }) => {
+const AllTickets: React.FC<TicketsI> = ({ uRefetchFn }) => {
     const { isLoading, data: ticketData, refetch } = useQuery({ queryKey: ['myTickets'], queryFn: getTickets });
 
     let tickets: [] = [];
     let ticketFixtures: [] = [];
 
     if (ticketData && ticketData.data) {
-        tickets = ticketData.data.tickets.filter((ticket: TicketI) => ticket.isCancelled === false && new Date(ticket.fixtureId.date) > new Date());
+        tickets = ticketData.data.tickets;
         ticketFixtures = ticketData?.data.ticketFixtures;
     }
 
@@ -57,7 +58,7 @@ const Tickets: React.FC<TicketsI> = ({ uRefetchFn }) => {
 
     return (
         <div className=" bg-white rounded shadow w-full pt-8 px-7 pb-10">
-            <h1 className="text-2xl font-semibold text-center text-gray-800">Upcoming Matches Tickets</h1>
+            <h1 className="text-2xl font-semibold text-center text-gray-800">All Bookings</h1>
 
             {isLoading ? <TicketsSkeleton /> :
                 <div>
@@ -68,7 +69,7 @@ const Tickets: React.FC<TicketsI> = ({ uRefetchFn }) => {
                                     {
                                         currentFixtures.map((ticket: TicketI, i) => {
                                             const fixtures = ticketFixtures.find((fixture: FixtureI) => fixture._id === ticket.fixtureId._id);
-                                            return <SingleTicket key={i} fixtureDetails={fixtures} ticket={ticket} refetchFn={refetch} uRefetchFn={uRefetchFn} />;
+                                            return <SingleAllTicketCard key={i} fixtureDetails={fixtures} ticket={ticket} refetchFn={refetch} uRefetchFn={uRefetchFn} />;
                                         }
                                         )
                                     }
@@ -92,4 +93,4 @@ const Tickets: React.FC<TicketsI> = ({ uRefetchFn }) => {
     );
 };
 
-export default Tickets;
+export default AllTickets;
