@@ -46,6 +46,8 @@ const Notification: React.FC<NotificationI> = ({ closeFn, color, open, refetchFn
     const updateNotificationRead = async () => {
         const res = await readNotification();
         if (res) {
+            console.log(res);
+            
             refetchFn();
         }
     };

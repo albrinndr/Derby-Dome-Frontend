@@ -46,8 +46,8 @@ const NavBar: React.FC<NavBarProps> = ({ color, fixed }) => {
                 <div className="">
                     <div className="flex items-center justify-between py-4">
                         <div>
-
-                            <img src={MainLogo} alt="" width="100rem" />
+                            <Link to="/club">
+                                <img src={MainLogo} alt="" width="100rem" /></Link>
                         </div>
 
                         <div className="hidden md:flex md:items-center">

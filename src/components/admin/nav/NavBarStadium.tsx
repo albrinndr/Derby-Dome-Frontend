@@ -6,7 +6,7 @@ const NavBarStadium = () => {
     return (
         <div className="flex justify-between sticky top-0 bg-white shadow  py-4 px-4 md:px-14 z-10">
             <div className="">
-                <img src={Logo} alt="" width={100} height={100} />
+                <Link to="/admin"><img src={Logo} alt="" width={100} height={100} /></Link>
             </div>
             <div className="flex font-semibold">
                 <Link to="/admin/stadium/banner" className={`text-gray-800 text-sm sm:text-lg  relative mr-3 sm:ml-9 group`}>

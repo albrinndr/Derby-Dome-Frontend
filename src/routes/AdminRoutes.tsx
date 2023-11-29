@@ -18,7 +18,7 @@ const AdminRoutes = () => {
                 <Route path='' element={<AdminDashboard />} />
                 <Route path='users' element={<AdminUsers />} />
                 <Route path='clubs' element={<AdminClubs />} />
-                <Route path='stadium' element={<StadiumTiming />} />
+                <Route path='stadium' element={<AdminStadiumSeatManagement />} />
                 <Route path='stadium/timings' element={<StadiumTiming />} />
                 <Route path='stadium/banner' element={<StadiumBanner />} />
                 <Route path='stadium/seats' element={<AdminStadiumSeatManagement />} />
