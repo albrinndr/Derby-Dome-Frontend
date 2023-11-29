@@ -37,7 +37,7 @@ const ProfileMenu: React.FC<Menu> = ({ changeFn }) => {
                             Edit Profile
                         </h1>
                     </div>
-                    <div className="py-3 hover:bg-gray-100 transition-all duration-100  cursor-pointer">
+                    <div className="py-3 hover:bg-gray-100 transition-all duration-100  cursor-pointer" onClick={() => optionHandler('following')}>
                         <h1 className="text-lg">
                             Following
                         </h1>

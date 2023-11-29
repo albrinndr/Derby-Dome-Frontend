@@ -8,6 +8,7 @@ import ProfileEditSection from "../../components/user/profile/edit/ProfileEditSe
 import Tickets from "../../components/user/tickets/Tickets";
 import ProfileSkeleton from "../../components/user/profile/ProfileSkeleton";
 import AllTickets from "../../components/user/allUserTicketBookings/AllTickets";
+import FollowingClubs from "../../components/user/followingClubs/FollowingClubs";
 
 const UserProfile = () => {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -45,6 +46,7 @@ const UserProfile = () => {
                         {com === 'edit' && <ProfileEditSection userDetails={userDetails} />}
                         {com === 'tickets' && <Tickets uRefetchFn={refetch} />}
                         {com === 'bookings' && <AllTickets uRefetchFn={refetch} />}
+                        {com === 'following' && <FollowingClubs />}
                     </div>
                 </div>
             </div> :

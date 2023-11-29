@@ -358,3 +358,13 @@ export const userForgotPasswordChange = async (password: string) => {
         return errorHandle(err);
     }
 };
+
+export const allFollowedClubs = async () => {
+    try {
+        const response = await Api.get(userRoutes.allFollowedClubs);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};

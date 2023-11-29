@@ -35,7 +35,9 @@ const userRoutes = {
 
     forgotPassword: '/user/forgotPassword',
     forgotOtpValidate:'/user/validateForgotOtp',
-    forgotPasswordChange:'/user/forgotPassword'
+    forgotPasswordChange:'/user/forgotPassword',
+
+    allFollowedClubs:'/user/followedClubs'
 };
 
 export default userRoutes;
