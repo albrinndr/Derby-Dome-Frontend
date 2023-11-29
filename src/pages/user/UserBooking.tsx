@@ -7,6 +7,7 @@ import { getBooking } from "../../api/user";
 import NotFound from "../NotFound";
 import BookingSection from "../../components/user/booking/BookingSection";
 import FixtureDetailsHead from "../../components/user/fixture/fixtureDetails/FixtureDetailsHead";
+import BookingSkeleton from "../../components/user/booking/BookingSkeleton";
 
 const UserBooking = () => {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -37,12 +38,15 @@ const UserBooking = () => {
             <img src={fBG2} className="absolute top-0 left-0 w-full h-auto object-center" style={{ minHeight: '19rem' }} alt="Fixture Background" />
             <NavBar color={!isScrolled} fixed />
             <div className="mt-5 relative px-5 md:px-14 xl:px-28 py-28">
-                {!isLoading && bookingData && bookingData.data && <div>
-                    <div>
-                        <FixtureDetailsHead home={bookingData?.data.fixture.clubId.name} away={bookingData?.data.fixture.awayTeam} />
+                {isLoading ? <BookingSkeleton /> : <>
+                    {bookingData && bookingData.data && <div>
+                        <div>
+                            <FixtureDetailsHead home={bookingData?.data.fixture.clubId.name} away={bookingData?.data.fixture.awayTeam} />
+                        </div>
+                        <BookingSection data={bookingData.data} refetchFn={refetch} />
                     </div>
-                    <BookingSection data={bookingData.data} refetchFn={refetch}/>
-                </div>}
+                    }
+                </>}
 
             </div>
 

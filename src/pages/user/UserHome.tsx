@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import Illustration from "../../components/user/home/Illustration";
 import HomePageClubs from "../../components/user/home/HomePageClubs";
 import FAQSection from "../../components/user/home/FaqSection";
+import { HomeSkeleton } from "../../components/user/home/HomeSkeleton";
 // import BannerTwo from "../../components/user/home/BannerTwo";
 
 
@@ -19,11 +20,11 @@ const UserHome = () => {
   };
 
   const { isLoading, data: homeData } = useQuery({ queryKey: ['home'], queryFn: getHome });
-  
+
   return (
     <div>
       <NavBar color={!isScrolled} fixed />
-      {isLoading ? <div> loading....</div> :
+      {isLoading ? <HomeSkeleton /> :
         <>
           <div className="relative z-0 ">
             <BannerOne banners={homeData?.data.banners} />

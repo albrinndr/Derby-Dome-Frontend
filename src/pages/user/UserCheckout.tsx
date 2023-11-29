@@ -4,6 +4,7 @@ import { getCheckoutData, getUserProfile } from "../../api/user";
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import ShowCoupons from "../../components/user/checkout/ShowCoupons";
+import CheckoutSkeleton from "../../components/user/checkout/CheckoutSkeleton";
 
 interface CheckoutData {
     cart: {
@@ -57,19 +58,19 @@ const UserCheckout = () => {
         <div>
             <NavBar />
             <div className="px-5 md:px-14 xl:px-28 py-10">
-                {!isLoading && !queryLoading &&
+                {isLoading || queryLoading ? <CheckoutSkeleton /> :
                     <>
                         {checkoutData && checkoutData?.cart === null || !checkoutData
                             ? <div className="grid place-content-center" style={{ minHeight: '80vh' }}>
                                 <h1 className="text-2xl font-extrabold text-yellow-500">Your cart is empty!</h1>
                             </div>
-                            : <Checkout data={checkoutData} refetchFn={fetchData} wallet={userData?.data.wallet} userRefetch={refetch} 
-                            showCoupon={couponModal}/>
+                            : <Checkout data={checkoutData} refetchFn={fetchData} wallet={userData?.data.wallet} userRefetch={refetch}
+                                showCoupon={couponModal} />
                         }
                     </>
                 }
             </div>
-            {showCouponModal && checkoutData?.coupons && checkoutData.coupons.length>0 && <ShowCoupons closeFn={couponModal} coupons={checkoutData.coupons} />}
+            {showCouponModal && checkoutData?.coupons && checkoutData.coupons.length > 0 && <ShowCoupons closeFn={couponModal} coupons={checkoutData.coupons} />}
         </div >
     );
 };

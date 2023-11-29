@@ -15,12 +15,13 @@ import westVipImg from '../../../assets/stadium/vip/west.png';
 
 import northPremiumImg from '../../../assets/stadium/premium/north.png';
 import southPremiumImg from '../../../assets/stadium/premium/south.png';
-import eastPremiumImg from '../../../assets/stadium/premium/north.png';
+import eastPremiumImg from '../../../assets/stadium/premium/east.png';
 import westPremiumImg from '../../../assets/stadium/premium/north.png';
 
 import northEconomyImg from '../../../assets/stadium/economy/north.png';
 import southEconomyImg from '../../../assets/stadium/economy/south.png';
-import eastEconomyImg from '../../../assets/stadium/economy/north.png';
+import eastEconomyImg from '../../../assets/stadium/economy/east.png';
+import Loader from "../../common/Loader";
 
 
 
@@ -68,7 +69,7 @@ const BookingSection: React.FC<BookingSectionI> = ({ data, refetchFn }) => {
 
 
   const navigate = useNavigate();
-  const { mutate: bookingMutate } = useMutation({
+  const { status, mutate: bookingMutate } = useMutation({
     mutationFn: addToCart,
     onSuccess: ((res) => {
       if (res) {
@@ -252,7 +253,7 @@ const BookingSection: React.FC<BookingSectionI> = ({ data, refetchFn }) => {
           {selectedSection == "premium" && selectedStand == "north" && <img src={northPremiumImg}
             className=""
             alt="" />}
-            
+
           {selectedSection == "economy" && selectedStand == "north" && <img src={northEconomyImg}
             className=""
             alt="" />}
@@ -268,9 +269,10 @@ const BookingSection: React.FC<BookingSectionI> = ({ data, refetchFn }) => {
           {selectedSection == "vip" && selectedStand == "west" && <img src={westVipImg} className="" alt="" />}
           {selectedSection == "premium" && selectedStand == "west" && <img src={westPremiumImg} className="" alt="" />}
 
-              <h1 className="text-center mt-2 tracking-widest">Derby Dome Stadium</h1>
+          <h1 className="text-center mt-2 tracking-widest">Derby Dome Stadium</h1>
         </div>
       </div>
+      {status === 'pending' && <Loader />}
     </div>
   );
 
