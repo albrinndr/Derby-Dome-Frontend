@@ -4,6 +4,7 @@ import { userForgotPasswordChange } from "../../../api/user";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import Loader from "../Loader";
+import { clubForgotPasswordChange } from "../../../api/club";
 interface NewPasswordI {
     type: string;
 }
@@ -24,6 +25,16 @@ const NewPassword: React.FC<NewPasswordI> = ({ type }) => {
         })
     });
 
+    const { status:clubStatus, mutate: clubPasswordChangeMutate } = useMutation({
+        mutationFn: clubForgotPasswordChange,
+        onSuccess: ((res) => {
+            if (res) {
+                toast.success("Password Changed");
+                navigate('/club/login');
+            }
+        })
+    });
+
     const submitHandler = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (password.trim().length < 5) {
@@ -34,6 +45,8 @@ const NewPassword: React.FC<NewPasswordI> = ({ type }) => {
             return;
         } else if (type === "User") {
             userPasswordChangeMutate(password);
+        }else{
+            clubPasswordChangeMutate(password)
         }
     };
 
@@ -84,7 +97,7 @@ const NewPassword: React.FC<NewPasswordI> = ({ type }) => {
                     </div>
                 </div>
             </div>
-            {status === "pending" && <Loader />}
+            {(status === "pending" || clubStatus==="pending") && <Loader />}
         </div>
     );
 };

@@ -5,6 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 import { userForgotPassword } from "../../../api/user";
 import toast from "react-hot-toast";
 import Loader from "../Loader";
+import { clubForgotPassword } from "../../../api/club";
 
 interface EmailI {
     type: string;
@@ -24,6 +25,16 @@ const EmailVerify: React.FC<EmailI> = ({ type, changeFn }) => {
         })
     });
 
+    const { status: clubStatus, mutate: clubForgotMutate } = useMutation({
+        mutationFn: clubForgotPassword,
+        onSuccess: ((res) => {
+            if (res) {
+                toast.success("Otp have been sent to your email.");
+                changeFn();
+            }
+        })
+    });
+
     const submitHandler = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (email.trim().length <= 1) {
@@ -31,6 +42,8 @@ const EmailVerify: React.FC<EmailI> = ({ type, changeFn }) => {
             return;
         } else if (type == "User") {
             userForgotMutate(email);
+        } else {
+            clubForgotMutate(email);
         }
     };
 
@@ -99,7 +112,7 @@ const EmailVerify: React.FC<EmailI> = ({ type, changeFn }) => {
                     </div>
                 </div>
             </div>
-            {status === 'pending' && <Loader />}
+            {(status === 'pending' || clubStatus==="pending") && <Loader />}
         </div>
     );
 };

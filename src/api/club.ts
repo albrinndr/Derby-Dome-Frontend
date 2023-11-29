@@ -186,3 +186,34 @@ export const clubDashboard2Content = async () => {
         return errorHandle(err);
     }
 };
+
+export const clubForgotPassword = async (email: string) => {
+    try {
+        const response = await Api.post(clubRoutes.forgotPassword, { email });
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};
+
+
+export const clubForgotOtpVerify = async (otp: string) => {
+    try {
+        const response = await Api.post(clubRoutes.forgotOtpValidate, { otp });
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};
+
+export const clubForgotPasswordChange = async (password: string) => {
+    try {
+        const response = await Api.put(clubRoutes.forgotPasswordChange, { password });
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};

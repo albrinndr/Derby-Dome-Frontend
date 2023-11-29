@@ -3,6 +3,7 @@ import React, { useState, useRef, ChangeEvent, KeyboardEvent, FormEvent } from '
 import { userForgotOtpVerify } from '../../../api/user';
 import toast from 'react-hot-toast';
 import Loader from '../Loader';
+import { clubForgotOtpVerify } from '../../../api/club';
 
 interface UserType {
     userType?: string;
@@ -46,6 +47,16 @@ const OtpVerifyForgot: React.FC<UserType> = ({ userType, changeFn }) => {
         })
     });
 
+    const { status:clubStatus, mutate: clubOtpValidateMutate } = useMutation({
+        mutationFn: clubForgotOtpVerify,
+        onSuccess: ((res) => {
+            if (res) {
+                toast.success("Otp validated");
+                changeFn();
+            }
+        })
+    });
+
     const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const otpValue = otp.join('');
@@ -54,6 +65,8 @@ const OtpVerifyForgot: React.FC<UserType> = ({ userType, changeFn }) => {
             return;
         } else if (userType === "User") {
             userOtpValidateMutate(otpValue);
+        }else{
+            clubOtpValidateMutate(otpValue)
         }
     };
 
@@ -87,7 +100,7 @@ const OtpVerifyForgot: React.FC<UserType> = ({ userType, changeFn }) => {
                     </form>
                 </div>
             </div>
-            {status === "pending" && <Loader />}
+            {(status === "pending" || clubStatus==="pending") && <Loader />}
         </div>
     );
 };

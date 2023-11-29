@@ -17,7 +17,11 @@ const clubRoutes = {
     deletePlayer: (id: string) => `/club/deletePlayer/${id}`,
     changeXI: (p1Id: string, p2Id: string) => `/club/changeXI/${p1Id}/${p2Id}`,
     dashboard: '/club/dashboard',
-    dashboard2: '/club/dashboard2'
+    dashboard2: '/club/dashboard2',
+
+    forgotPassword: '/club/forgotPassword',
+    forgotOtpValidate: '/club/validateForgotOtp',
+    forgotPasswordChange: '/club/forgotPassword'
 };
 
 export default clubRoutes;
