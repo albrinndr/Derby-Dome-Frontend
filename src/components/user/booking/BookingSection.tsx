@@ -7,6 +7,23 @@ import { useMutation } from "@tanstack/react-query";
 import { addToCart } from "../../../api/user";
 import { BookingSectionI, CartData, FixtureSeat, Seat, StandSeats } from "./BookingSectionInterface";
 
+//images
+import northVipImg from '../../../assets/stadium/vip/north.png';
+import southVipImg from '../../../assets/stadium/vip/south.png';
+import eastVipImg from '../../../assets/stadium/vip/east.png';
+import westVipImg from '../../../assets/stadium/vip/west.png';
+
+import northPremiumImg from '../../../assets/stadium/premium/north.png';
+import southPremiumImg from '../../../assets/stadium/premium/south.png';
+import eastPremiumImg from '../../../assets/stadium/premium/north.png';
+import westPremiumImg from '../../../assets/stadium/premium/north.png';
+
+import northEconomyImg from '../../../assets/stadium/economy/north.png';
+import southEconomyImg from '../../../assets/stadium/economy/south.png';
+import eastEconomyImg from '../../../assets/stadium/economy/north.png';
+
+
+
 const BookingSection: React.FC<BookingSectionI> = ({ data, refetchFn }) => {
   const [ticketCount, setTicketCount] = useState(2);
   const [isOpen, setIsOpen] = useState(false);
@@ -211,7 +228,7 @@ const BookingSection: React.FC<BookingSectionI> = ({ data, refetchFn }) => {
               </div>
 
             )}
-            <div className="flex items-center mt-12 justify-center">
+            <div className="flex items-center mt-12 lg:mt-20 justify-center">
               {selectedSection !== 'vip' && <button className={`${styles.button_48} w-full`} onClick={submitHandler}><span>CONFIRM</span></button>
               }
               {selectedSection === 'vip' && <button onClick={vipNavigate} className={`${styles.button_48} w-full`}><span>CONFIRM</span></button>
@@ -222,8 +239,36 @@ const BookingSection: React.FC<BookingSectionI> = ({ data, refetchFn }) => {
 
 
         {/* image */}
-        <div className="p-5 px-10 lg:w-1/2 bg-white rounded border lg:ml-10 mt-10 lg:mt-0">
-          <img src={stadiumImg} className="" alt="" />
+        <div className="p-5 px-10 lg:w-1/2 bg-white rounded border lg:ml-10 mt-10 lg:mt-0 transition-all duration-300">
+          {!selectedSection && !selectedStand && <img src={stadiumImg}
+            className={`opacity-0 transition-opacity duration-300 ${!selectedSection && !selectedStand ? 'opacity-100' : 'opacity-0'
+              }`}
+            alt="" />}
+
+          {selectedSection == "vip" && selectedStand == "north" && <img src={northVipImg}
+            className=""
+            alt="" />}
+
+          {selectedSection == "premium" && selectedStand == "north" && <img src={northPremiumImg}
+            className=""
+            alt="" />}
+            
+          {selectedSection == "economy" && selectedStand == "north" && <img src={northEconomyImg}
+            className=""
+            alt="" />}
+
+          {selectedSection == "vip" && selectedStand == "south" && <img src={southVipImg} className="" alt="" />}
+          {selectedSection == "premium" && selectedStand == "south" && <img src={southPremiumImg} className="" alt="" />}
+          {selectedSection == "economy" && selectedStand == "south" && <img src={southEconomyImg} className="" alt="" />}
+
+          {selectedSection == "vip" && selectedStand == "east" && <img src={eastVipImg} className="" alt="" />}
+          {selectedSection == "premium" && selectedStand == "east" && <img src={eastPremiumImg} className="" alt="" />}
+          {selectedSection == "economy" && selectedStand == "east" && <img src={eastEconomyImg} className="" alt="" />}
+
+          {selectedSection == "vip" && selectedStand == "west" && <img src={westVipImg} className="" alt="" />}
+          {selectedSection == "premium" && selectedStand == "west" && <img src={westPremiumImg} className="" alt="" />}
+
+              <h1 className="text-center mt-2 tracking-widest">Derby Dome Stadium</h1>
         </div>
       </div>
     </div>
