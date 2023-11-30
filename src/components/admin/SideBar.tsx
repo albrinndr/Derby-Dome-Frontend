@@ -4,9 +4,11 @@ import { MdOutlineDashboard } from "react-icons/md";
 import { AiOutlineUser } from "react-icons/ai";
 import { GiSoccerBall } from "react-icons/gi";
 import { RiCoupon3Line } from "react-icons/ri";
-import { BsTicketPerforated } from "react-icons/bs";
 import { MdOutlineStadium } from "react-icons/md";
 import { BiLogOutCircle } from "react-icons/bi";
+// import { BsTicketPerforated } from "react-icons/bs";
+import { MdSchedule } from "react-icons/md";
+
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logoutAdmin } from "../../api/admin";
@@ -19,7 +21,8 @@ const SideBar = () => {
         { name: "Users", link: "/admin/users", icon: AiOutlineUser },
         { name: "Clubs", link: "/admin/clubs", icon: GiSoccerBall },
         { name: "Coupons", link: "/admin/coupon", icon: RiCoupon3Line, margin: true },
-        { name: "Tickets", link: "#", icon: BsTicketPerforated },
+        { name: "Fixtures", link: "/admin/fixtures", icon: MdSchedule },
+        // { name: "Tickets", link: "#", icon: BsTicketPerforated },
         { name: "Stadium", link: "/admin/stadium", icon: MdOutlineStadium },
         { name: "Logout", link: "#", icon: BiLogOutCircle, margin: true },
     ];

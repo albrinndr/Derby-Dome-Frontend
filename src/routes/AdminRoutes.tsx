@@ -9,6 +9,7 @@ import AdminStadiumSeatManagement from "../pages/admin/AdminStadiumSeatManagemen
 import NotFound from "../pages/NotFound";
 import AdminCoupons from "../pages/admin/AdminCoupons";
 import AdminDashboard from "../pages/admin/AdminDashboard";
+import AdminAllFixtures from "../pages/admin/AdminAllFixtures";
 
 const AdminRoutes = () => {
     return (
@@ -18,6 +19,7 @@ const AdminRoutes = () => {
                 <Route path='' element={<AdminDashboard />} />
                 <Route path='users' element={<AdminUsers />} />
                 <Route path='clubs' element={<AdminClubs />} />
+                <Route path='fixtures' element={<AdminAllFixtures />} />
                 <Route path='stadium' element={<AdminStadiumSeatManagement />} />
                 <Route path='stadium/timings' element={<StadiumTiming />} />
                 <Route path='stadium/banner' element={<StadiumBanner />} />

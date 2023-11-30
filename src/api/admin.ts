@@ -154,3 +154,13 @@ export const dashboardTicketSales = async ({ queryKey }: QueryFunctionContext<[s
         return errorHandle(err);
     }
 };
+
+export const allClubFixtures = async () => {
+    try {
+        const response = await Api.get(adminRoutes.allFixtures);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};
