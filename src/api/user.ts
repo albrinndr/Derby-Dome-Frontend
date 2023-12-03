@@ -368,3 +368,13 @@ export const allFollowedClubs = async () => {
         return errorHandle(err);
     }
 };
+
+export const setClientBrowserToken = async (token: string) => {
+    try {
+        const response = await Api.post(userRoutes.setClientBrowserToken, { token });
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};

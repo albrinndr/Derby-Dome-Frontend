@@ -37,7 +37,9 @@ const userRoutes = {
     forgotOtpValidate:'/user/validateForgotOtp',
     forgotPasswordChange:'/user/forgotPassword',
 
-    allFollowedClubs:'/user/followedClubs'
+    allFollowedClubs:'/user/followedClubs',
+
+    setClientBrowserToken:'/user/clientToken'
 };
 
 export default userRoutes;
