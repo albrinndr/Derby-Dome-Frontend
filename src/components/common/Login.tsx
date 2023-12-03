@@ -9,6 +9,7 @@ import { clubLogin } from '../../api/club';
 import { GoogleLogin, CredentialResponse } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
 import toast from 'react-hot-toast';
+const G_PASSWORD = import.meta.env.VITE_GOOGLE_PASSWORD
 
 
 interface UserType {
@@ -94,7 +95,7 @@ const Login: React.FC<UserType> = ({ type }) => {
         const result: any = jwtDecode(res.credential as string);
         const data = {
             email: result.email,
-            password: '@@google##7',
+            password: G_PASSWORD,
         };
         const response = await login(data);
         if (response) {

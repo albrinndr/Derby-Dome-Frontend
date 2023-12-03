@@ -8,6 +8,9 @@ import { signUp } from '../../api/user';
 import { GoogleLogin, CredentialResponse } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
 
+const G_PASSWORD = import.meta.env.VITE_GOOGLE_PASSWORD
+
+
 interface OTP {
     otpSubmit: () => void;
 }
@@ -83,7 +86,7 @@ const SignUp: React.FC<OTP> = ({ otpSubmit }) => {
         const data = {
             name: result.name,
             email: result.email,
-            password: '@@google##7',
+            password: G_PASSWORD,
             isGoogle: true,
             profilePic:result.picture
         };
