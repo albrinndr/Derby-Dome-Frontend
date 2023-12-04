@@ -85,12 +85,12 @@ const FixtureContent = () => {
 
     return (
         <div>
-                <FixtureFilter filterTeam={teamHandler} filterDate={dateHandler} teams={allTeams} />
+            <FixtureFilter filterTeam={teamHandler} filterDate={dateHandler} teams={allTeams} />
             {!isLoading ? <>
                 {fixtureData?.data.fixtures.length &&
                     <div>
                         {
-                            allFixtures && fixtures &&
+                            allFixtures && fixtures && currentFixtures.length > 0 &&
                             <>
                                 {currentFixtures.map((fixture: Fixture) => (
                                     <FixtureCards fixture={fixture} key={fixture._id} />
@@ -98,21 +98,26 @@ const FixtureContent = () => {
                                 ))}
                             </>
                         }
+                        {currentFixtures.length < 1 &&
+                            <div className="py-5 mt-5 rounded-lg shadow-sm text-center border">
+                                <h1 className=" font-semibold">No fixtures available</h1>
+                            </div>
+                        }
                     </div>
                 }
-                <div className="mt-5">
+                {currentFixtures.length > 0 && <div className="mt-5">
                     <FixturePagination
                         itemsPerPage={itemsPerPage}
                         totalItems={fixtures.length}
                         paginate={paginate}
                         currentPage={currentPage}
                     />
-                </div>
+                </div>}
             </> :
                 <>
-                <FixtureCardsSkeleton />
-                <FixtureCardsSkeleton />
-                <FixtureCardsSkeleton />
+                    <FixtureCardsSkeleton />
+                    <FixtureCardsSkeleton />
+                    <FixtureCardsSkeleton />
                 </>
             }
         </div >

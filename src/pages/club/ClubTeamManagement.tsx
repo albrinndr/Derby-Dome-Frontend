@@ -18,7 +18,9 @@ const ClubTeamManagement = () => {
     return (
         <div>
             <NavBarFull color={isScrolled} />
-            <TeamManagement />
+            <div  style={{marginTop:'-3rem'}}>
+                <TeamManagement />
+            </div>
         </div>
     );
 

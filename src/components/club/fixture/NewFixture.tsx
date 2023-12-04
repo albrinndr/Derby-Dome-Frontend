@@ -164,142 +164,141 @@ const NewFixture = () => {
 
     return (
         <div >
-            {submitStatus === "pending" && <Loader/>}
+            {submitStatus === "pending" && <Loader />}
             <CommonHeader />
-            <div className="p-4 md:p-14 flex flex-col lg:flex-row gap-20 justify-center items-center lg:items-start">
-                <div className="custom-calendar">
-                    <Calendar onChange={setDate}
-                        value={date}
-                        className="text-center"
-                        tileDisabled={tileDisabled}
-                    />
+            <div className=" p-4 md:p-14 mt-5 sm:mt-0">
+                <div className=" bg-white shadow  rounded-lg border">
+                    <div className="flex justify-center text-2xl text-gray-700 tracking-wider  bg-opacity-50 py-2  border-b">
+                        <h1 >Schedule a new Matchday</h1>
+                    </div>
+                    <div className="flex flex-col lg:flex-row gap-20 justify-center items-center lg:items-start py-10 px-10">
+                        <div className="custom-calendar">
+                            <Calendar onChange={setDate}
+                                value={date}
+                                className="text-center"
+                                tileDisabled={tileDisabled}
+                            />
 
-                </div>
-                <div className="purchaseForm    ">
-                    {!date ?
-                        <div className="md:mt-20">
-                            <h1 className="text-xl">Please select a date</h1>
                         </div>
-                        :
-                        <>
-                            {isLoading ?
-                                <Loader/>
+                        <div className="purchaseFor">
+                            {!date ?
+                                <div className="md:mt-20">
+                                    <h1 className="text-xl">Please select a date</h1>
+                                </div>
                                 :
                                 <>
-                                    {showForm ?
+                                    {isLoading ?
+                                        <Loader />
+                                        :
                                         <>
-                                            <div className="">
-                                                {!teamXI && <div className="flex bg-white shadow-md w-fit p-2 items-center mb-4 gap-4">
-                                                    <p>Complete you team first </p>
-                                                    <Link to="/club/team" className="bg-green-500 p-1 text-white rounded">Go to team</Link>
-                                                </div>}
-                                                <div>
-                                                    <label htmlFor="">Select time: </label>
-                                                    <div className="sm:flex gap-5 mt-2">
-                                                        {times.map((time: Time) => (
-                                                            <button
-                                                                key={time.time}
-                                                                className={`bg-white border ${time.time === selectedTime ? 'bg-blue-100 text-blue-600' : 'bg-gray-200 hover:bg-blue-50 text-gray-700'
-                                                                    } px-8 py-2 rounded-lg`}
-                                                                onClick={() => handleOptionChange(time.time, time.price)}
-                                                            >
-                                                                {time.time}
-                                                            </button>
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                                <div className="mt-6">
-                                                    <label htmlFor="">Enter match title</label><br />
-                                                    <input type="text" className="pl-2 h-10 mt-2 w-64 border-2 rounded focus:outline-slate-400"
-                                                        value={matchTitle}
-                                                        onChange={(e) => setMatchTitle(e.target.value)}
-                                                    />
-                                                </div>
-                                                <div className="mt-6">
-                                                    {!checked ?
-                                                        <>
-                                                            <label htmlFor="">Select away team: </label><br />
-                                                            <select name="" id="" className="border w-60 h-10 rounded mt-2 focus:outline-slate-400"
-                                                                value={selectedAwayTeam}
-                                                                onChange={(e) => setSelectedAwayTeam(e.target.value)}
-                                                            >
-                                                                <option value="" className="text-center">---select---</option>
-                                                                {clubs.map((club: Club) => (
-                                                                    <option key={club._id} value={club._id}>{club.name}</option>
-
+                                            {showForm ?
+                                                <div className="">
+                                                    <div className="">
+                                                        {!teamXI && <div className="flex bg-white shadow-md w-fit p-2 items-center mb-4 gap-4">
+                                                            <p>Complete you team first </p>
+                                                            <Link to="/club/team" className="bg-green-500 p-1 text-white rounded">Go to team</Link>
+                                                        </div>}
+                                                        <div style={{ maxWidth: '30rem',minWidth:'10rem' }}>
+                                                            <label htmlFor="">Select time: </label>
+                                                            <div className="flex mt-2 flex-wrap gap-5">
+                                                                {times.map((time: Time) => (
+                                                                    <button
+                                                                        key={time.time}
+                                                                        className={` border font-semibold bg-gray-50 border-gray-300 ${time.time === selectedTime ? 'bg-blue-100 text-blue-600' : 'bg-gray-200 hover:bg-blue-50 text-gray-700'
+                                                                            } px-8 py-2 `}
+                                                                        onClick={() => handleOptionChange(time.time, time.price)}
+                                                                    >
+                                                                        {time.time}
+                                                                    </button>
                                                                 ))}
-                                                            </select>
-                                                        </>
-                                                        :
-                                                        <>
-                                                            <label htmlFor="">Enter away team name: </label><br />
-                                                            <input type="text" className="pl-2 h-10 mt-2 w-64 border-2 rounded focus:outline-slate-400"
-                                                                value={awayTeamName}
-                                                                onChange={(e) => setAwayTeamName(e.target.value)}
+                                                            </div>
+                                                        </div>
+                                                        <div className="mt-6">
+                                                            <label htmlFor="">Enter match title: </label><br />
+                                                            <input type="text" className="pl-2 h-10 mt-2 w-full focus:outline-none border border-gray-300 "
+                                                                value={matchTitle}
+                                                                onChange={(e) => setMatchTitle(e.target.value)}
                                                             />
-                                                        </>
-                                                    }
-                                                    <div className="flex items-center mt-2">
-                                                        <input
-                                                            id="noneOfAbove"
-                                                            type="checkbox"
-                                                            className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                                                            onClick={() => (
-                                                                setSelectedAwayTeam(''),
-                                                                setChecked(!checked)
-                                                            )}
+                                                        </div>
+                                                        <div className="mt-6 ">
+                                                            {!checked ?
+                                                                <>
+                                                                    <label htmlFor="">Select away team: </label><br />
+                                                                    <select name="" id="" className=" w-full h-10  mt-2 border focus:outline-none  border-gray-300"
+                                                                        value={selectedAwayTeam}
+                                                                        onChange={(e) => setSelectedAwayTeam(e.target.value)}
+                                                                    >
+                                                                        <option value="" className="text-center">---select---</option>
+                                                                        {clubs.map((club: Club) => (
+                                                                            <option key={club._id} value={club._id}>{club.name}</option>
 
-                                                        />
-                                                        <label htmlFor="noneOfAbove" className="ml-2 block text-sm text-gray-900">
-                                                            None of the above
-                                                        </label>
-                                                    </div>
-                                                    <div className="w-36 mt-4" >
-                                                        {image && <img src={URL.createObjectURL(image)} alt="" />}
+                                                                        ))}
+                                                                    </select>
+                                                                </>
+                                                                :
+                                                                <>
+                                                                    <label htmlFor="">Enter away team name: </label><br />
+                                                                    <input type="text" className="pl-2 h-10 mt-2 w-full border focus:outline-none  border-gray-300"
+                                                                        value={awayTeamName}
+                                                                        onChange={(e) => setAwayTeamName(e.target.value)}
+                                                                    />
+                                                                </>
+                                                            }
+                                                            <div className="flex items-center mt-2">
+                                                                <input
+                                                                    id="noneOfAbove"
+                                                                    type="checkbox"
+                                                                    className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                                                                    onClick={() => (
+                                                                        setSelectedAwayTeam(''),
+                                                                        setChecked(!checked)
+                                                                    )}
+
+                                                                />
+                                                                <label htmlFor="noneOfAbove" className="ml-2 block text-sm text-gray-900">
+                                                                    None of the above
+                                                                </label>
+                                                            </div>
+                                                            <div className="w-36 mt-4" >
+                                                                {image && <img src={URL.createObjectURL(image)} alt="" />}
+                                                            </div>
+                                                            <div className="mt-8">
+                                                                <label className="p-2 px-4 bg-gray-100 border cursor-pointer hover:bg-gray-200 border-gray-300">
+                                                                    <input
+                                                                        className="hidden"
+                                                                        type="file"
+                                                                        name='file'
+                                                                        accept="image/*"
+                                                                        onChange={(e) => setImage(e.target.files?.[0] || null)}
+                                                                    />
+                                                                    {image ? image.name.substring(0, 17) + (image.name.length > 17 ? "..." : "") : 'Matchday Poster..'}
+                                                                </label>
+                                                            </div>
+
+                                                        </div>
                                                     </div>
                                                     <div className="mt-8">
-                                                        <label className="p-2 px-4 bg-gray-300 rounded-sm cursor-pointer hover:bg-gray-400">
-                                                            <input
-                                                                className="hidden"
-                                                                type="file"
-                                                                name='file'
-                                                                accept="image/*"
-                                                                onChange={(e) => setImage(e.target.files?.[0] || null)}
-                                                            />
-                                                            {image ? image.name.substring(0, 17) + (image.name.length > 17 ? "..." : "") : 'Upload match poster'}
-                                                        </label>
+                                                        <h1 className="text-xl">Total: ₹ {selectedTimePrice}</h1>
                                                     </div>
+                                                    <div>
 
-                                                    <div className="flex items-center mt-8">
-                                                        <label className="h-10 bg-rose-500 text-white text-center p-2">Coupon:</label>
-                                                        <input type="text" placeholder="Enter your coupon code" className="p-2 h-10 focus:outline-slate-300 border-2" />
+                                                        <button className={`p-2 w-full text-lg font-semibold mt-4 ${!teamXI ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-500 hover:bg-green-600'
+                                                            } text-white`}
+                                                            onClick={submitHandler} disabled={!teamXI}
+                                                        >Submit</button>
                                                     </div>
+                                                </div> :
+                                                <div>
+                                                    <h1>No slot available in this date</h1>
                                                 </div>
-                                            </div>
-                                            <div className="mt-8">
-                                                <h1 className="text-lg">Total: ₹ {selectedTimePrice}</h1>
-                                            </div>
-                                            <div>
-
-                                                <button className={`p-2 w-80 rounded font-semibold mt-4 ${!teamXI ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-500 hover:bg-green-600'
-                                                    } text-white`}
-                                                    onClick={submitHandler} disabled={!teamXI}
-                                                >Submit</button>
-                                            </div>
-                                        </> :
-                                        <div>
-                                            <h1>No slot available in this date</h1>
-                                        </div>
+                                            }
+                                        </>
                                     }
                                 </>
+
                             }
-                        </>
-
-                    }
-
-
-
-
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

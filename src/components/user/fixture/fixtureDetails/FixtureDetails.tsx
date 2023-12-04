@@ -46,6 +46,23 @@ interface FixtureDetails {
 }
 
 const FixtureDetails: React.FC<FixtureDetails> = ({ fixture }) => {
+
+    const date = new Date(fixture.date);
+    const day = date.toLocaleDateString('en-US', { weekday: 'long' });
+    const monthAndDay = date.toLocaleDateString('en-US', {
+        month: 'short', // or 'long' for full month name
+        day: 'numeric',
+    });
+    const year = date.getUTCFullYear();
+
+    const originalTime: string = fixture.time;
+    const [hours, minutes] = originalTime.split(":");
+    const formattedTime = new Date(0, 0, 0, parseInt(hours, 10), parseInt(minutes, 10)).toLocaleTimeString("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+    });
+
     return fixture && (
         <div className=" p-2 lg:flex lg:flex-row-reverse justify-between gap-10">
 
@@ -57,14 +74,14 @@ const FixtureDetails: React.FC<FixtureDetails> = ({ fixture }) => {
                 </div>
                 <div className="mt-5 flex gap-2">
                     <div className="flex-col  justify-center shadow text-center h-fit w-28 py-3 items-center px-2 bg-green-100  rounded-md leading-5">
-                        <small className="text-gray-500 font-semibold ">Monday</small>
-                        <h1 className="font-bold text-gray-800 ">Nov 10</h1>
-                        <small className="text-gray-500 font-semibold ">2023</small>
+                        <small className="text-gray-500 font-semibold ">{day}</small>
+                        <h1 className="font-bold text-gray-800 ">{monthAndDay}</h1>
+                        <small className="text-gray-500 font-semibold ">{year}</small>
                     </div>
                     <div className="shadow-sm px-2 w-full py-2 text-start">
                         <h1 className=" text-sm sm:text-xl text-gray-700">{fixture.title}</h1>
                         <h1 className=" lg:mt-0 font-semibold sm:text-xl text-gray-700 mt-3">{fixture.clubId.name} vs {fixture.awayTeam}</h1>
-                        <h2 className="text-gray-700 mt-2">Nov 12 2023 | 08:30 PM</h2>
+                        <h2 className="text-gray-700 mt-2">{monthAndDay} {year} | {formattedTime}</h2>
                     </div>
                 </div>
                 <div className="mt-4">

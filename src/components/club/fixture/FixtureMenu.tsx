@@ -23,14 +23,14 @@ const FixtureMenu = () => {
     return (
         <>
             <div className="px-4 md:px-14 hidden sm:block">
-                <div className=" bg-white  py-4 shadow-md flex p-2 rounded justify-center gap-7">
+                <div className=" bg-white  py-4 shadow flex p-2 rounded justify-center gap-7">
                     <Link to="/club/fixture" className="text-gray-800 font-semibold">FIXTURES</Link>
                     <h1 className="text-gray-800 font-semibold">|</h1>
                     <Link to="/club/fixture/newFixture" className="text-gray-800 font-semibold">NEW FIXTURE</Link>
                 </div>
             </div>
             <div className="px-4 md:px-14 sm:hidden">
-                <div className=" bg-white shadow-md flex rounded justify-center gap-7">
+                <div className=" bg-white shadow flex rounded justify-center gap-7">
                     <select
                         name=""
                         id=""
