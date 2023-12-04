@@ -17,7 +17,8 @@ const adminRoutes = {
     dashboardStaticContent: '/admin/dashboardStaticContent',
     dashboardTicketContent: '/admin/dashboardTicketContend',
 
-    allFixtures: '/admin/allFixtures'
+    allFixtures: '/admin/allFixtures',
+    allTickets:'/admin/allTickets'
 };
 
 export default adminRoutes;

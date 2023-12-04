@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { allClubFixtures } from "../../../api/admin";
 import { useQuery } from "@tanstack/react-query";
-import Loader from "../../common/Loader";
 import TablePagination from "./TablePagination";
 import TableSkeleton from "./TableSkeleton";
 
@@ -298,7 +297,6 @@ const AllFixturesTable = () => {
                     </div>
                 </div>
             </div>
-            {status === 'pending' && <Loader />}
         </>
     );
 };

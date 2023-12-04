@@ -164,3 +164,13 @@ export const allClubFixtures = async () => {
         return errorHandle(err);
     }
 };
+
+export const allTickets = async () => {
+    try {
+        const response = await Api.get(adminRoutes.allTickets);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};
