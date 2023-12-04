@@ -1,8 +1,7 @@
-import React from "react";
 import AllFixtures from "../../components/club/fixture/AllFixtures";
 
 const ClubFixtures = () => {
-    return <div><AllFixtures /></div>;
+    return <div style={{minHeight:'100vh'}}><AllFixtures /></div>;
 };
 
 export default ClubFixtures;

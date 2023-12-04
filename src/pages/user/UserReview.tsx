@@ -2,6 +2,7 @@ import { useState } from "react";
 import NavBar from "../../components/user/NavBar";
 import reviewBG from '../../assets/stadium-background1.webp';
 import Reviews from "../../components/user/review/Reviews";
+import FooterBlack from "../../components/common/FooterBlack";
 
 const UserReview = () => {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -18,11 +19,14 @@ const UserReview = () => {
     };
 
     return (
-        <div style={divStyle} className="min-h-screen">
-            <NavBar color={!isScrolled} fixed />
-            <div className="px-5 md:px-14 xl:px-28 pb-16 pt-40">
-                <Reviews />
+        <div>
+            <div style={divStyle} className="min-h-screen">
+                <NavBar color={!isScrolled} fixed />
+                <div className="px-5 md:px-14 xl:px-28 pb-16 pt-40">
+                    <Reviews />
+                </div>
             </div>
+            <FooterBlack />
         </div>
     );
 };

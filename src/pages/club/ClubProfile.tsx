@@ -1,9 +1,9 @@
-import Profile from "../../components/club/profile/profile";
+import Profile from "../../components/club/profile/Profile";
 
 const ClubProfile = () => {
 
     return (
-        <div>
+        <div style={{minHeight:'50vh'}}>
             <Profile />
         </div>
     );

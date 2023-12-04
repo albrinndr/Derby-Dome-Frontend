@@ -17,6 +17,7 @@ import PaymentFailed from "../pages/PaymentFailed";
 import NotFound from "../pages/NotFound";
 import UserReview from "../pages/user/UserReview";
 import ForgotPasswordPage from "../pages/ForgotPasswordPage";
+import Footer from "../components/common/Footer";
 const UserProfile = lazy(() => import('../pages/user/UserProfile'));
 const UserClubView = lazy(() => import('../pages/user/UserClubView'));
 
@@ -24,29 +25,35 @@ const UserClubView = lazy(() => import('../pages/user/UserClubView'));
 const UserRoutes = () => {
     return (
         <Routes>
-            <Route index={true} element={<UserHome />} />
             <Route path="login" element={<LoginPage user='user' />} />
             <Route path="forgotPassword" element={<ForgotPasswordPage user='User' />} />
             <Route path="signup" element={<UserSignUp />} />
-            <Route path='fixture' element={<UserFixture />} />
-            <Route path='search' element={<UserSearch />} />
-            <Route path='fixtureDetails' element={<UserFixtureDetails />} />
-            <Route path='clubDetails' element={
-                <Suspense fallback={<LazyUserSkeleton />}>
-                    <UserClubView />
-                </Suspense>
-            } />
+
+            <Route element={<Footer />}>
+                <Route index={true} element={<UserHome />} />
+                <Route path='fixture' element={<UserFixture />} />
+                <Route path='search' element={<UserSearch />} />
+                <Route path='fixtureDetails' element={<UserFixtureDetails />} />
+                <Route path='clubDetails' element={
+                    <Suspense fallback={<LazyUserSkeleton />}>
+                        <UserClubView />
+                    </Suspense>
+                } />
+            </Route>
+
             <Route path="/review" element={<UserReview />} />
             <Route path='' element={<UserProtect />}>
                 <Route path='community' element={<Community />} />
-                <Route path="profile" element={
-                    <Suspense fallback={<LazyUserSkeleton />}>
-                        <UserProfile />
-                    </Suspense>
-                } />
-                <Route path="booking" element={<UserBooking />} />
-                <Route path="bookingVip" element={<UserVipBooking />} />
-                <Route path="checkout" element={<UserCheckout />} />
+                <Route element={<Footer />}>
+                    <Route path="profile" element={
+                        <Suspense fallback={<LazyUserSkeleton />}>
+                            <UserProfile />
+                        </Suspense>
+                    } />
+                    <Route path="booking" element={<UserBooking />} />
+                    <Route path="bookingVip" element={<UserVipBooking />} />
+                    <Route path="checkout" element={<UserCheckout />} />
+                </Route>
             </Route>
             <Route path='paymentSuccess' element={<PaymentSuccess />} />
             <Route path='paymentFailed' element={<PaymentFailed />} />

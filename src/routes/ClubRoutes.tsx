@@ -12,6 +12,7 @@ import ClubTeamManagement from "../pages/club/ClubTeamManagement";
 import NotFound from "../pages/NotFound";
 import ClubDashboard from "../pages/club/ClubDashboard";
 import ForgotPasswordPage from "../pages/ForgotPasswordPage";
+import Footer from "../components/common/Footer";
 
 const ClubRoutes = () => {
   return (
@@ -20,15 +21,17 @@ const ClubRoutes = () => {
       <Route path='signup' element={<ClubSignUp />} />
       <Route path='forgotPassword' element={<ForgotPasswordPage user="Club" />} />
       <Route element={<ClubProtect />}>
-        <Route path='' element={<ClubDashboard />} />
-        <Route element={<ClubProfileHead />}>
-          <Route path='profile' element={<ClubProfile />} />
-          <Route path='profile/edit' element={<ClubProfileEdit />} />
-          <Route path='profile/background' element={<ClubBackground />} />
+        <Route element={<Footer />}>
+          <Route path='' element={<ClubDashboard />} />
+          <Route element={<ClubProfileHead />}>
+            <Route path='profile' element={<ClubProfile />} />
+            <Route path='profile/edit' element={<ClubProfileEdit />} />
+            <Route path='profile/background' element={<ClubBackground />} />
+          </Route>
+          <Route path='fixture' element={<ClubFixtures />} />
+          <Route path='fixture/newFixture' element={<ClubNewFixture />} />
+          <Route path='team' element={<ClubTeamManagement />} />
         </Route>
-        <Route path='fixture' element={<ClubFixtures />} />
-        <Route path='fixture/newFixture' element={<ClubNewFixture />} />
-        <Route path='team' element={<ClubTeamManagement />} />
         <Route path='*' element={<NotFound />} />
 
       </Route>
