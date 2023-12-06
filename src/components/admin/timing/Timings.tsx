@@ -1,4 +1,4 @@
-import React, { useState, FormEvent, useEffect } from "react";
+import  { useState, FormEvent, useEffect } from "react";
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import './Timings.css';

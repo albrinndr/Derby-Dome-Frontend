@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import NavBarFull from "../../components/club/navbar/NavBarFull";
 import TeamManagement from "../../components/club/team/TeamManagement";
 

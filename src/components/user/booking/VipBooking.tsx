@@ -117,7 +117,7 @@ const VipBooking: React.FC<VipBooking> = ({ seatData, id, stand, section, cartSe
                 </div>
                 <div className="flex flex-wrap gap-4">
                     {
-                        rowA.map((seat, index) => (
+                        rowA.map((_, index) => (
                             <div key={index}
                                 className={`flex items-center justify-center md:w-10 md:h-10 w-8 h-8 bg-gray-300 rounded-lg cursor-pointer ${selectedSeatsA.includes(index + 1) ? 'bg-green-500 text-white' : ''
                                     }`}
@@ -140,7 +140,7 @@ const VipBooking: React.FC<VipBooking> = ({ seatData, id, stand, section, cartSe
                 </div>
                 <div className="flex flex-wrap gap-4">
                     {
-                        rowB.map((seat, index) => (
+                        rowB.map((_, index) => (
                             <div key={index}
                                 className={`flex items-center justify-center md:w-10 md:h-10  w-8 h-8  bg-gray-300 rounded-lg cursor-pointer ${selectedSeatsB.includes(index + 1) ? 'bg-green-500 text-white' : ''
                                     }`}

@@ -148,7 +148,8 @@ export const userSearch = async () => {
 export const fixtureDetails = async ({ queryKey }: QueryFunctionContext<[string, string | null]>) => {
     try {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const [key, fixtureId] = queryKey;
+        const [_, fixtureId] = queryKey;
+        
         const response = await Api.get(`${userRoutes.fixtureDetails}?id=${fixtureId}`);
         return response;
     } catch (error) {
@@ -160,7 +161,7 @@ export const fixtureDetails = async ({ queryKey }: QueryFunctionContext<[string,
 export const clubDetails = async ({ queryKey }: QueryFunctionContext<[string, string | null]>) => {
     try {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const [key, fixtureId] = queryKey;
+        const [_, fixtureId] = queryKey;
         const response = await Api.get(`${userRoutes.clubDetails}?id=${fixtureId}`);
         return response;
     } catch (error) {
@@ -172,7 +173,8 @@ export const clubDetails = async ({ queryKey }: QueryFunctionContext<[string, st
 export const getBooking = async ({ queryKey }: QueryFunctionContext<[string, string | null]>) => {
     try {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const [key, fixtureId] = queryKey;
+        const [_, fixtureId] = queryKey;
+        
         const response = await Api.get(`${userRoutes.booking}?id=${fixtureId}`);
         return response;
     } catch (error) {

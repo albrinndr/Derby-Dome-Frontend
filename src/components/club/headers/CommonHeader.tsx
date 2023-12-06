@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import NavBarFull from "../navbar/NavBarFull";
 import FixtureMenu from "../fixture/FixtureMenu";
 

@@ -6,7 +6,7 @@ import { useMutation } from "@tanstack/react-query";
 import { deleteCoupon } from "../../../api/admin";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
-import { openModal } from "../../../store/slices/modalSlice";
+import { closeModal, openModal } from "../../../store/slices/modalSlice";
 import DeleteConfirmationModal from "../../club/fixture/CancelConfirm";
 import TablePagination from "../allUsers/TablePagination";
 
@@ -77,6 +77,10 @@ const CouponTable: React.FC<CouponTableI> = ({ isLoading, couponData, refetchFn 
     setCouponId(id);
     dispatch(openModal());
   };
+
+  const closeHandler = () => {
+    dispatch(closeModal());
+};
 
   //pagination
   const itemsPerPage = 5;
@@ -242,7 +246,7 @@ const CouponTable: React.FC<CouponTableI> = ({ isLoading, couponData, refetchFn 
       </div>
       {showEdit && editCouponData && <CouponEdit closeFn={editModalClose} coupon={editCouponData} refetchFn={refetchFn} loaderFn={editLoadingHandler} />}
       {isEditLoading || status === 'pending' && <Loader />}
-      {showModal && <DeleteConfirmationModal confirmFn={deleteCouponMutate} id={couponId} />}
+      {showModal && <DeleteConfirmationModal confirmFn={deleteCouponMutate} id={couponId} closeFn={closeHandler}/>}
     </div>
   );
 };

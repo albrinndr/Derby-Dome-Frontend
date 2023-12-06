@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import NavBar from "../../components/user/NavBar";
 import SearchSection from "../../components/user/Search/SearchSection";
 import SearchMatches from "../../components/user/Search/SearchMatches";

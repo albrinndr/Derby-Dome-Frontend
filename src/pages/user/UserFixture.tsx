@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import NavBar from "../../components/user/NavBar";
 // import fixtureBG from '../../assets/fixture/fixtureBG.png';
 import FixtureHead from "../../components/user/fixture/FixtureHead";

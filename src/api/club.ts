@@ -168,7 +168,7 @@ export const changeStartingXI = async (data: ChangeXI) => {
 export const clubDashboard = async ({ queryKey }: QueryFunctionContext<[string, string | null]>) => {
     try {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const [key, year] = queryKey;
+        const [_, year] = queryKey;
         const response = await Api.get(`${clubRoutes.dashboard}?year=${year}`);
         return response;
     } catch (error) {

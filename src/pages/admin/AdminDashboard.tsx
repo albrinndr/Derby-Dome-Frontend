@@ -1,4 +1,3 @@
-import React from "react";
 import Dashboard from "../../components/admin/dashboard/Dashboard";
 import NavBar from "../../components/admin/NavBar";
 

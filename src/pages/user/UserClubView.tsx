@@ -1,7 +1,7 @@
 import ClubDetails from "../../components/user/club/ClubDetails";
 import NotFound from "../NotFound";
 import NavBar from "../../components/user/NavBar";
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { clubDetails } from "../../api/user";

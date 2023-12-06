@@ -1,7 +1,7 @@
 import FixtureDetailsContent from "../../components/user/fixture/fixtureDetails/FixtureDetailsContent";
 import NavBar from "../../components/user/NavBar";
 import fBG2 from '../../assets/fixture/fBG2.png';
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { fixtureDetails } from "../../api/user";

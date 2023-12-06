@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import CommonHeader from "../headers/CommonHeader";
 import Calendar from "react-calendar";
 import { getFixtureDateContent, newFixture } from "../../../api/fixture";

@@ -123,7 +123,8 @@ export const deleteCoupon = async (id: string) => {
 export const dashboardSales = async ({ queryKey }: QueryFunctionContext<[string, string | null]>) => {
     try {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const [key, year] = queryKey;
+        const [_, year] = queryKey;
+        
         const response = await Api.get(`${adminRoutes.dashboardSales}?year=${year}`);
         return response;
     } catch (error) {
@@ -146,7 +147,7 @@ export const dashboardChartAndStaticContent = async () => {
 export const dashboardTicketSales = async ({ queryKey }: QueryFunctionContext<[string, string | null]>) => {
     try {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const [key, year] = queryKey;
+        const [_, year] = queryKey;
         const response = await Api.get(`${adminRoutes.dashboardTicketContent}?year=${year}`);
         return response;
     } catch (error) {

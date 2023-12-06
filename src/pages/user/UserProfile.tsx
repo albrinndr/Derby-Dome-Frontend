@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import React, { useState } from "react";
+import { useState } from "react";
 import { getUserProfile } from "../../api/user";
 import NavBar from "../../components/user/NavBar";
 import ProfileHead from "../../components/user/profile/ProfileHead";

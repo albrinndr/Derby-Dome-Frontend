@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import React, { useState } from "react";
+import  { useState } from "react";
 import { allTickets } from "../../../api/admin";
 import TableSkeleton from "./TableSkeleton";
 import TablePagination from "./TablePagination";

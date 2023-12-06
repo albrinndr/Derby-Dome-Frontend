@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import NavBar from "../../components/user/NavBar";
 import chatBG from '../../assets/stadium-background1.webp';
 import ChatBox from "../../components/chat/ChatBox";

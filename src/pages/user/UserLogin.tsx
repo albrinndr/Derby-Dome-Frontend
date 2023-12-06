@@ -1,4 +1,4 @@
-import Login from "../../components/user/Login";
+import Login from "../../components/common/Login";
 import NavBar from "../../components/user/NavBar";
 
 const UserLogin = () => {

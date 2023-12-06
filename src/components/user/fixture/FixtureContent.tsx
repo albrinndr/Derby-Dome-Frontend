@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import FixtureFilter from "./FixtureFilter";
 import FixtureCards from "./FixtureCards";
 import FixturePagination from "./FixturePagination";

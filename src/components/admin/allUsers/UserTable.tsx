@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import { blockUser, fetchUsers } from "../../../api/admin";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { FcGoogle } from 'react-icons/fc';

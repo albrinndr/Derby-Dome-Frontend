@@ -64,7 +64,7 @@ const EditReview: React.FC<EditReviewI> = ({ modalFn, refetchFn }) => {
                     <>
                         <div className="sm:flex gap-2">
                             <Typography component="legend">Select Rating: </Typography>
-                            <Rating name="no-value" value={rating} onChange={(event, newValue) => {
+                            <Rating name="no-value" value={rating} onChange={(_, newValue) => {
                                 setRating(newValue);
                             }} />
                         </div>
