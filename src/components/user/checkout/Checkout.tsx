@@ -5,7 +5,7 @@ import { addNewTicket, validateCoupon } from "../../../api/user";
 import { loadStripe } from '@stripe/stripe-js';
 import { useNavigate } from "react-router-dom";
 import Loader from "../../common/Loader";
-const STRIPE_PK = 'pk_test_51OA5R7SG8cuZuFqKRSKfynnuGfD7Qg99WtVfYlHoalU9GANT4nd0X30UaEKlc1v5tfbaEUXL1KTOvAO7m4HhqOlM00dJNGR0ek';
+const STRIPE_PK = import.meta.env.VITE_STRIPE_PK;
 
 interface Checkout {
     data: {
