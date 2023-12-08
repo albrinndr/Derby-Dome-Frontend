@@ -43,7 +43,7 @@ const HomePageClubs: React.FC<HomePageClubs> = ({ clubs }) => {
                 )}
 
                 {clubs && clubs.length >= 4 && clubs[3] && (
-                    <Link to={`/clubDetails?id=${clubs[3]._id}`}> <div className="relative  w-64 md:w-72 overflow-hidden transition-all duration-300 transform hover:scale-105 ">
+                    <Link to={`/clubDetails?id=${clubs[3]._id}`}> <div className="relative  w-64 md:w-72 overflow-hidden transition-all duration-300 transform hover:scale-105 custom-lg:hidden custom-xl:block">
                         <img className="rounded h-44 object-cover" src={clubs[3].bgImg} alt="" />
                         <div className="absolute w-8  bottom-3 left-3">
                             <img src={clubs[3].image} alt="" />

@@ -37,20 +37,30 @@ const FollowingClubs = () => {
                 </div>
                 :
                 <>
-                    {clubs.map((club: Club) => (
-                        <div className="mt-5" key={club._id}>
-                            <div className="w-full py-2 px-5 border rounded  sm:flex items-center justify-between shadow-sm">
-                                <div className="flex gap-4 items-center sm:justify-start justify-center">
-                                    <img src={club.image} alt="" className="h-12 w-auto" />
-                                    <h1 className="text-gray-800 text-2xl  font-semibold tracking-wider">{club.name}</h1>
-                                </div>
-                                <div className="my-5 sm:my-0 text-center">
-                                    <Link to={`/clubDetails?id=${club._id}`} className="px-4 py-2  text-white bg-blue-600 hover:bg-blue-700 rounded">View Club</Link>
+                    {clubs.length > 0 ? <>
+                        {clubs.map((club: Club) => (
+                            <div className="mt-5" key={club._id}>
+                                <div className="w-full py-2 px-5 border rounded  sm:flex items-center justify-between shadow-sm">
+                                    <div className="flex gap-4 items-center sm:justify-start justify-center">
+                                        <img src={club.image} alt="" className="h-12 w-auto" />
+                                        <h1 className="text-gray-800 text-2xl  font-semibold tracking-wider">{club.name}</h1>
+                                    </div>
+                                    <div className="my-5 sm:my-0 text-center">
+                                        <Link to={`/clubDetails?id=${club._id}`} className="px-4 py-2  text-white bg-blue-600 hover:bg-blue-700 rounded">View Club</Link>
+                                    </div>
                                 </div>
                             </div>
+                        ))}
+                    </> :
+                        <div className="w-full py-4 px-5 border rounded flex justify-center mt-5 shadow-sm">
+                            <div className="flex flex-col justify-center items-center">
+                                <h1>You are not following any clubs!</h1>
+                                <Link to="/search" className="py-2 px-4 bg-[#E74A4B] hover:bg-[#db2a2b] w-fit text-white mt-3 text-sm rounded-full">Follow your favorite club</Link>
+                            </div>
                         </div>
-                    ))}
-                </>}
+                    }
+                </>
+            }
         </div>
     );
 };
