@@ -141,7 +141,7 @@ const Checkout: React.FC<Checkout> = ({ data, refetchFn, wallet, userRefetch, sh
     //------------------payment and submitting---------------------------
     const navigate = useNavigate();
 
-    const { mutate: ticketMutate } = useMutation({
+    const {status:paymentPageStatus, mutate: ticketMutate } = useMutation({
         mutationFn: addNewTicket,
         onSuccess: async (res) => {
             const stripe = await loadStripe(STRIPE_PK);
@@ -263,6 +263,7 @@ const Checkout: React.FC<Checkout> = ({ data, refetchFn, wallet, userRefetch, sh
                 </div>
             </div>
             {status === 'pending' && <Loader />}
+            {paymentPageStatus === 'pending' && <Loader />}
         </div>
 
     );

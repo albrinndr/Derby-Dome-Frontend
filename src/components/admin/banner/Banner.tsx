@@ -1,7 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import  { useState, useEffect, ChangeEvent, FormEvent } from "react";
+import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { AiOutlineQuestionCircle } from 'react-icons/ai';
 import { getBanners, updateBanner } from "../../../api/stadium";
+import Loader from "../../common/Loader";
 
 const Banner = () => {
     const { status, data: banners } = useQuery({ queryKey: ['adminBanners'], queryFn: getBanners });
@@ -29,7 +30,7 @@ const Banner = () => {
 
     const queryClient = useQueryClient();
 
-    const { mutate } = useMutation({
+    const { status: bannerUpdateStatus, mutate } = useMutation({
         mutationFn: updateBanner,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['adminBanners'] });
@@ -194,6 +195,7 @@ const Banner = () => {
                     </div>
                 </>
             }
+            {bannerUpdateStatus === 'pending' && <Loader />}
         </div>
     );
 };

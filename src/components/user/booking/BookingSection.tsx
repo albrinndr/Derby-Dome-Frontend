@@ -34,6 +34,23 @@ const BookingSection: React.FC<BookingSectionI> = ({ data, refetchFn }) => {
   const [selectedSection, setSelectedSection] = useState('');
 
   useEffect(() => {
+    const imageUrls: string[] = [
+      northVipImg, southVipImg, eastVipImg, westVipImg,
+      northPremiumImg, southPremiumImg, eastPremiumImg, westPremiumImg,
+      northEconomyImg, southEconomyImg, eastEconomyImg
+    ];
+
+    const preloadImages = (urls: string[]) => {
+      urls.forEach((url: string) => {
+        const img = new Image();
+        img.src = url;
+      });
+    };
+
+    preloadImages(imageUrls);
+  }, []);
+
+  useEffect(() => {
     const seatPosition = selectedItem.toLowerCase();
     const seatArr = seatPosition.split(' ');
     setSelectedStand(seatArr[0]);

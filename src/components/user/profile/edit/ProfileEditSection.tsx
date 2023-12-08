@@ -2,6 +2,7 @@ import React, { ChangeEvent, useState, FormEvent, useEffect } from "react";
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { updateUserProfile } from "../../../../api/user";
 import toast from "react-hot-toast";
+import Loader from "../../../common/Loader";
 
 interface UserDetails {
     name?: string;
@@ -142,7 +143,7 @@ const ProfileEditSection: React.FC<ProfileEditProps> = ({ userDetails }) => {
                     </button>
                 </div>
             </form>
-
+            {status === 'pending' && <Loader />}
         </div>
     );
 };
