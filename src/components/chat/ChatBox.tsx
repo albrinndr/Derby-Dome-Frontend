@@ -33,7 +33,12 @@ const ChatBox = () => {
     const socket = useRef<Socket | undefined>();
 
     useEffect(() => {
-        socket.current = io(import.meta.env.VITE_SOCKET_URL);
+        const socketUrl = import.meta.env.VITE_SOCKET_URL;
+        if (socketUrl) {
+            socket.current = io(socketUrl);
+        } else {
+            console.error("VITE_SOCKET_URL is not defined properly");
+        }
     }, []);
 
     const { isLoading, data, refetch } = useQuery({ queryKey: ['messages'], queryFn: getMessages });
@@ -129,7 +134,7 @@ const ChatBox = () => {
 
                     </div>
                     <div className="py-5  px-8 md:px-20">
-                            <form onSubmit={messageHandler} className="flex gap-8 w-full bg-white border   px-3 rounded-xl">
+                        <form onSubmit={messageHandler} className="flex gap-8 w-full bg-white border   px-3 rounded-xl">
                             <input
                                 className="w-full focus:outline-none py-3"
                                 type="text"
@@ -141,7 +146,7 @@ const ChatBox = () => {
                             <button className=" p-2 rounded-full">
                                 <MdSend className="text-green-500" size={24} />
                             </button>
-                            </form>
+                        </form>
                     </div>
                 </div>
             </div>
