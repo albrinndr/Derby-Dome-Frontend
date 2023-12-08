@@ -33,7 +33,7 @@ const ChatBox = () => {
     const socket = useRef<Socket | undefined>();
 
     useEffect(() => {
-        socket.current = io("ws://localhost:3000");
+        socket.current = io(import.meta.env.VITE_SOCKET_URL);
     }, []);
 
     const { isLoading, data, refetch } = useQuery({ queryKey: ['messages'], queryFn: getMessages });
@@ -48,9 +48,8 @@ const ChatBox = () => {
     //set new message scroll
     const scrollRef = useRef<HTMLDivElement | null>(null);
     useEffect(() => {
-        scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+        scrollRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
     }, [messages]);
-
 
     const { mutate } = useMutation({
         mutationFn: sendMessage,

@@ -32,6 +32,6 @@ self.addEventListener('notificationclick', function (event) {
 
   // Open the specified URL when the notification is clicked
   event.waitUntil(
-    clients.openWindow('http://localhost:5000/')
+    clients.openWindow('https://derbydome.vercel.app/')
   );
 });
