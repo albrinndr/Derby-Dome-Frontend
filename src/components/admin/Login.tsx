@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useState,useEffect } from 'react';
+import { ChangeEvent, FormEvent, useState, useEffect } from 'react';
 import formImage from '../../assets/form-image.webp';
 import backgroundImage from '../../assets/stadium-background.webp';
 import { adminLogin } from '../../api/admin';
@@ -6,6 +6,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setAdminLogin } from '../../store/slices/authSlice';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { useMutation } from '@tanstack/react-query';
+import Loader from '../common/Loader';
 
 interface RootState {
     auth: {
@@ -14,7 +16,7 @@ interface RootState {
 }
 
 const Login = () => {
-    
+
     const [formData, setFormData] = useState({
         email: '',
         password: ''
@@ -24,11 +26,11 @@ const Login = () => {
     const dispatch = useDispatch();
     const { aLoggedIn } = useSelector((state: RootState) => state.auth);
 
-    useEffect(()=>{
-        if(aLoggedIn){
-            navigate('/admin/users')
+    useEffect(() => {
+        if (aLoggedIn) {
+            navigate('/admin/users');
         }
-    },[aLoggedIn,navigate])
+    }, [aLoggedIn, navigate]);
 
 
     const { email, password } = formData;
@@ -37,17 +39,23 @@ const Login = () => {
         setFormData({ ...formData, [e.target.id]: e.target.value });
     };
 
+    const { status, mutate: adminLoginMutate } = useMutation({
+        mutationFn: adminLogin,
+        onSuccess: ((res) => {
+            if (res) {
+                navigate('/admin');
+                dispatch(setAdminLogin());
+            }
+        })
+    });
+
     const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (email.trim().length === 0 || password.trim().length === 0) {
             toast.error('Fields cannot be empty!');
             return;
         }
-        const response = await adminLogin(formData);
-        if (response) {
-            navigate('/admin')
-            dispatch(setAdminLogin());
-        }
+        adminLoginMutate(formData);
     };
     const divStyle = {
         backgroundImage: `url(${backgroundImage})`,
@@ -120,6 +128,7 @@ const Login = () => {
                     </form>
                 </div>
             </div>
+            {status === 'pending' && <Loader />}
         </div>
     );
 };

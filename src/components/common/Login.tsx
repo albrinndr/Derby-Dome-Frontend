@@ -9,7 +9,9 @@ import { clubLogin } from '../../api/club';
 import { GoogleLogin, CredentialResponse } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
 import toast from 'react-hot-toast';
-const G_PASSWORD = import.meta.env.VITE_GOOGLE_PASSWORD
+import Loader from './Loader';
+import { useMutation } from '@tanstack/react-query';
+const G_PASSWORD = import.meta.env.VITE_GOOGLE_PASSWORD;
 
 
 interface UserType {
@@ -55,14 +57,9 @@ const Login: React.FC<UserType> = ({ type }) => {
         setFormData({ ...formData, [e.target.id]: e.target.value });
     };
 
-    const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        if (email.trim().length === 0 || password.trim().length === 0) {
-            toast.error('Fields cannot be empty!');
-            return;
-        }
-        if (user == 'user') {
-            const response = await login({ email, password });
+    const { status: userLoginStatus, mutate: userLoginMutate } = useMutation({
+        mutationFn: login,
+        onSuccess: ((response) => {
             if (response) {
                 navigate('/');
                 const data = {
@@ -73,8 +70,12 @@ const Login: React.FC<UserType> = ({ type }) => {
                 };
                 dispatch(setLogin(data));
             }
-        } else {
-            const response = await clubLogin({ email, password });
+        })
+    });
+
+    const { status: clubLoginStatus, mutate: clubLoginMutate } = useMutation({
+        mutationFn: clubLogin,
+        onSuccess: ((response) => {
             if (response) {
                 navigate('/club/profile');
                 const data = {
@@ -86,6 +87,21 @@ const Login: React.FC<UserType> = ({ type }) => {
                 };
                 dispatch(setClubLogin(data));
             }
+        })
+    });
+
+    const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (email.trim().length === 0 || password.trim().length === 0) {
+            toast.error('Fields cannot be empty!');
+            return;
+        }
+        if (user == 'user') {
+            const data = { email, password };
+            userLoginMutate(data);
+        } else {
+            const data = { email, password };
+            clubLoginMutate(data);
         }
     };
 
@@ -97,17 +113,7 @@ const Login: React.FC<UserType> = ({ type }) => {
             email: result.email,
             password: G_PASSWORD,
         };
-        const response = await login(data);
-        if (response) {
-            navigate('/');
-            const data = {
-                id: response.data.message._id,
-                name: response.data.message.name,
-                profilePic: response.data.message.profilePic,
-                wallet: response.data.message.wallet
-            };
-            dispatch(setLogin(data));
-        }
+        userLoginMutate(data)
     };
 
     const userBtn = user == 'club' ? 'bg-gray-300 hover:bg-gray-200' : 'bg-gray-400';
@@ -206,6 +212,7 @@ const Login: React.FC<UserType> = ({ type }) => {
 
                 </div>
             </div>
+            {(clubLoginStatus==='pending' || userLoginStatus==='pending') && <Loader />}
         </div>
     );
 };
