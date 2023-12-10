@@ -16,7 +16,7 @@ import westVipImg from '../../../assets/stadium/vip/west.png';
 import northPremiumImg from '../../../assets/stadium/premium/north.png';
 import southPremiumImg from '../../../assets/stadium/premium/south.png';
 import eastPremiumImg from '../../../assets/stadium/premium/east.png';
-import westPremiumImg from '../../../assets/stadium/premium/north.png';
+import westPremiumImg from '../../../assets/stadium/premium/west.png';
 
 import northEconomyImg from '../../../assets/stadium/economy/north.png';
 import southEconomyImg from '../../../assets/stadium/economy/south.png';
