@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useState } from "react";
 import FixtureFilter from "./FixtureFilter";
 import FixtureCards from "./FixtureCards";
 import FixturePagination from "./FixturePagination";
@@ -87,7 +87,7 @@ const FixtureContent = () => {
         <div>
             <FixtureFilter filterTeam={teamHandler} filterDate={dateHandler} teams={allTeams} />
             {!isLoading ? <>
-                {fixtureData?.data.fixtures.length &&
+                {fixtureData?.data.fixtures.length > 0 ?
                     <div>
                         {
                             allFixtures && fixtures && currentFixtures.length > 0 &&
@@ -103,6 +103,9 @@ const FixtureContent = () => {
                                 <h1 className=" font-semibold">No fixtures available</h1>
                             </div>
                         }
+                    </div> :
+                    <div className="py-5 mt-5 rounded-lg shadow-sm text-center border">
+                        <h1 className=" font-semibold">No fixtures available</h1>
                     </div>
                 }
                 {currentFixtures.length > 0 && <div className="mt-5">

@@ -8,7 +8,6 @@ import Illustration from "../../components/user/home/Illustration";
 import HomePageClubs from "../../components/user/home/HomePageClubs";
 import FAQSection from "../../components/user/home/FaqSection";
 import { HomeSkeleton } from "../../components/user/home/HomeSkeleton";
-// import BannerTwo from "../../components/user/home/BannerTwo";
 
 
 const UserHome = () => {
@@ -29,7 +28,7 @@ const UserHome = () => {
           <div className="relative z-0 ">
             <BannerOne banners={homeData?.data.banners} />
           </div>
-          {homeData?.data.fixtures &&
+          {homeData?.data.fixtures && homeData.data.fixtures.length>0 &&
             <div className="relative bottom-7">
               <MatchDayCards fixtures={homeData.data.fixtures} price={homeData.data.minPrice} />
             </div>
