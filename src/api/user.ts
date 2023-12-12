@@ -31,8 +31,12 @@ interface Ticket {
     }];
     price: number;
     paymentType: string;
-    coupon: boolean | string;
+    coupon: {
+        isApplied: boolean | string;
+        isLoyalty: boolean;
+    };
 }
+
 
 interface ApplyCoupon {
     coupon: string;
@@ -149,7 +153,7 @@ export const fixtureDetails = async ({ queryKey }: QueryFunctionContext<[string,
     try {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const [_, fixtureId] = queryKey;
-        
+
         const response = await Api.get(`${userRoutes.fixtureDetails}?id=${fixtureId}`);
         return response;
     } catch (error) {
@@ -174,7 +178,7 @@ export const getBooking = async ({ queryKey }: QueryFunctionContext<[string, str
     try {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const [_, fixtureId] = queryKey;
-        
+
         const response = await Api.get(`${userRoutes.booking}?id=${fixtureId}`);
         return response;
     } catch (error) {
@@ -374,6 +378,38 @@ export const allFollowedClubs = async () => {
 export const setClientBrowserToken = async (token: string) => {
     try {
         const response = await Api.post(userRoutes.setClientBrowserToken, { token });
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};
+
+//loyalty offer
+
+export const allLoyaltyOffers = async () => {
+    try {
+        const response = await Api.get(userRoutes.allLoyaltyOffers);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};
+
+export const createUserCoupon = async (id: string) => {
+    try {
+        const response = await Api.post(userRoutes.createUserCoupon, { id });
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};
+
+export const userRedeem = async () => {
+    try {
+        const response = await Api.get(userRoutes.userRedeem);
         return response;
     } catch (error) {
         const err: Error = error as Error;

@@ -34,12 +34,16 @@ const userRoutes = {
     readNotification: '/user/readNotification',
 
     forgotPassword: '/user/forgotPassword',
-    forgotOtpValidate:'/user/validateForgotOtp',
-    forgotPasswordChange:'/user/forgotPassword',
+    forgotOtpValidate: '/user/validateForgotOtp',
+    forgotPasswordChange: '/user/forgotPassword',
 
-    allFollowedClubs:'/user/followedClubs',
+    allFollowedClubs: '/user/followedClubs',
 
-    setClientBrowserToken:'/user/clientToken'
+    setClientBrowserToken: '/user/clientToken',
+
+    allLoyaltyOffers: '/user/getOffers',
+    createUserCoupon:'/user/createUserCoupon',
+    userRedeem:'/user/userRedeem'
 };
 
 export default userRoutes;

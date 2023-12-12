@@ -14,7 +14,6 @@ interface ShowCouponsI {
 
 const ShowCoupons: React.FC<ShowCouponsI> = ({ closeFn, coupons }) => {
     const [copied, setCopied] = useState(false);
-
     const copyCode = (code: string) => {
         navigator.clipboard.writeText(code);
         setCopied(true);

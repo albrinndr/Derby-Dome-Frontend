@@ -53,7 +53,6 @@ const UserCheckout = () => {
     const couponModal = () => {
         setShowCouponModal(!showCouponModal);
     };
-
     return (
         <div>
             <NavBar />

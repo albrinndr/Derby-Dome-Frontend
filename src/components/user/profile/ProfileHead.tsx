@@ -6,7 +6,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { logout } from '../../../api/user';
 import toast from 'react-hot-toast';
 import { userLogout } from '../../../store/slices/authSlice';
-
+import { GiCrownCoin } from "react-icons/gi";
 
 interface ProfileHead {
     userDetails: {
@@ -14,13 +14,14 @@ interface ProfileHead {
         email: string;
         wallet: number;
         profilePic: string;
+        loyaltyCoins: number;
     };
 }
 
 const ProfileHead: React.FC<ProfileHead> = ({ userDetails }) => {
     const divStyle = {
-        backgroundImage: profileBG?`url(${profileBG})`:"url('https://cdn.pixabay.com/photo/2016/11/18/23/38/child-1837375_640.png')",
-        
+        backgroundImage: profileBG ? `url(${profileBG})` : "url('https://cdn.pixabay.com/photo/2016/11/18/23/38/child-1837375_640.png')",
+
         backgroundSize: "cover",
         backgroundPosition: "center",
     };
@@ -61,7 +62,16 @@ const ProfileHead: React.FC<ProfileHead> = ({ userDetails }) => {
                                 <h1 className="sm:text-6xl text-3xl font-semibold">Hi, {userDetails.name}</h1>
                                 <div className="flex flex-col items-center sm:flex-row gap-2 sm:gap-10 pt-2 sm:pt-4">
                                     <p className="flex items-center gap-2 sm:text-lg"><MdOutlineEmail /> {userDetails.email}</p>
+                                    <div className='w-full pl-4  flex items-center gap-2 sm:hidden'>
+                                        <h1 className='text-yellow-500 text-2xl pt-1'><GiCrownCoin /></h1>
+                                        <h1>Derby coins: <b>{userDetails.loyaltyCoins}</b> <i><small className='text-gray-600 ml-2'>(Redeem for offers)</small></i></h1>
+
+                                    </div>
                                     <p className="sm:text-lg">Wallet : ₹{userDetails.wallet}</p>
+                                </div>
+                                <div className='w-full pl-4 mt-2 sm:flex items-center gap-2 hidden'>
+                                    <h1 className='text-yellow-500 text-2xl pt-1'><GiCrownCoin /></h1>
+                                    <h1>Derby coins: <b>{userDetails.loyaltyCoins}</b> <i><small className='text-gray-600 ml-2'>(Redeem for offers)</small></i></h1>
                                 </div>
                             </div>
                             <div className="hidden sm:block clear-left mt-28">

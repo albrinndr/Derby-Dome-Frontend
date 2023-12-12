@@ -9,6 +9,7 @@ import Tickets from "../../components/user/tickets/Tickets";
 import ProfileSkeleton from "../../components/user/profile/ProfileSkeleton";
 import AllTickets from "../../components/user/allUserTicketBookings/AllTickets";
 import FollowingClubs from "../../components/user/followingClubs/FollowingClubs";
+import RedeemOffer from "../../components/user/redeem/RedeemOffer";
 
 const UserProfile = () => {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -30,7 +31,8 @@ const UserProfile = () => {
         phone: userData?.data.phone,
         isGoogle: userData?.data.isGoogle,
         profilePic: userData?.data.profilePic,
-        wallet: userData?.data.wallet
+        wallet: userData?.data.wallet,
+        loyaltyCoins: userData?.data.loyaltyCoins
     };
 
     return (
@@ -47,6 +49,7 @@ const UserProfile = () => {
                         {com === 'tickets' && <Tickets uRefetchFn={refetch} />}
                         {com === 'bookings' && <AllTickets uRefetchFn={refetch} />}
                         {com === 'following' && <FollowingClubs />}
+                        {com === 'redeem' && <RedeemOffer coins={userDetails.loyaltyCoins as number} userRefetchFn={refetch}/>}
                     </div>
                 </div>
             </div> :

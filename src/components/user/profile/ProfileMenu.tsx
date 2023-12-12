@@ -17,6 +17,7 @@ const ProfileMenu: React.FC<Menu> = ({ changeFn }) => {
         { label: "EDIT PROFILE", value: "edit" },
         { label: "BOOKINGS", value: "bookings" },
         { label: "FOLLOWINGS", value: "following" },
+        { label: "REDEEM", value: "redeem" },
     ];
     return (
         <div>
@@ -37,9 +38,14 @@ const ProfileMenu: React.FC<Menu> = ({ changeFn }) => {
                             Edit Profile
                         </h1>
                     </div>
-                    <div className="py-3 hover:bg-gray-100 transition-all duration-100  cursor-pointer" onClick={() => optionHandler('following')}>
+                    <div className="py-3 border-b hover:bg-gray-100 transition-all duration-100  cursor-pointer" onClick={() => optionHandler('following')}>
                         <h1 className="text-lg">
                             Following
+                        </h1>
+                    </div>
+                    <div className="py-3 hover:bg-gray-100 transition-all duration-100  cursor-pointer" onClick={() => optionHandler('redeem')}>
+                        <h1 className="text-lg">
+                            Redeem
                         </h1>
                     </div>
                 </div>
@@ -53,7 +59,7 @@ const ProfileMenu: React.FC<Menu> = ({ changeFn }) => {
                         <p className="uppercase">{selectedOption}</p>
                     </div>
                     {showOptions && (
-                        <div className="absolute bg-white mt-2 py-1 w-full border border-gray-300 rounded shadow-lg text-center">
+                        <div className="absolute bg-white mt-2 py-1 w-full border border-gray-300 rounded shadow-lg text-center z-50">
                             {options.map((option) => (
                                 <div
                                     key={option.value}

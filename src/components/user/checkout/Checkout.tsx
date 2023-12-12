@@ -100,6 +100,8 @@ const Checkout: React.FC<Checkout> = ({ data, refetchFn, wallet, userRefetch, sh
     //----------coupon Handler ----------------------------
     const [checkCoupon, setCheckCoupon] = useState('');
     const [couponApplied, setCouponApplied] = useState('');
+    const [isUserCoupon, setIsUserCoupon] = useState(false);
+
     const [disableCoupon, setDisableCoupon] = useState(false);
 
     const [couponDiscount, setCouponDiscount] = useState(0);
@@ -112,6 +114,7 @@ const Checkout: React.FC<Checkout> = ({ data, refetchFn, wallet, userRefetch, sh
                 setCouponApplied(checkCoupon);
                 setDisableCoupon(true);
                 setCouponDiscount(res.data.discount);
+                res.data.isLoyalty === true && setIsUserCoupon(true);
                 data.cart.price = data.cart.price - res.data.discount;
             }
         })
@@ -134,6 +137,7 @@ const Checkout: React.FC<Checkout> = ({ data, refetchFn, wallet, userRefetch, sh
         setCouponApplied('');
         setCheckCoupon('');
         setDisableCoupon(false);
+        setIsUserCoupon(false);
         data.cart.price = data.cart.price + couponDiscount;
         if (paymentMethod === "wallet") setPaymentMethod('');
     };
@@ -141,7 +145,7 @@ const Checkout: React.FC<Checkout> = ({ data, refetchFn, wallet, userRefetch, sh
     //------------------payment and submitting---------------------------
     const navigate = useNavigate();
 
-    const {status:paymentPageStatus, mutate: ticketMutate } = useMutation({
+    const { status: paymentPageStatus, mutate: ticketMutate } = useMutation({
         mutationFn: addNewTicket,
         onSuccess: async (res) => {
             const stripe = await loadStripe(STRIPE_PK);
@@ -166,6 +170,7 @@ const Checkout: React.FC<Checkout> = ({ data, refetchFn, wallet, userRefetch, sh
             toast.error('Select a payment method');
             return;
         }
+
         const ticketData = {
             fixtureId: data.fixture._id,
             stand: data.cart.stand,
@@ -174,7 +179,10 @@ const Checkout: React.FC<Checkout> = ({ data, refetchFn, wallet, userRefetch, sh
             seats: data.cart.seats,
             price: data.cart.price,
             paymentType: paymentMethod,
-            coupon: couponApplied ? couponApplied : false
+            coupon: {
+                isApplied: couponApplied ? couponApplied : false,
+                isLoyalty: isUserCoupon
+            }
         };
         ticketMutate(ticketData);
 
