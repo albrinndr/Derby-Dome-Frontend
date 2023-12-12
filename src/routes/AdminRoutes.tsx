@@ -11,6 +11,7 @@ import AdminCoupons from "../pages/admin/AdminCoupons";
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import AdminAllFixtures from "../pages/admin/AdminAllFixtures";
 import AdminTickets from "../pages/admin/AdminTickets";
+import AdminRedeemOffers from "../pages/admin/AdminRedeemOffers";
 
 const AdminRoutes = () => {
     return (
@@ -27,6 +28,7 @@ const AdminRoutes = () => {
                 <Route path='stadium/seats' element={<AdminStadiumSeatManagement />} />
                 <Route path='coupon' element={<AdminCoupons />} />
                 <Route path='tickets' element={<AdminTickets />} />
+                <Route path='redeem' element={<AdminRedeemOffers />} />
             </Route>
             <Route path='*' element={<NotFound />} />
 

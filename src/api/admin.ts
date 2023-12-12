@@ -20,6 +20,20 @@ interface Coupon {
     users?: string[];
 }
 
+interface OfferI {
+    coins: string;
+    discount: string;
+    minPrice: string;
+}
+
+interface EditOfferI {
+    id: string;
+    coins: string;
+    discount: string;
+    minPrice: string;
+}
+
+
 export const adminLogin = async (adminData: LoginData) => {
     try {
         const response = await Api.post(adminRoutes.login, adminData);
@@ -124,7 +138,7 @@ export const dashboardSales = async ({ queryKey }: QueryFunctionContext<[string,
     try {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const [_, year] = queryKey;
-        
+
         const response = await Api.get(`${adminRoutes.dashboardSales}?year=${year}`);
         return response;
     } catch (error) {
@@ -169,6 +183,49 @@ export const allClubFixtures = async () => {
 export const allTickets = async () => {
     try {
         const response = await Api.get(adminRoutes.allTickets);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};
+
+
+//offers
+
+export const getAllOffers = async () => {
+    try {
+        const response = await Api.get(adminRoutes.getAllOffers);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};
+
+export const addNewOffer = async (data: OfferI) => {
+    try {
+        const response = await Api.post(adminRoutes.addNewOffer, data);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};
+
+export const editOffer = async (data: EditOfferI) => {
+    try {
+        const response = await Api.put(adminRoutes.editOffer, data);
+        return response;
+    } catch (error) {
+        const err: Error = error as Error;
+        return errorHandle(err);
+    }
+};
+
+export const deleteOffer = async (id: string)=>{
+    try {
+        const response = await Api.delete(adminRoutes.deleteOffer(id));
         return response;
     } catch (error) {
         const err: Error = error as Error;

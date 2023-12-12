@@ -109,7 +109,7 @@ const CouponAdd: React.FC<CouponAddI> = ({ refetchFn }) => {
               <label htmlFor="discount">Discount: </label>
               <div className="flex items-center">
                 <h1 className="text-lg bg-gray-200 px-1 h-10 flex items-center rounded-l"><MdCurrencyRupee /></h1>
-                <input type="number" min={1} className="border pl-4 w-20 h-10 rounded-r focus:outline-none pl-1"
+                <input type="number" min={1} className="border pl-4 w-20 h-10 rounded-r focus:outline-none "
                   value={discount} onChange={(e) => setDiscount(e.target.value)} />
               </div>
             </div>
@@ -117,7 +117,7 @@ const CouponAdd: React.FC<CouponAddI> = ({ refetchFn }) => {
               <label htmlFor="discount">Min Price: </label>
               <div className="flex items-center">
                 <h1 className="text-lg bg-gray-200 px-1 h-10 flex items-center rounded-l"><MdCurrencyRupee /></h1>
-                <input type="number" min={1} className="border pl-4 w-20 h-10 rounded-r focus:outline-none pl-1"
+                <input type="number" min={1} className="border pl-4 w-20 h-10 rounded-r focus:outline-none "
                   value={minPrice} onChange={(e) => setMinPrice(e.target.value)} />
               </div>
             </div>

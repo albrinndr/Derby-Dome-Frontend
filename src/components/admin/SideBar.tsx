@@ -8,6 +8,7 @@ import { MdOutlineStadium } from "react-icons/md";
 import { BiLogOutCircle } from "react-icons/bi";
 import { BsTicketPerforated } from "react-icons/bs";
 import { MdSchedule } from "react-icons/md";
+import { GiCrownCoin } from "react-icons/gi";
 
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -21,7 +22,8 @@ const SideBar = () => {
         { name: "Users", link: "/admin/users", icon: AiOutlineUser },
         { name: "Clubs", link: "/admin/clubs", icon: GiSoccerBall },
         { name: "Coupons", link: "/admin/coupon", icon: RiCoupon3Line, margin: true },
-        { name: "Fixtures", link: "/admin/fixtures", icon: MdSchedule },
+        { name: "Redeem", link: "/admin/redeem", icon: GiCrownCoin},
+        { name: "Fixtures", link: "/admin/fixtures", icon: MdSchedule, margin: true  },
         { name: "Tickets", link: "/admin/tickets", icon: BsTicketPerforated },
         { name: "Stadium", link: "/admin/stadium", icon: MdOutlineStadium },
         { name: "Logout", link: "#", icon: BiLogOutCircle, margin: true },

@@ -18,7 +18,12 @@ const adminRoutes = {
     dashboardTicketContent: '/admin/dashboardTicketContend',
 
     allFixtures: '/admin/allFixtures',
-    allTickets:'/admin/allTickets'
+    allTickets: '/admin/allTickets',
+
+    getAllOffers: '/admin/allOffers',
+    addNewOffer: '/admin/addOffer',
+    editOffer: '/admin/editOffer',
+    deleteOffer: (id: string) => `/admin/deleteOffer/${id}`
 };
 
 export default adminRoutes;
