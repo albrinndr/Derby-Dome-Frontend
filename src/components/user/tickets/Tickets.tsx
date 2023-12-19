@@ -44,7 +44,6 @@ const Tickets: React.FC<TicketsI> = ({ uRefetchFn }) => {
     }
 
 
-
     //pagination
     const itemsPerPage = 5;
     const [currentPage, setCurrentPage] = useState(1);
@@ -52,7 +51,6 @@ const Tickets: React.FC<TicketsI> = ({ uRefetchFn }) => {
     const indexOfLastFixture = currentPage * itemsPerPage;
     const indexOfFirstFixture = indexOfLastFixture - itemsPerPage;
     const currentFixtures = tickets.slice(indexOfFirstFixture, indexOfLastFixture);
-
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
     return (
@@ -62,7 +60,7 @@ const Tickets: React.FC<TicketsI> = ({ uRefetchFn }) => {
             {isLoading ? <TicketsSkeleton /> :
                 <div>
                     {
-                        tickets.length && ticketFixtures.length ?
+                        (tickets.length && ticketFixtures.length) ?
                             <div>
                                 <div>
                                     {

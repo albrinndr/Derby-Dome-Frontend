@@ -8,7 +8,7 @@ import TicketCancelConfirmation from "./TicketCancelModal";
 interface TicketI {
     _id: string;
     userId: string;
-    fixtureId: {_id:string;date: Date;}
+    fixtureId: { _id: string; date: Date; };
     stand: string;
     price: number;
     qrCode: string;
@@ -37,7 +37,6 @@ interface Ticket {
 
 
 const SingleTicket: React.FC<Ticket> = ({ ticket, fixtureDetails, refetchFn, uRefetchFn }) => {
-    const [showTicket, setShowTicket] = useState(true);
     //convert data
     const dateString = fixtureDetails?.date as string;
     const date = new Date(dateString);
@@ -77,11 +76,10 @@ const SingleTicket: React.FC<Ticket> = ({ ticket, fixtureDetails, refetchFn, uRe
     //fixture cancellation handling
     const { status, mutate: cancelTicketMutate } = useMutation({
         mutationFn: cancelTicket,
-        onSuccess: ((res) => {
+        onSuccess: (async (res) => {
             if (res && res.data) {
-                setShowTicket(false);
-                refetchFn();
-                uRefetchFn();
+                await refetchFn();
+                await uRefetchFn();
                 toast.success('Ticket cancelled!');
             }
         })
@@ -95,7 +93,7 @@ const SingleTicket: React.FC<Ticket> = ({ ticket, fixtureDetails, refetchFn, uRe
     };
 
 
-    return showTicket && (
+    return (
         <div className="w-full  shadow border  mt-10">
             {/* details section */}
             {differenceInMilliseconds >= millisecondsInThreeDays && <div className="flex justify-end border-b p-2">
