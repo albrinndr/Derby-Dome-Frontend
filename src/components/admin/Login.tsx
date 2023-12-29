@@ -28,7 +28,7 @@ const Login = () => {
 
     useEffect(() => {
         if (aLoggedIn) {
-            navigate('/admin/users');
+            navigate('/admin/');
         }
     }, [aLoggedIn, navigate]);
 
